@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   PluginManager.h
 
@@ -33,7 +33,7 @@ typedef enum : unsigned {
    PluginTypeNone = 0,          // 2.1.0 placeholder entries...not used by 2.1.1 or greater
    PluginTypeStub =1,               // Used for plugins that have not yet been registered
    PluginTypeEffect =1<<1,
-   PluginTypeAudacityCommand=1<<2,
+   PluginTypeReeeKorderCommand=1<<2,
    PluginTypeExporter=1<<3,
    PluginTypeImporter=1<<4,
    PluginTypeModule=1<<5,
@@ -75,7 +75,7 @@ public:
    // Internal string only, no translated counterpart!
    // (Use Effect::GetFamilyName instead)
    // This string persists in configuration files
-   // So config compatibility will break if it is changed across Audacity versions
+   // So config compatibility will break if it is changed across ReeeKorder versions
    wxString GetEffectFamily() const;
 
    EffectType GetEffectType() const;
@@ -240,7 +240,7 @@ public:
    static PluginID GetID(EffectDefinitionInterface *effect);
 
    // This string persists in configuration files
-   // So config compatibility will break if it is changed across Audacity versions
+   // So config compatibility will break if it is changed across ReeeKorder versions
    static wxString GetPluginTypeString(PluginType type);
 
    int GetPluginCount(PluginType type);

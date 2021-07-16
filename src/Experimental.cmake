@@ -1,6 +1,6 @@
 #[[
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Experimental.cmake
 
@@ -14,7 +14,7 @@
 
   JKC: This file solves a problem of how to avoid forking the
   code base when working on NEW features e.g:
-    - Additional displays in Audacity
+    - Additional displays in ReeeKorder
     - Modular architecture.
   Add options in here for the NEW features, and make your code
   conditional on them with #ifdef.
@@ -142,7 +142,7 @@ set( EXPERIMENTAL_OPTIONS_LIST
    # to enable.
    MODULE_PREFS
 
-   # Define to allow realtime processing in Audacity effects that have been converted.
+   # Define to allow realtime processing in ReeeKorder effects that have been converted.
    REALTIME_AUDACITY_EFFECTS
 
    # Define to include the effects rack (such as it is).

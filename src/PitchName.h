@@ -1,7 +1,7 @@
 /**********************************************************************
 
-   Audacity: A Digital Audio Editor
-   Audacity(R) is copyright (c) 1999-2013 Audacity Team.
+   ReeeKorder: A Digital Audio Editor
+   ReeeKorder(R) is copyright (c) 1999-2013 ReeeKorder Team.
    License: GPL v2.  See License.txt.
 
    PitchName.h

@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   SplashDialog.cpp
 
@@ -9,13 +9,13 @@
 ********************************************************************//**
 
 \class SplashDialog
-\brief The SplashDialog shows help information for Audacity when
-Audacity starts up.
+\brief The SplashDialog shows help information for ReeeKorder when
+ReeeKorder starts up.
 
 It was written for the benefit of NEW users who do not want to
 read the manual.  The text of the dialog is kept short to increase the
 chance of it being read.  The content is designed to reduce the
-most commonly asked questions about Audacity.
+most commonly asked questions about ReeeKorder.
 
 *//********************************************************************/
 
@@ -37,7 +37,7 @@ most commonly asked questions about Audacity.
 #include "FileNames.h"
 #include "Project.h"
 #include "ShuttleGui.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "widgets/HelpSystem.h"
 
 #include "AllThemeResources.h"
@@ -46,9 +46,9 @@ most commonly asked questions about Audacity.
 
 // DA: Logo for Splash Dialog (welcome dialog)
 #ifdef EXPERIMENTAL_DA
-#include "../images/DarkAudacityLogoWithName.xpm"
+#include "../images/DarkReeeKorderLogoWithName.xpm"
 #else
-#include "../images/AudacityLogoWithName.xpm"
+#include "../images/ReeeKorderLogoWithName.xpm"
 #endif
 
 SplashDialog * SplashDialog::pSelf=NULL;
@@ -65,13 +65,13 @@ END_EVENT_TABLE()
 
 IMPLEMENT_CLASS(SplashDialog, wxDialogWrapper)
 
-void SplashDialog::DoHelpWelcome( AudacityProject &project )
+void SplashDialog::DoHelpWelcome( ReeeKorderProject &project )
 {
    Show2( &GetProjectFrame( project ) );
 }
 
 SplashDialog::SplashDialog(wxWindow * parent)
-   :  wxDialogWrapper(parent, -1, XO("Welcome to Audacity!"),
+   :  wxDialogWrapper(parent, -1, XO("Welcome to ReeeKorder!"),
       wxPoint( -1, 60 ), // default x position, y position 60 pixels from top of screen.
       wxDefaultSize, wxDEFAULT_DIALOG_STYLE | wxRESIZE_BORDER)
 {
@@ -98,8 +98,8 @@ void SplashDialog::Populate( ShuttleGui & S )
    gPrefs->Read(wxT("/GUI/ShowSplashScreen"), &bShow, true );
    S.StartVerticalLay(1);
 
-   //v For now, change to AudacityLogoWithName via old-fashioned ways, not Theme.
-   m_pLogo = std::make_unique<wxBitmap>((const char **) AudacityLogoWithName_xpm); //v
+   //v For now, change to ReeeKorderLogoWithName via old-fashioned ways, not Theme.
+   m_pLogo = std::make_unique<wxBitmap>((const char **) ReeeKorderLogoWithName_xpm); //v
 
 
    // JKC: Resize to 50% of size.  Later we may use a smaller xpm as
@@ -118,7 +118,7 @@ void SplashDialog::Populate( ShuttleGui & S )
    wxBitmap RescaledBitmap( RescaledImage );
    wxStaticBitmap *const icon =
        safenew wxStaticBitmap(S.GetParent(), -1,
-                          //*m_pLogo, //v theTheme.Bitmap(bmpAudacityLogoWithName),
+                          //*m_pLogo, //v theTheme.Bitmap(bmpReeeKorderLogoWithName),
                           RescaledBitmap,
                           wxDefaultPosition,
                           wxSize((int)(LOGOWITHNAME_WIDTH*fScale), (int)(LOGOWITHNAME_HEIGHT*fScale)));

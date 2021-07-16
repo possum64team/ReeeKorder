@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Benchmark.h
 
@@ -12,9 +12,9 @@
 #define __AUDACITY_BENCHMARK__
 
 class wxWindow;
-class AudacityProject;
+class ReeeKorderProject;
 
 AUDACITY_DLL_API
-void RunBenchmark( wxWindow *parent, AudacityProject &project );
+void RunBenchmark( wxWindow *parent, ReeeKorderProject &project );
 
 #endif // define __AUDACITY_BENCHMARK__

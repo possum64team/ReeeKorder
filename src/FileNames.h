@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   FileNames.h
 
@@ -71,7 +71,7 @@ namespace FileNames
    // Frequently used types
    extern AUDACITY_DLL_API const FileType
         AllFiles // *
-      , AudacityProjects // *.aup3
+      , ReeeKorderProjects // *.aup3
       , DynamicLibraries // depends on the operating system
       , TextFiles // *.txt
       , XMLFiles; // *.xml, *.XML
@@ -96,26 +96,26 @@ namespace FileNames
 
    AUDACITY_DLL_API bool IsMidi(const FilePath &fName);
 
-   /** \brief A list of directories that should be searched for Audacity files
+   /** \brief A list of directories that should be searched for ReeeKorder files
     * (plug-ins, help files, etc.).
     *
-    * On Unix this will include the directory Audacity was installed into,
+    * On Unix this will include the directory ReeeKorder was installed into,
     * plus the current user's .audacity-data/Plug-Ins directory.  Additional
     * directories can be specified using the AUDACITY_PATH environment
     * variable.  On Windows or Mac OS, this will include the directory
-    * which contains the Audacity program. */
-   AUDACITY_DLL_API const FilePaths &AudacityPathList();
-   AUDACITY_DLL_API void SetAudacityPathList( FilePaths list );
+    * which contains the ReeeKorder program. */
+   AUDACITY_DLL_API const FilePaths &ReeeKorderPathList();
+   AUDACITY_DLL_API void SetReeeKorderPathList( FilePaths list );
 
    // originally an ExportMultipleDialog method. Append suffix if newName appears in otherNames.
    AUDACITY_DLL_API void MakeNameUnique(
       FilePaths &otherNames, wxFileName &newName);
 
    AUDACITY_DLL_API wxString LowerCaseAppNameInPath( const wxString & dirIn);
-   /** \brief Audacity user data directory
+   /** \brief ReeeKorder user data directory
     *
     * Where audacity keeps its settings and other user data squirreled away,
-    * by default ~/.audacity-data/ on Unix, Application Data/Audacity on
+    * by default ~/.audacity-data/ on Unix, Application Data/ReeeKorder on
     * windows system */
    AUDACITY_DLL_API FilePath DataDir();
    AUDACITY_DLL_API FilePath ResourcesDir();

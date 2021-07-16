@@ -1,10 +1,10 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectAudioIO.h
 
-Paul Licameli split from AudacityProject.h
+Paul Licameli split from ReeeKorderProject.h
 
 **********************************************************************/
 
@@ -14,7 +14,7 @@ Paul Licameli split from AudacityProject.h
 #include "ClientData.h" // to inherit
 #include <wx/weakref.h>
 
-class AudacityProject;
+class ReeeKorderProject;
 
 // Windows build needs complete type for parameter of wxWeakRef
 // class MeterPanelBase;
@@ -26,10 +26,10 @@ class AUDACITY_DLL_API ProjectAudioIO final
    : public ClientData::Base
 {
 public:
-   static ProjectAudioIO &Get( AudacityProject &project );
-   static const ProjectAudioIO &Get( const AudacityProject &project );
+   static ProjectAudioIO &Get( ReeeKorderProject &project );
+   static const ProjectAudioIO &Get( const ReeeKorderProject &project );
 
-   explicit ProjectAudioIO( AudacityProject &project );
+   explicit ProjectAudioIO( ReeeKorderProject &project );
    ProjectAudioIO( const ProjectAudioIO & ) PROHIBITED;
    ProjectAudioIO &operator=( const ProjectAudioIO & ) PROHIBITED;
    ~ProjectAudioIO();
@@ -44,7 +44,7 @@ public:
    void SetCaptureMeter(MeterPanelBase *capture);
 
 private:
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
    // Project owned meters
    wxWeakRef<MeterPanelBase> mPlaybackMeter{};

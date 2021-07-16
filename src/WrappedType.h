@@ -3,7 +3,7 @@
   WrappedType.h
 
   James Crook
-  (C) Audacity Developers, 2007
+  (C) ReeeKorder Developers, 2007
 
   wxWidgets license. See Licensing.txt
 

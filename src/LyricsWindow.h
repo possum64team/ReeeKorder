@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   LyricsWindow.h
 
@@ -16,7 +16,7 @@
 
 #include "Prefs.h"
 
-class AudacityProject;
+class ReeeKorderProject;
 class LyricsPanel;
 
 class LyricsWindow final : public wxFrame,
@@ -24,7 +24,7 @@ class LyricsWindow final : public wxFrame,
 {
 
  public:
-   LyricsWindow(AudacityProject* parent);
+   LyricsWindow(ReeeKorderProject* parent);
 
    LyricsPanel *GetLyricsPanel() { return mLyricsPanel; };
 
@@ -40,7 +40,7 @@ class LyricsWindow final : public wxFrame,
    // PrefsListener implementation
    void UpdatePrefs() override;
 
-   AudacityProject *mProject;
+   ReeeKorderProject *mProject;
    LyricsPanel *mLyricsPanel;
 
  public:

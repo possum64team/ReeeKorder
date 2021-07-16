@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   WaveTrack.h
 
@@ -563,7 +563,7 @@ private:
       std::shared_ptr<WaveClip> pClip;
    };
 
-   Track::Holder PasteInto( AudacityProject & ) const override;
+   Track::Holder PasteInto( ReeeKorderProject & ) const override;
 
    ConstIntervals GetIntervals() const override;
    Intervals GetIntervals() override;
@@ -698,10 +698,10 @@ class AUDACITY_DLL_API WaveTrackFactory final
    : public ClientData::Base
 {
  public:
-   static WaveTrackFactory &Get( AudacityProject &project );
-   static const WaveTrackFactory &Get( const AudacityProject &project );
-   static WaveTrackFactory &Reset( AudacityProject &project );
-   static void Destroy( AudacityProject &project );
+   static WaveTrackFactory &Get( ReeeKorderProject &project );
+   static const WaveTrackFactory &Get( const ReeeKorderProject &project );
+   static WaveTrackFactory &Reset( ReeeKorderProject &project );
+   static void Destroy( ReeeKorderProject &project );
 
    WaveTrackFactory( const ProjectSettings &settings,
       const SampleBlockFactoryPtr &pFactory)

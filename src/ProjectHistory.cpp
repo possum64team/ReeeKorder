@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectHistory.cpp
 
@@ -17,20 +17,20 @@ Paul Licameli split from ProjectManager.cpp
 #include "UndoManager.h"
 #include "ViewInfo.h"
 
-static AudacityProject::AttachedObjects::RegisteredFactory sProjectHistoryKey {
-   []( AudacityProject &project ) {
+static ReeeKorderProject::AttachedObjects::RegisteredFactory sProjectHistoryKey {
+   []( ReeeKorderProject &project ) {
       return std::make_shared< ProjectHistory >( project );
    }
 };
 
-ProjectHistory &ProjectHistory::Get( AudacityProject &project )
+ProjectHistory &ProjectHistory::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectHistory >( sProjectHistoryKey );
 }
 
-const ProjectHistory &ProjectHistory::Get( const AudacityProject &project )
+const ProjectHistory &ProjectHistory::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
 ProjectHistory::~ProjectHistory() = default;

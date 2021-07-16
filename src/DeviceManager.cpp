@@ -1,7 +1,7 @@
 /**********************************************************************
 
-   Audacity - A Digital Audio Editor
-   Copyright 1999-2010 Audacity Team
+   ReeeKorder - A Digital Audio Editor
+   Copyright 1999-2010 ReeeKorder Team
    Michael Chinen
 
 ******************************************************************/

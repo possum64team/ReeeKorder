@@ -1,12 +1,12 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  AudacityLogger.h
+  ReeeKorderLogger.h
 
   Dominic Mazzoni
 
-  This is the main source file for Audacity which handles
+  This is the main source file for ReeeKorder which handles
   initialization and termination by subclassing wxApp.
 
 **********************************************************************/
@@ -26,16 +26,16 @@
 class wxFrame;
 class wxTextCtrl;
 
-class AUDACITY_DLL_API AudacityLogger final : public wxEvtHandler,
+class AUDACITY_DLL_API ReeeKorderLogger final : public wxEvtHandler,
                              public wxLog,
                              public PrefsListener
 {
  public:
 
-   ~AudacityLogger() override;
+   ~ReeeKorderLogger() override;
  
    // Get the singleton instance or null
-   static AudacityLogger *Get();
+   static ReeeKorderLogger *Get();
 
    void Show(bool show = true);
 
@@ -49,7 +49,7 @@ class AUDACITY_DLL_API AudacityLogger final : public wxEvtHandler,
    void DoLogText(const wxString & msg) override;
 
  private:
-   AudacityLogger();
+   ReeeKorderLogger();
 
    void OnCloseWindow(wxCloseEvent & e);
    void OnClose(wxCommandEvent & e);

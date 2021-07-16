@@ -1,7 +1,7 @@
 
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Diags.cpp
 

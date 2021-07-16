@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   ZoomInfo.h
 
@@ -20,7 +20,7 @@
 #define CONST const
 #endif
 
-class AudacityProject;
+class ReeeKorderProject;
 
 // See big pictorial comment in TrackPanel.cpp for explanation of these numbers
 enum : int {

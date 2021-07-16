@@ -1,11 +1,11 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  AudacityHeaders.cpp
+  ReeeKorderHeaders.cpp
 
   Dominic Mazzoni
 
 **********************************************************************/
 
-#include "AudacityHeaders.h"
+#include "ReeeKorderHeaders.h"

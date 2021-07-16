@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   MacroCommands.cpp
 
@@ -45,11 +45,11 @@ processing.  See also MacrosWindow and ApplyMacroDialog.
 
 #include "AllThemeResources.h"
 
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 
 #include "commands/CommandContext.h"
 
-MacroCommands::MacroCommands( AudacityProject &project )
+MacroCommands::MacroCommands( ReeeKorderProject &project )
 : mProject{ project }
 , mExporter{ project }
 {
@@ -147,7 +147,7 @@ wxString MacroCommands::ReadMacro(const wxString & macro, wxWindow *parent)
       check.SetPath(name.GetPath());
       if (check.FileExists())
       {
-         int id = AudacityMessageBox(
+         int id = ReeeKorderMessageBox(
             XO("Macro %s already exists. Would you like to replace it?").Format(check.GetName()),
             XO("Import Macro"),
             wxYES_NO);
@@ -298,7 +298,7 @@ bool MacroCommands::RenameMacro(const wxString & oldmacro, const wxString & newm
 }
 
 // Gets all commands that are valid for this mode.
-MacroCommandsCatalog::MacroCommandsCatalog( const AudacityProject *project )
+MacroCommandsCatalog::MacroCommandsCatalog( const ReeeKorderProject *project )
 {
    if (!project)
       return;
@@ -309,7 +309,7 @@ MacroCommandsCatalog::MacroCommandsCatalog( const AudacityProject *project )
    EffectManager & em = EffectManager::Get();
    {
       for (auto &plug
-           : pm.PluginsOfType(PluginTypeEffect|PluginTypeAudacityCommand)) {
+           : pm.PluginsOfType(PluginTypeEffect|PluginTypeReeeKorderCommand)) {
          auto command = em.GetCommandIdentifier(plug.GetID());
          if (!command.empty())
             commands.push_back( {
@@ -488,11 +488,11 @@ wxString MacroCommands::PromptForPresetFor(const CommandID & command, const wxSt
    return preset;
 }
 
-/// DoAudacityCommand() takes a PluginID and executes the associated command.
+/// DoReeeKorderCommand() takes a PluginID and executes the associated command.
 ///
 /// At the moment flags are used only to indicate whether to prompt for
 /// parameters
-bool MacroCommands::DoAudacityCommand(
+bool MacroCommands::DoReeeKorderCommand(
    const PluginID & ID, const CommandContext & context, unsigned flags )
 {
    auto &project = context.project;
@@ -508,7 +508,7 @@ bool MacroCommands::DoAudacityCommand(
    }
 
    EffectManager & em = EffectManager::Get();
-   bool success = em.DoAudacityCommand(ID, 
+   bool success = em.DoReeeKorderCommand(ID, 
       context,
       &window,
       (flags & EffectManager::kConfigured) == 0);
@@ -546,16 +546,16 @@ bool MacroCommands::ApplyEffectCommand(
    if (!plug)
       return false;
 
-   AudacityProject *project = &mProject;
+   ReeeKorderProject *project = &mProject;
 
    // IF nothing selected, THEN select everything depending
    // on preferences setting.
    // (most effects require that you have something selected).
-   if( plug->GetPluginType() != PluginTypeAudacityCommand )
+   if( plug->GetPluginType() != PluginTypeReeeKorderCommand )
    {
       if( !SelectUtilities::SelectAllIfNoneAndAllowed( *project ) )
       {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             // i18n-hint: %s will be replaced by the name of an action, such as "Remove Tracks".
             XO("\"%s\" requires one or more tracks to be selected.").Format(friendlyCommand));
          return false;
@@ -569,9 +569,9 @@ bool MacroCommands::ApplyEffectCommand(
    // transfer the parameters to the effect...
    if (EffectManager::Get().SetEffectParameters(ID, params))
    {
-      if( plug->GetPluginType() == PluginTypeAudacityCommand )
+      if( plug->GetPluginType() == PluginTypeReeeKorderCommand )
          // and apply the effect...
-         res = DoAudacityCommand(ID,
+         res = DoReeeKorderCommand(ID,
             Context,
             EffectManager::kConfigured |
             EffectManager::kSkipState |
@@ -633,7 +633,7 @@ bool MacroCommands::ApplyCommand( const TranslatableString &friendlyCommand,
          ID, friendlyCommand, command, params, context);
    }
 
-   AudacityProject *project = &mProject;
+   ReeeKorderProject *project = &mProject;
    auto &manager = CommandManager::Get( *project );
    if( pContext ){
       if( HandleTextualCommand(
@@ -651,7 +651,7 @@ bool MacroCommands::ApplyCommand( const TranslatableString &friendlyCommand,
          return true;
    }
 
-   AudacityMessageBox(
+   ReeeKorderMessageBox(
       XO("Your batch command of %s was not recognized.")
          .Format( friendlyCommand ) );
 
@@ -663,7 +663,7 @@ bool MacroCommands::ApplyCommandInBatchMode(
    const CommandID & command, const wxString &params,
    CommandContext const * pContext)
 {
-   AudacityProject *project = &mProject;
+   ReeeKorderProject *project = &mProject;
    auto &settings = ProjectSettings::Get( *project );
    // Recalc flags and enable items that may have become enabled.
    MenuManager::Get(*project).UpdateMenus(false);
@@ -697,7 +697,7 @@ bool MacroCommands::ApplyMacro(
    auto cleanup1 = valueRestorer(MacroReentryCount);
    MacroReentryCount++;
 
-   AudacityProject *proj = &mProject;
+   ReeeKorderProject *proj = &mProject;
    bool res = false;
 
    // Only perform this group on initial entry.  They should not be done
@@ -859,14 +859,14 @@ bool MacroCommands::ReportAndSkip(
    //TODO: Add a cancel button to these, and add the logic so that we can abort.
    if( !params.empty() )
    {
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO("Apply %s with parameter(s)\n\n%s")
             .Format( friendlyCommand, params ),
          XO("Test Mode"));
    }
    else
    {
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO("Apply %s").Format( friendlyCommand ),
          XO("Test Mode"));
    }
@@ -883,9 +883,9 @@ void MacroCommands::MigrateLegacyChains()
       // but only if like-named files are not already present in Macros.
 
       // Leave the old copies in place, in case a user wants to go back to
-      // an old Audacity version.  They will have their old chains intact, but
+      // an old ReeeKorder version.  They will have their old chains intact, but
       // won't have any edits they made to the copy that now lives in Macros
-      // which old Audacity will not read.
+      // which old ReeeKorder will not read.
 
       const auto oldDir = FileNames::LegacyChainDir();
       FilePaths files;

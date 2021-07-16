@@ -1,12 +1,12 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   ShuttleGui.cpp
 
   James Crook
 
-  Audacity is free software.
+  ReeeKorder is free software.
   This file is licensed under the wxWidgets license, see License.txt
 
 **********************************************************************//**
@@ -18,7 +18,7 @@
 
 \class ShuttleGui
 \brief
-  Derived from ShuttleGuiBase, an Audacity specific class for shuttling
+  Derived from ShuttleGuiBase, an ReeeKorder specific class for shuttling
   data to and from GUI.
 
   ShuttleGui extends the idea of the data Shuttle class to include creation
@@ -31,7 +31,7 @@
   Most of the ShuttleGui functions are actually defined in
   ShuttleGuiBase.
      - wxWidgets widgets are dealt with by ShuttleGuiBase.
-     - Audacity specific widgets are dealt with by ShuttleGui
+     - ReeeKorder specific widgets are dealt with by ShuttleGui
 
   There is documentation on how to use this class in \ref ShuttleSystem
 
@@ -829,7 +829,7 @@ void ShuttleGuiBase::DoInsertListColumns(
    // -- is it still correct for wxWidgets 3?
 
    // Do this BEFORE inserting the columns.  On the Mac at least, the
-   // columns are deleted and later InsertItem()s will cause Audacity to crash.
+   // columns are deleted and later InsertItem()s will cause ReeeKorder to crash.
    for ( auto style = 1l; style <= listControlStyles; style <<= 1 )
       if ( (style & listControlStyles) )
          pListCtrl->SetSingleStyle(style, true);
@@ -1775,7 +1775,7 @@ wxString ShuttleGuiBase::TranslateFromIndex( const int nIn, const wxArrayStringE
 // ShuttleGui code uses the model that you read into program variables
 // and write out from program variables.
 
-// In programs like Audacity which don't use internal program variables
+// In programs like ReeeKorder which don't use internal program variables
 // you have to do both steps in one go, using variants of the standard
 // 'Tie' functions which call the underlying Tie functions twice.
 
@@ -2270,7 +2270,7 @@ ShuttleGui::~ShuttleGui()
 {
 }
 
-// Now we have Audacity specific shuttle functions.
+// Now we have ReeeKorder specific shuttle functions.
 ShuttleGui & ShuttleGui::Id(int id )
 {
    miIdSetByUser = id;

@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 CommonCommandFlags.h
 
@@ -16,13 +16,13 @@ Paul Licameli split from Menus.cpp
 #include "commands/CommandFlag.h"
 
 AUDACITY_DLL_API
-bool EditableTracksSelectedPred( const AudacityProject &project );
+bool EditableTracksSelectedPred( const ReeeKorderProject &project );
 
 AUDACITY_DLL_API
-bool AudioIOBusyPred( const AudacityProject &project );
+bool AudioIOBusyPred( const ReeeKorderProject &project );
 
 AUDACITY_DLL_API
-bool TimeSelectedPred( const AudacityProject &project );
+bool TimeSelectedPred( const ReeeKorderProject &project );
 
 AUDACITY_DLL_API
 const CommandFlagOptions &cutCopyOptions();

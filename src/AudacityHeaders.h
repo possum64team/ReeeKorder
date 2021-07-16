@@ -1,8 +1,8 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  AudacityHeaders.h
+  ReeeKorderHeaders.h
 
   Dominic Mazzoni
 

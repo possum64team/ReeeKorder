@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Track.cpp
 
@@ -9,7 +9,7 @@
 *******************************************************************//**
 
 \class Track
-\brief Fundamental data object of Audacity, displayed in the TrackPanel.
+\brief Fundamental data object of ReeeKorder, displayed in the TrackPanel.
 Classes derived form it include the WaveTrack, NoteTrack, LabelTrack
 and TimeTrack.
 
@@ -488,28 +488,28 @@ wxDEFINE_EVENT(EVT_TRACKLIST_DELETION, TrackListEvent);
 // same value as in the default constructed TrackId:
 long TrackList::sCounter = -1;
 
-static const AudacityProject::AttachedObjects::RegisteredFactory key{
-   [](AudacityProject &project) { return TrackList::Create( &project ); }
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory key{
+   [](ReeeKorderProject &project) { return TrackList::Create( &project ); }
 };
 
-TrackList &TrackList::Get( AudacityProject &project )
+TrackList &TrackList::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< TrackList >( key );
 }
 
-const TrackList &TrackList::Get( const AudacityProject &project )
+const TrackList &TrackList::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
-TrackList::TrackList( AudacityProject *pOwner )
+TrackList::TrackList( ReeeKorderProject *pOwner )
 :  wxEvtHandler()
 , mOwner{ pOwner }
 {
 }
 
 // Factory function
-std::shared_ptr<TrackList> TrackList::Create( AudacityProject *pOwner )
+std::shared_ptr<TrackList> TrackList::Create( ReeeKorderProject *pOwner )
 {
    return std::make_shared<TrackList>( pOwner );
 }

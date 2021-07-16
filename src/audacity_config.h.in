@@ -1,6 +1,6 @@
 /* src/configtemplate.h.  Generated from configure.ac by autoheader.  */
 
-/* define if Audacity is being installed under a name other than "audacity",
+/* define if ReeeKorder is being installed under a name other than "reeekorder",
    so it can find the files it needs at runtime */
 #cmakedefine AUDACITY_NAME "@AUDACITY_NAME@"
 
@@ -32,13 +32,13 @@
    declarations. */
 #cmakedefine HAVE_VISIBILITY 1
 
-/* Define as prefix where Audacity is installed */
+/* Define as prefix where ReeeKorder is installed */
 #define INSTALL_PREFIX "@INSTALL_PREFIX@"
 
 /* Define where libraries get installed */
 #define LIBDIR "@LIBDIR@"
 
-/* Define where Audacity specific libraries get installed */
+/* Define where ReeeKorder specific libraries get installed */
 #define PKGLIBDIR "@PKGLIBDIR@"
 
 /* Define if Audio Unit plug-ins are enabled (Mac OS X only) */

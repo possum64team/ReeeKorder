@@ -1,22 +1,22 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  AudacityApp.cpp
+  ReeeKorderApp.cpp
 
   Dominic Mazzoni
 
 ******************************************************************//**
 
-\class AudacityApp
-\brief AudacityApp is the 'main' class for Audacity
+\class ReeeKorderApp
+\brief ReeeKorderApp is the 'main' class for ReeeKorder
 
 It handles initialization and termination by subclassing wxApp.
 
 *//*******************************************************************/
 
 
-#include "AudacityApp.h"
+#include "ReeeKorderApp.h"
 
 
 
@@ -70,10 +70,10 @@ It handles initialization and termination by subclassing wxApp.
 #include <wx/msw/registry.h> // for wxRegKey
 #endif
 
-#include "AudacityLogger.h"
+#include "ReeeKorderLogger.h"
 #include "AboutDialog.h"
 #include "AColor.h"
-#include "AudacityFileConfig.h"
+#include "ReeeKorderFileConfig.h"
 #include "AudioIO.h"
 #include "Benchmark.h"
 #include "Clipboard.h"
@@ -105,7 +105,7 @@ It handles initialization and termination by subclassing wxApp.
 #include "AutoRecoveryDialog.h"
 #include "SplashDialog.h"
 #include "FFT.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "prefs/DirectoriesPrefs.h"
 #include "prefs/GUIPrefs.h"
 #include "tracks/ui/Scrubbing.h"
@@ -148,9 +148,9 @@ It handles initialization and termination by subclassing wxApp.
 
 // DA: Logo for Splash Screen
 #ifdef EXPERIMENTAL_DA
-#include "../images/DarkAudacityLogoWithName.xpm"
+#include "../images/DarkReeeKorderLogoWithName.xpm"
 #else
-#include "../images/AudacityLogoWithName.xpm"
+#include "../images/ReeeKorderLogoWithName.xpm"
 #endif
 
 #include <thread>
@@ -195,7 +195,7 @@ void PopulatePreferences()
       const wxString fullPath{fn.GetFullPath()};
 
       auto pIni =
-         AudacityFileConfig::Create({}, {}, fullPath, {},
+         ReeeKorderFileConfig::Create({}, {}, fullPath, {},
             wxCONFIG_USE_LOCAL_FILE);
       auto &ini = *pIni;
 
@@ -216,7 +216,7 @@ void PopulatePreferences()
       bool gone = wxRemoveFile(fullPath);  // remove FirstTime.ini
       if (!gone)
       {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("Failed to remove %s").Format(fullPath),
             XO("Failed!"));
       }
@@ -225,7 +225,7 @@ void PopulatePreferences()
    // Use the system default language if one wasn't specified or if the user selected System.
    if (langCode.empty())
       langCode =
-         Languages::GetSystemLanguageCode(FileNames::AudacityPathList());
+         Languages::GetSystemLanguageCode(FileNames::ReeeKorderPathList());
 
    langCode = GUIPrefs::SetLang( langCode );
 
@@ -235,9 +235,9 @@ void PopulatePreferences()
       // pop up a dialogue
       auto prompt = XO(
 "Reset Preferences?\n\nThis is a one-time question, after an 'install' where you asked to have the Preferences reset.");
-      int action = AudacityMessageBox(
+      int action = ReeeKorderMessageBox(
          prompt,
-         XO("Reset Audacity Preferences"),
+         XO("Reset ReeeKorder Preferences"),
          wxYES_NO, NULL);
       if (action == wxYES)   // reset
       {
@@ -252,9 +252,9 @@ void PopulatePreferences()
       gPrefs->Write(wxT("/Locale/Language"), langCode);
    }
 
-   // In AUdacity 2.1.0 support for the legacy 1.2.x preferences (depreciated since Audacity
+   // In AUdacity 2.1.0 support for the legacy 1.2.x preferences (depreciated since ReeeKorder
    // 1.3.1) is dropped. As a result we can drop the import flag
-   // first time this version of Audacity is run we try to migrate
+   // first time this version of ReeeKorder is run we try to migrate
    // old preferences.
    bool newPrefsInitialized = false;
    gPrefs->Read(wxT("/NewPrefsInitialized"), &newPrefsInitialized, false);
@@ -266,11 +266,11 @@ void PopulatePreferences()
    // long time).
    gPrefs->Write(wxT("/PrefsVersion"), wxString(wxT(AUDACITY_PREFS_VERSION_STRING)));
 
-   // Check if some prefs updates need to happen based on audacity version.
+   // Check if some prefs updates need to happen based on reeekorder version.
    // Unfortunately we can't use the PrefsVersion prefs key because that resets things.
    // In the future we may want to integrate that better.
    // these are done on a case-by-case basis for now so they must be backwards compatible
-   // (meaning the changes won't mess audacity up if the user goes back to an earlier version)
+   // (meaning the changes won't mess reeekorder up if the user goes back to an earlier version)
    int vMajor = gPrefs->Read(wxT("/Version/Major"), (long) 0);
    int vMinor = gPrefs->Read(wxT("/Version/Minor"), (long) 0);
    int vMicro = gPrefs->Read(wxT("/Version/Micro"), (long) 0);
@@ -415,7 +415,7 @@ void InitBreakpad()
 static bool gInited = false;
 static bool gIsQuitting = false;
 
-static void QuitAudacity(bool bForce)
+static void QuitReeeKorder(bool bForce)
 {
    // guard against recursion
    if (gIsQuitting)
@@ -465,7 +465,7 @@ static void QuitAudacity(bool bForce)
    //DELETE Profiler::Instance();
 
    // Save last log for diagnosis
-   auto logger = AudacityLogger::Get();
+   auto logger = ReeeKorderLogger::Get();
    if (logger)
    {
       wxFileName logFile(FileNames::DataDir(), wxT("lastlog.txt"));
@@ -481,9 +481,9 @@ static void QuitAudacity(bool bForce)
    }
 }
 
-static void QuitAudacity()
+static void QuitReeeKorder()
 {
-   QuitAudacity(false);
+   QuitReeeKorder(false);
 }
 
 #if defined(__WXGTK__) && defined(HAVE_GTK)
@@ -597,7 +597,7 @@ class GnomeShutdown
  public:
    GnomeShutdown()
    {
-      mArgv[0].reset(strdup("Audacity"));
+      mArgv[0].reset(strdup("ReeeKorder"));
 
       mGnomeui = dlopen("libgnomeui-2.so.0", RTLD_NOW);
       if (!mGnomeui) {
@@ -666,10 +666,10 @@ static wxArrayString ofqueue;
 
 //
 // DDE support for opening multiple files with one instance
-// of Audacity.
+// of ReeeKorder.
 //
 
-#define IPC_APPL wxT("audacity")
+#define IPC_APPL wxT("reeekorder")
 #define IPC_TOPIC wxT("System")
 
 class IPCConn final : public wxConnection
@@ -721,7 +721,7 @@ public:
 
 #if defined(__WXMAC__)
 
-IMPLEMENT_APP_NO_MAIN(AudacityApp)
+IMPLEMENT_APP_NO_MAIN(ReeeKorderApp)
 IMPLEMENT_WX_THEME_SUPPORT
 
 int main(int argc, char *argv[])
@@ -733,7 +733,7 @@ int main(int argc, char *argv[])
 
 #elif defined(__WXGTK__) && defined(NDEBUG)
 
-IMPLEMENT_APP_NO_MAIN(AudacityApp)
+IMPLEMENT_APP_NO_MAIN(ReeeKorderApp)
 IMPLEMENT_WX_THEME_SUPPORT
 
 int main(int argc, char *argv[])
@@ -752,25 +752,25 @@ int main(int argc, char *argv[])
 }
 
 #else
-IMPLEMENT_APP(AudacityApp)
+IMPLEMENT_APP(ReeeKorderApp)
 #endif
 
 #ifdef __WXMAC__
 
 // in response of an open-document apple event
-void AudacityApp::MacOpenFile(const wxString &fileName)
+void ReeeKorderApp::MacOpenFile(const wxString &fileName)
 {
    ofqueue.push_back(fileName);
 }
 
 // in response of a print-document apple event
-void AudacityApp::MacPrintFile(const wxString &fileName)
+void ReeeKorderApp::MacPrintFile(const wxString &fileName)
 {
    ofqueue.push_back(fileName);
 }
 
 // in response of a open-application apple event
-void AudacityApp::MacNewFile()
+void ReeeKorderApp::MacNewFile()
 {
    if (!gInited)
       return;
@@ -789,52 +789,52 @@ void AudacityApp::MacNewFile()
 #define ID_IPC_SOCKET   6201
 
 // we don't really care about the timer id, but set this value just in case we do in the future
-#define kAudacityAppTimerID 0
+#define kReeeKorderAppTimerID 0
 
-BEGIN_EVENT_TABLE(AudacityApp, wxApp)
-   EVT_QUERY_END_SESSION(AudacityApp::OnQueryEndSession)
-   EVT_END_SESSION(AudacityApp::OnEndSession)
+BEGIN_EVENT_TABLE(ReeeKorderApp, wxApp)
+   EVT_QUERY_END_SESSION(ReeeKorderApp::OnQueryEndSession)
+   EVT_END_SESSION(ReeeKorderApp::OnEndSession)
 
-   EVT_TIMER(kAudacityAppTimerID, AudacityApp::OnTimer)
+   EVT_TIMER(kReeeKorderAppTimerID, ReeeKorderApp::OnTimer)
 #ifdef __WXMAC__
-   EVT_MENU(wxID_NEW, AudacityApp::OnMenuNew)
-   EVT_MENU(wxID_OPEN, AudacityApp::OnMenuOpen)
-   EVT_MENU(wxID_ABOUT, AudacityApp::OnMenuAbout)
-   EVT_MENU(wxID_PREFERENCES, AudacityApp::OnMenuPreferences)
+   EVT_MENU(wxID_NEW, ReeeKorderApp::OnMenuNew)
+   EVT_MENU(wxID_OPEN, ReeeKorderApp::OnMenuOpen)
+   EVT_MENU(wxID_ABOUT, ReeeKorderApp::OnMenuAbout)
+   EVT_MENU(wxID_PREFERENCES, ReeeKorderApp::OnMenuPreferences)
 #endif
 
    // Associate the handler with the menu id on all operating systems, even
    // if they don't have an application menu bar like in macOS, so that
    // other parts of the program can send the application a shut-down
    // event
-   EVT_MENU(wxID_EXIT, AudacityApp::OnMenuExit)
+   EVT_MENU(wxID_EXIT, ReeeKorderApp::OnMenuExit)
 
 #ifndef __WXMSW__
-   EVT_SOCKET(ID_IPC_SERVER, AudacityApp::OnServerEvent)
-   EVT_SOCKET(ID_IPC_SOCKET, AudacityApp::OnSocketEvent)
+   EVT_SOCKET(ID_IPC_SERVER, ReeeKorderApp::OnServerEvent)
+   EVT_SOCKET(ID_IPC_SOCKET, ReeeKorderApp::OnSocketEvent)
 #endif
 
    // Recent file event handlers.
-   EVT_MENU(FileHistory::ID_RECENT_CLEAR, AudacityApp::OnMRUClear)
+   EVT_MENU(FileHistory::ID_RECENT_CLEAR, ReeeKorderApp::OnMRUClear)
    EVT_MENU_RANGE(FileHistory::ID_RECENT_FIRST, FileHistory::ID_RECENT_LAST,
-      AudacityApp::OnMRUFile)
+      ReeeKorderApp::OnMRUFile)
 
    // Handle AppCommandEvents (usually from a script)
-   EVT_APP_COMMAND(wxID_ANY, AudacityApp::OnReceiveCommand)
+   EVT_APP_COMMAND(wxID_ANY, ReeeKorderApp::OnReceiveCommand)
 
    // Global ESC key handling
-   EVT_KEY_DOWN(AudacityApp::OnKeyDown)
+   EVT_KEY_DOWN(ReeeKorderApp::OnKeyDown)
 END_EVENT_TABLE()
 
 // backend for OnMRUFile
 // TODO: Would be nice to make this handle not opening a file with more panache.
 //  - Inform the user if DefaultOpenPath not set.
 //  - Switch focus to correct instance of project window, if already open.
-bool AudacityApp::MRUOpen(const FilePath &fullPathStr) {
+bool ReeeKorderApp::MRUOpen(const FilePath &fullPathStr) {
    // Most of the checks below are copied from ProjectManager::OpenFiles.
    // - some rationalisation might be possible.
 
-   AudacityProject *proj = GetActiveProject();
+   ReeeKorderProject *proj = GetActiveProject();
 
    if (!fullPathStr.empty())
    {
@@ -844,7 +844,7 @@ bool AudacityApp::MRUOpen(const FilePath &fullPathStr) {
          FileNames::UpdateDefaultPath(FileNames::Operation::Open, ::wxPathOnly(fullPathStr));
 
          // Make sure it isn't already open.
-         // Test here even though AudacityProject::OpenFile() also now checks, because
+         // Test here even though ReeeKorderProject::OpenFile() also now checks, because
          // that method does not return the bad result.
          // That itself may be a FIXME.
          if (ProjectFileManager::IsAlreadyOpen(fullPathStr))
@@ -855,7 +855,7 @@ bool AudacityApp::MRUOpen(const FilePath &fullPathStr) {
       }
       else {
          // File doesn't exist - remove file from history
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO(
 "%s could not be found.\n\nIt has been removed from the list of recent files.")
                .Format(fullPathStr) );
@@ -865,12 +865,12 @@ bool AudacityApp::MRUOpen(const FilePath &fullPathStr) {
    return(true);
 }
 
-bool AudacityApp::SafeMRUOpen(const wxString &fullPathStr)
+bool ReeeKorderApp::SafeMRUOpen(const wxString &fullPathStr)
 {
    return GuardedCall< bool >( [&]{ return MRUOpen( fullPathStr ); } );
 }
 
-void AudacityApp::OnMRUClear(wxCommandEvent& WXUNUSED(event))
+void ReeeKorderApp::OnMRUClear(wxCommandEvent& WXUNUSED(event))
 {
    FileHistory::Global().Clear();
 }
@@ -878,15 +878,15 @@ void AudacityApp::OnMRUClear(wxCommandEvent& WXUNUSED(event))
 //vvv Basically, anything from Recent Files is treated as a .aup3, until proven otherwise,
 // then it tries to Import(). Very questionable handling, imo.
 // Better, for example, to check the file type early on.
-void AudacityApp::OnMRUFile(wxCommandEvent& event) {
+void ReeeKorderApp::OnMRUFile(wxCommandEvent& event) {
    int n = event.GetId() - FileHistory::ID_RECENT_FIRST;
    auto &history = FileHistory::Global();
    const auto &fullPathStr = history[ n ];
 
    // Try to open only if not already open.
-   // Test IsAlreadyOpen() here even though AudacityProject::MRUOpen() also now checks,
+   // Test IsAlreadyOpen() here even though ReeeKorderProject::MRUOpen() also now checks,
    // because we don't want to Remove() just because it already exists,
-   // and AudacityApp::OnMacOpenFile() calls MRUOpen() directly.
+   // and ReeeKorderApp::OnMacOpenFile() calls MRUOpen() directly.
    // that method does not return the bad result.
    // PRL: Don't call SafeMRUOpen
    // -- if open fails for some exceptional reason of resource exhaustion that
@@ -895,9 +895,9 @@ void AudacityApp::OnMRUFile(wxCommandEvent& event) {
       history.Remove(n);
 }
 
-void AudacityApp::OnTimer(wxTimerEvent& WXUNUSED(event))
+void ReeeKorderApp::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
-   // Filenames are queued when Audacity receives a few of the
+   // Filenames are queued when ReeeKorder receives a few of the
    // AppleEvent messages (via wxWidgets).  So, open any that are
    // in the queue and clean the queue.
    if (gInited) {
@@ -911,7 +911,7 @@ void AudacityApp::OnTimer(wxTimerEvent& WXUNUSED(event))
             // Get the user's attention if no file name was specified
             if (name.empty()) {
                // Get the users attention
-               AudacityProject *project = GetActiveProject();
+               ReeeKorderProject *project = GetActiveProject();
                if (project) {
                   auto &window = GetProjectFrame( *project );
                   window.Maximize();
@@ -955,7 +955,7 @@ wxLanguageInfo userLangs[] =
 };
 #endif
 
-void AudacityApp::OnFatalException()
+void ReeeKorderApp::OnFatalException()
 {
 #if defined(HAS_CRASH_REPORT)
    CrashReport::Generate(wxDebugReport::Context_Exception);
@@ -971,14 +971,14 @@ void AudacityApp::OnFatalException()
 #pragma warning( disable : 4702) // unreachable code warning.
 #endif //_MSC_VER
 
-bool AudacityApp::OnExceptionInMainLoop()
+bool ReeeKorderApp::OnExceptionInMainLoop()
 {
    // This function is invoked from catch blocks in the wxWidgets framework,
    // and throw; without argument re-throws the exception being handled,
    // letting us dispatch according to its type.
 
    try { throw; }
-   catch ( AudacityException &e ) {
+   catch ( ReeeKorderException &e ) {
       (void)e;// Compiler food
       // Here is the catch-all for our own exceptions
 
@@ -1002,7 +1002,7 @@ bool AudacityApp::OnExceptionInMainLoop()
 
          // Give the user an alert
          try { std::rethrow_exception( pException ); }
-         catch( AudacityException &e )
+         catch( ReeeKorderException &e )
             { e.DelayedHandlerAction(); }
 
       } );
@@ -1022,7 +1022,7 @@ bool AudacityApp::OnExceptionInMainLoop()
 #pragma warning( pop )
 #endif //_MSC_VER
 
-AudacityApp::AudacityApp()
+ReeeKorderApp::ReeeKorderApp()
 {
 #if defined(USE_BREAKPAD)
     InitBreakpad();
@@ -1036,13 +1036,13 @@ AudacityApp::AudacityApp()
 #endif
 }
 
-AudacityApp::~AudacityApp()
+ReeeKorderApp::~ReeeKorderApp()
 {
 }
 
 // The `main program' equivalent, creating the windows and returning the
 // main frame
-bool AudacityApp::OnInit()
+bool ReeeKorderApp::OnInit()
 {
    // JKC: ANSWER-ME: Who actually added the event loop guarantor?
    // Although 'blame' says Leland, I think it came from a donated patch.
@@ -1060,14 +1060,14 @@ bool AudacityApp::OnInit()
    // Fire up SQLite
    if ( !ProjectFileIO::InitializeSQL() )
       this->CallAfter([]{
-         ::AudacityMessageBox(
-            XO("SQLite library failed to initialize.  Audacity cannot continue.") );
-         QuitAudacity( true );
+         ::ReeeKorderMessageBox(
+            XO("SQLite library failed to initialize.  ReeeKorder cannot continue.") );
+         QuitReeeKorder( true );
       });
 
 
    // cause initialization of wxWidgets' global logger target
-   (void) AudacityLogger::Get();
+   (void) ReeeKorderLogger::Get();
 
 #if defined(__WXMAC__)
    // Disable window animation
@@ -1101,23 +1101,23 @@ bool AudacityApp::OnInit()
    g_object_unref(provider);
    g_object_unref(combo);
 #elif defined(__WXGTK__) && defined(HAVE_GTK)
-   gtk_rc_parse_string("style \"audacity\" {\n"
+   gtk_rc_parse_string("style \"reeekorder\" {\n"
                        " GtkButton::inner_border = { 0, 0, 0, 0 }\n"
                        " GtkEntry::inner_border = { 0, 0, 0, 0 }\n"
                        " xthickness = 4\n"
                        " ythickness = 0\n"
                        "}\n"
-                       "widget_class \"*GtkCombo*\" style \"audacity\"");
+                       "widget_class \"*GtkCombo*\" style \"reeekorder\"");
 #endif
 
    // Don't use AUDACITY_NAME here.
-   // We want Audacity with a capital 'A'
+   // We want ReeeKorder with a capital 'A'
 
 // DA: App name
 #ifndef EXPERIMENTAL_DA
-   wxString appName = wxT("Audacity");
+   wxString appName = wxT("ReeeKorder");
 #else
-   wxString appName = wxT("DarkAudacity");
+   wxString appName = wxT("DarkReeeKorder");
 #endif
 
    wxTheApp->SetAppName(appName);
@@ -1133,7 +1133,7 @@ bool AudacityApp::OnInit()
    //
    // Paths: set search path and temp dir path
    //
-   FilePaths audacityPathList;
+   FilePaths reeekorderPathList;
 
 #ifdef __WXGTK__
    // Make sure install prefix is set so wxStandardPath resolves paths properly
@@ -1142,8 +1142,8 @@ bool AudacityApp::OnInit()
    /* Search path (for plug-ins, translations etc) is (in this order):
       * The AUDACITY_PATH environment variable
       * The current directory
-      * The user's "~/.audacity-data" or "Portable Settings" directory
-      * The user's "~/.audacity-files" directory
+      * The user's "~/.reeekorder-data" or "Portable Settings" directory
+      * The user's "~/.reeekorder-files" directory
       * The "share" and "share/doc" directories in their install path */
    wxString home = wxGetHomeDir();
 
@@ -1152,11 +1152,11 @@ bool AudacityApp::OnInit()
       /* On Unix systems, the environment variable TMPDIR may point to
          an unusual path when /tmp and /var/tmp are not desirable. */
       TempDirectory::SetDefaultTempDir( wxString::Format(
-         wxT("%s/audacity-%s"), envTempDir, wxGetUserId() ) );
+         wxT("%s/reeekorder-%s"), envTempDir, wxGetUserId() ) );
    } else {
       /* On Unix systems, the default temp dir is in /var/tmp. */
       TempDirectory::SetDefaultTempDir( wxString::Format(
-         wxT("/var/tmp/audacity-%s"), wxGetUserId() ) );
+         wxT("/var/tmp/reeekorder-%s"), wxGetUserId() ) );
    }
 
 // DA: Path env variable.
@@ -1166,48 +1166,48 @@ bool AudacityApp::OnInit()
    wxString pathVar = wxGetenv(wxT("DARKAUDACITY_PATH"));
 #endif
    if (!pathVar.empty())
-      FileNames::AddMultiPathsToPathList(pathVar, audacityPathList);
-   FileNames::AddUniquePathToPathList(::wxGetCwd(), audacityPathList);
+      FileNames::AddMultiPathsToPathList(pathVar, reeekorderPathList);
+   FileNames::AddUniquePathToPathList(::wxGetCwd(), reeekorderPathList);
 
    wxString progPath = wxPathOnly(argv[0]);
-   FileNames::AddUniquePathToPathList(progPath, audacityPathList);
+   FileNames::AddUniquePathToPathList(progPath, reeekorderPathList);
    // Add the path to modules:
-   FileNames::AddUniquePathToPathList(progPath + L"/lib/audacity", audacityPathList);
+   FileNames::AddUniquePathToPathList(progPath + L"/lib/reeekorder", reeekorderPathList);
 
-   FileNames::AddUniquePathToPathList(FileNames::DataDir(), audacityPathList);
+   FileNames::AddUniquePathToPathList(FileNames::DataDir(), reeekorderPathList);
 
 #ifdef AUDACITY_NAME
    FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/.%s-files"),
       home, wxT(AUDACITY_NAME)),
-      audacityPathList);
+      reeekorderPathList);
    FileNames::AddUniquePathToPathList(FileNames::ModulesDir(),
-      audacityPathList);
+      reeekorderPathList);
    FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/%s"),
       wxT(INSTALL_PREFIX), wxT(AUDACITY_NAME)),
-      audacityPathList);
+      reeekorderPathList);
    FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/doc/%s"),
       wxT(INSTALL_PREFIX), wxT(AUDACITY_NAME)),
-      audacityPathList);
+      reeekorderPathList);
 #else //AUDACITY_NAME
-   FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/.audacity-files"),
+   FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/.reeekorder-files"),
       home),
-      audacityPathList)
+      reeekorderPathList)
    FileNames::AddUniquePathToPathList(FileNames::ModulesDir(),
-      audacityPathList);
-   FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/audacity"),
+      reeekorderPathList);
+   FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/reeekorder"),
       wxT(INSTALL_PREFIX)),
-      audacityPathList);
-   FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/doc/audacity"),
+      reeekorderPathList);
+   FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/doc/reeekorder"),
       wxT(INSTALL_PREFIX)),
-      audacityPathList);
+      reeekorderPathList);
 #endif //AUDACITY_NAME
 
    FileNames::AddUniquePathToPathList(wxString::Format(wxT("%s/share/locale"),
       wxT(INSTALL_PREFIX)),
-      audacityPathList);
+      reeekorderPathList);
 
    FileNames::AddUniquePathToPathList(wxString::Format(wxT("./locale")),
-      audacityPathList);
+      reeekorderPathList);
 
 #endif //__WXGTK__
 
@@ -1225,12 +1225,12 @@ bool AudacityApp::OnInit()
 
 
 
-   // On Mac and Windows systems, use the directory which contains Audacity.
+   // On Mac and Windows systems, use the directory which contains ReeeKorder.
 #ifdef __WXMSW__
-   // On Windows, the path to the Audacity program is in argv[0]
+   // On Windows, the path to the ReeeKorder program is in argv[0]
    wxString progPath = wxPathOnly(argv[0]);
-   FileNames::AddUniquePathToPathList(progPath, audacityPathList);
-   FileNames::AddUniquePathToPathList(progPath + wxT("\\Languages"), audacityPathList);
+   FileNames::AddUniquePathToPathList(progPath, reeekorderPathList);
+   FileNames::AddUniquePathToPathList(progPath + wxT("\\Languages"), reeekorderPathList);
 
    // See bug #1271 for explanation of location
    tmpDirLoc = FileNames::MkDir(wxStandardPaths::Get().GetUserLocalDataDir());
@@ -1239,32 +1239,32 @@ bool AudacityApp::OnInit()
 #endif //__WXWSW__
 
 #ifdef __WXMAC__
-   // On Mac OS X, the path to the Audacity program is in argv[0]
+   // On Mac OS X, the path to the ReeeKorder program is in argv[0]
    wxString progPath = wxPathOnly(argv[0]);
 
-   FileNames::AddUniquePathToPathList(progPath, audacityPathList);
-   // If Audacity is a "bundle" package, then the root directory is
+   FileNames::AddUniquePathToPathList(progPath, reeekorderPathList);
+   // If ReeeKorder is a "bundle" package, then the root directory is
    // the great-great-grandparent of the directory containing the executable.
-   //FileNames::AddUniquePathToPathList(progPath + wxT("/../../../"), audacityPathList);
+   //FileNames::AddUniquePathToPathList(progPath + wxT("/../../../"), reeekorderPathList);
 
    // These allow for searching the "bundle"
    FileNames::AddUniquePathToPathList(
-      progPath + wxT("/../"), audacityPathList);
+      progPath + wxT("/../"), reeekorderPathList);
    FileNames::AddUniquePathToPathList(
-      progPath + wxT("/../Resources"), audacityPathList);
+      progPath + wxT("/../Resources"), reeekorderPathList);
 
    // JKC Bug 1220: Using an actual temp directory for session data on Mac was
    // wrong because it would get cleared out on a reboot.
    TempDirectory::SetDefaultTempDir( wxString::Format(
-      wxT("%s/Library/Application Support/audacity/SessionData"), tmpDirLoc) );
+      wxT("%s/Library/Application Support/reeekorder/SessionData"), tmpDirLoc) );
 
    //TempDirectory::SetDefaultTempDir( wxString::Format(
-   //   wxT("%s/audacity-%s"),
+   //   wxT("%s/reeekorder-%s"),
    //   tmpDirLoc,
    //   wxGetUserId() ) );
 #endif //__WXMAC__
 
-   FileNames::SetAudacityPathList( std::move( audacityPathList ) );
+   FileNames::SetReeeKorderPathList( std::move( reeekorderPathList ) );
 
    // Define languages for which we have translations, but that are not yet
    // supported by wxWidgets.
@@ -1280,9 +1280,9 @@ bool AudacityApp::OnInit()
 
    // Initialize preferences and language
    {
-      wxFileName configFileName(FileNames::DataDir(), wxT("audacity.cfg"));
+      wxFileName configFileName(FileNames::DataDir(), wxT("reeekorder.cfg"));
       auto appName = wxTheApp->GetAppName();
-      InitPreferences( AudacityFileConfig::Create(
+      InitPreferences( ReeeKorderFileConfig::Create(
          appName, wxEmptyString,
          configFileName.GetFullPath(),
          wxEmptyString, wxCONFIG_USE_LOCAL_FILE) );
@@ -1306,7 +1306,7 @@ bool AudacityApp::OnInit()
 
 #ifdef __WXMAC__
    // Bug2437:  When files are opened from Finder and another instance of
-   // Audacity is running, we must return from OnInit() to wxWidgets before
+   // ReeeKorder is running, we must return from OnInit() to wxWidgets before
    // MacOpenFile is called, informing us of the paths that need to be
    // opened.  So use CallAfter() to delay the rest of initialization.
    // See CreateSingleInstanceChecker() where we send those paths over a
@@ -1329,7 +1329,7 @@ bool AudacityApp::OnInit()
 #endif
 }
 
-bool AudacityApp::InitPart2()
+bool ReeeKorderApp::InitPart2()
 {
 #if defined(__WXMAC__)
    SetExitOnFrameDelete(false);
@@ -1372,7 +1372,7 @@ bool AudacityApp::InitPart2()
 
    if (parser->Found(wxT("v")))
    {
-      wxPrintf("Audacity v%s\n", AUDACITY_VERSION_STRING);
+      wxPrintf("ReeeKorder v%s\n", AUDACITY_VERSION_STRING);
       exit(0);
    }
 
@@ -1389,16 +1389,16 @@ bool AudacityApp::InitPart2()
    }
 
    // BG: Create a temporary window to set as the top window
-   wxImage logoimage((const char **)AudacityLogoWithName_xpm);
+   wxImage logoimage((const char **)ReeeKorderLogoWithName_xpm);
    logoimage.Rescale(logoimage.GetWidth() / 2, logoimage.GetHeight() / 2);
    if( GetLayoutDirection() == wxLayout_RightToLeft)
       logoimage = logoimage.Mirror();
    wxBitmap logo(logoimage);
 
-   AudacityProject *project;
+   ReeeKorderProject *project;
    {
       // Bug 718: Position splash screen on same screen 
-      // as where Audacity project will appear.
+      // as where ReeeKorder project will appear.
       wxRect wndRect;
       bool bMaximized = false;
       bool bIconized = false;
@@ -1425,7 +1425,7 @@ bool AudacityApp::InitPart2()
       temporarywindow.SetPosition( wndRect.GetTopLeft() );
       // Centered on whichever screen it is on.
       temporarywindow.Center();
-      temporarywindow.SetTitle(_("Audacity is starting up..."));
+      temporarywindow.SetTitle(_("ReeeKorder is starting up..."));
       SetTopWindow(&temporarywindow);
       temporarywindow.Raise();
 
@@ -1451,7 +1451,7 @@ bool AudacityApp::InitPart2()
       fileMenu->Append(wxID_NEW, wxString(_("&New")) + wxT("\tCtrl+N"));
       fileMenu->Append(wxID_OPEN, wxString(_("&Open...")) + wxT("\tCtrl+O"));
       fileMenu->AppendSubMenu(urecentMenu.release(), _("Open &Recent..."));
-      fileMenu->Append(wxID_ABOUT, _("&About Audacity..."));
+      fileMenu->Append(wxID_ABOUT, _("&About ReeeKorder..."));
       fileMenu->Append(wxID_PREFERENCES, wxString(_("&Preferences...")) + wxT("\tCtrl+,"));
 
       {
@@ -1470,7 +1470,7 @@ bool AudacityApp::InitPart2()
       temporarywindow.Show(false);
    }
 
-   // Workaround Bug 1377 - Crash after Audacity starts and low disk space warning appears
+   // Workaround Bug 1377 - Crash after ReeeKorder starts and low disk space warning appears
    // The temporary splash window is closed AND cleaned up, before attempting to create
    // a project and possibly creating a modal warning dialog by doing so.
    // Also fixes problem of warning being obscured.
@@ -1516,7 +1516,7 @@ bool AudacityApp::InitPart2()
       // This call may reassign project (passed by reference)
       if (!ShowAutoRecoveryDialogIfNeeded(project, &didRecoverAnything))
       {
-         QuitAudacity(true);
+         QuitReeeKorder(true);
       }
 
       //
@@ -1527,7 +1527,7 @@ bool AudacityApp::InitPart2()
          if (parser->Found(wxT("t")))
          {
             RunBenchmark( nullptr, *project);
-            QuitAudacity(true);
+            QuitReeeKorder(true);
          }
 
          for (size_t i = 0, cnt = parser->GetParamCount(); i < cnt; i++)
@@ -1543,7 +1543,7 @@ bool AudacityApp::InitPart2()
 
    ModuleManager::Get().Dispatch(AppInitialized);
 
-   mTimer.SetOwner(this, kAudacityAppTimerID);
+   mTimer.SetOwner(this, kReeeKorderAppTimerID);
    mTimer.Start(200);
 
 #ifdef EXPERIMENTAL_EASY_CHANGE_KEY_BINDINGS
@@ -1565,17 +1565,17 @@ bool AudacityApp::InitPart2()
 #endif
 
 #if defined(__WXMAC__)
-   // The first time this version of Audacity is run or when the preferences
+   // The first time this version of ReeeKorder is run or when the preferences
    // are reset, execute the "tccutil" command to reset the microphone permissions
-   // currently assigned to Audacity.  The end result is that the user will be
-   // prompted to approve/deny Audacity access (again).
+   // currently assigned to ReeeKorder.  The end result is that the user will be
+   // prompted to approve/deny ReeeKorder access (again).
    //
-   // This should resolve confusion of why Audacity appears to record, but only
-   // gets silence due to Audacity being denied microphone access previously.
+   // This should resolve confusion of why ReeeKorder appears to record, but only
+   // gets silence due to ReeeKorder being denied microphone access previously.
    bool permsReset = false;
    gPrefs->Read(wxT("/MicrophonePermissionsReset"), &permsReset, false);
    if (!permsReset) {
-      system("tccutil reset Microphone org.audacityteam.audacity");
+      system("tccutil reset Microphone org.reeekorderteam.reeekorder");
       gPrefs->Write(wxT("/MicrophonePermissionsReset"), true);
    }
 #endif
@@ -1598,20 +1598,20 @@ bool AudacityApp::InitPart2()
    return TRUE;
 }
 
-void AudacityApp::InitCommandHandler()
+void ReeeKorderApp::InitCommandHandler()
 {
    mCmdHandler = std::make_unique<CommandHandler>();
    //SetNextHandler(mCmdHandler);
 }
 
 // AppCommandEvent callback - just pass the event on to the CommandHandler
-void AudacityApp::OnReceiveCommand(AppCommandEvent &event)
+void ReeeKorderApp::OnReceiveCommand(AppCommandEvent &event)
 {
    wxASSERT(NULL != mCmdHandler);
    mCmdHandler->OnReceiveCommand(event);
 }
 
-void AudacityApp::OnKeyDown(wxKeyEvent &event)
+void ReeeKorderApp::OnKeyDown(wxKeyEvent &event)
 {
    if(event.GetKeyCode() == WXK_ESCAPE) {
       // Stop play, including scrub, but not record
@@ -1653,7 +1653,7 @@ void SetToExtantDirectory( wxString & result, const wxString & dir ){
       result = dir;
 }
 
-bool AudacityApp::InitTempDir()
+bool ReeeKorderApp::InitTempDir()
 {
    // We need to find a temp directory location.
    auto tempFromPrefs = TempDirectory::TempDir();
@@ -1695,11 +1695,11 @@ bool AudacityApp::InitTempDir()
    if (temp.empty()) {
       // Failed
       if( !TempDirectory::IsTempDirectoryNameOK( tempFromPrefs ) ) {
-         AudacityMessageBox(XO(
-"Audacity could not find a safe place to store temporary files.\nAudacity needs a place where automatic cleanup programs won't delete the temporary files.\nPlease enter an appropriate directory in the preferences dialog."));
+         ReeeKorderMessageBox(XO(
+"ReeeKorder could not find a safe place to store temporary files.\nReeeKorder needs a place where automatic cleanup programs won't delete the temporary files.\nPlease enter an appropriate directory in the preferences dialog."));
       } else {
-         AudacityMessageBox(XO(
-"Audacity could not find a place to store temporary files.\nPlease enter an appropriate directory in the preferences dialog."));
+         ReeeKorderMessageBox(XO(
+"ReeeKorder could not find a place to store temporary files.\nPlease enter an appropriate directory in the preferences dialog."));
       }
 
       // Only want one page of the preferences
@@ -1708,8 +1708,8 @@ bool AudacityApp::InitTempDir()
       GlobalPrefsDialog dialog(nullptr, nullptr, factories);
       dialog.ShowModal();
 
-      AudacityMessageBox(XO(
-"Audacity is now going to exit. Please launch Audacity again to use the new temporary directory."));
+      ReeeKorderMessageBox(XO(
+"ReeeKorder is now going to exit. Please launch ReeeKorder again to use the new temporary directory."));
       return false;
    }
 
@@ -1727,16 +1727,16 @@ bool AudacityApp::InitTempDir()
 
 #if defined(__WXMSW__)
 
-// Return true if there are no other instances of Audacity running,
+// Return true if there are no other instances of ReeeKorder running,
 // false otherwise.
 
-bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
+bool ReeeKorderApp::CreateSingleInstanceChecker(const wxString &dir)
 {
-   wxString name = wxString::Format(wxT("audacity-lock-%s"), wxGetUserId());
+   wxString name = wxString::Format(wxT("reeekorder-lock-%s"), wxGetUserId());
    mChecker.reset();
    auto checker = std::make_unique<wxSingleInstanceChecker>();
 
-   auto runningTwoCopiesStr = XO("Running two copies of Audacity simultaneously may cause\ndata loss or cause your system to crash.\n\n");
+   auto runningTwoCopiesStr = XO("Running two copies of ReeeKorder simultaneously may cause\ndata loss or cause your system to crash.\n\n");
 
    if (!checker->Create(name, dir))
    {
@@ -1744,10 +1744,10 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       // whether there is another instance running or not.
 
       auto prompt = XO(
-"Audacity was not able to lock the temporary files directory.\nThis folder may be in use by another copy of Audacity.\n")
+"ReeeKorder was not able to lock the temporary files directory.\nThis folder may be in use by another copy of ReeeKorder.\n")
          + runningTwoCopiesStr
-         + XO("Do you still want to start Audacity?");
-      int action = AudacityMessageBox(
+         + XO("Do you still want to start ReeeKorder?");
+      int action = ReeeKorderMessageBox(
          prompt,
          XO("Error Locking Temporary Folder"),
          wxYES_NO | wxICON_EXCLAMATION, NULL);
@@ -1766,7 +1766,7 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
 
       if (parser->Found(wxT("v")))
       {
-         wxPrintf("Audacity v%s\n", AUDACITY_VERSION_STRING);
+         wxPrintf("ReeeKorder v%s\n", AUDACITY_VERSION_STRING);
          return false;
       }
 
@@ -1783,9 +1783,9 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       }
 
       // On Windows, we attempt to make a connection
-      // to an already active Audacity.  If successful, we send
+      // to an already active ReeeKorder.  If successful, we send
       // the first command line argument (the audio file name)
-      // to that Audacity for processing.
+      // to that ReeeKorder for processing.
       wxClient client;
 
       // We try up to 50 times since there's a small window
@@ -1805,7 +1805,7 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
             }
             else
             {
-               // Send an empty string to force existing Audacity to front
+               // Send an empty string to force existing ReeeKorder to front
                ok = conn->Execute(wxEmptyString);
             }
 
@@ -1815,15 +1815,15 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
 
          wxMilliSleep(10);
       }
-      // There is another copy of Audacity running.  Force quit.
+      // There is another copy of ReeeKorder running.  Force quit.
 
       auto prompt =  XO(
-"The system has detected that another copy of Audacity is running.\n")
+"The system has detected that another copy of ReeeKorder is running.\n")
          + runningTwoCopiesStr
          + XO(
-"Use the New or Open commands in the currently running Audacity\nprocess to open multiple projects simultaneously.\n");
-      AudacityMessageBox(
-         prompt, XO("Audacity is already running"),
+"Use the New or Open commands in the currently running ReeeKorder\nprocess to open multiple projects simultaneously.\n");
+      ReeeKorderMessageBox(
+         prompt, XO("ReeeKorder is already running"),
          wxOK | wxICON_ERROR);
 
       return false;
@@ -1842,10 +1842,10 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
 #include <sys/sem.h>
 #include <sys/shm.h>
 
-// Return true if there are no other instances of Audacity running,
+// Return true if there are no other instances of ReeeKorder running,
 // false otherwise.
 
-bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
+bool ReeeKorderApp::CreateSingleInstanceChecker(const wxString &dir)
 {
    mIPCServ.reset();
 
@@ -1873,7 +1873,7 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
    int lockid = semget(lockkey, 1, IPC_CREAT | IPC_EXCL | S_IRUSR | S_IWUSR);
 
    // If the LOCK semaphore was successfully created, then this is the first
-   // time Audacity has been run during this boot of the system. In this
+   // time ReeeKorder has been run during this boot of the system. In this
    // case we know we'll become the "server" application, so set up the
    // semaphores to prepare for it.
    if (lockid != -1)
@@ -1893,11 +1893,11 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       op.sem_flg = SEM_UNDO;
       if (semop(lockid, &op, 1) == -1 || semop(servid, &op, 1) == -1)
       {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("Unable to acquire semaphores.\n\n"
                "This is likely due to a resource shortage\n"
                "and a reboot may be required."),
-            XO("Audacity Startup Failure"),
+            XO("ReeeKorder Startup Failure"),
             wxOK | wxICON_ERROR);
 
          return false;
@@ -1909,11 +1909,11 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
    // Something catastrophic must have happened, so bail.
    else if (errno != EEXIST)
    {
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO("Unable to create semaphores.\n\n"
             "This is likely due to a resource shortage\n"
             "and a reboot may be required."),
-         XO("Audacity Startup Failure"),
+         XO("ReeeKorder Startup Failure"),
          wxOK | wxICON_ERROR);
 
       return false;
@@ -1932,11 +1932,11 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       op.sem_flg = SEM_UNDO;
       if (semop(lockid, &op, 1) == -1)
       {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("Unable to acquire lock semaphore.\n\n"
                "This is likely due to a resource shortage\n"
                "and a reboot may be required."),
-            XO("Audacity Startup Failure"),
+            XO("ReeeKorder Startup Failure"),
             wxOK | wxICON_ERROR);
 
          return false;
@@ -1954,11 +1954,11 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       }
       else if (errno != EAGAIN)
       {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("Unable to acquire server semaphore.\n\n"
                "This is likely due to a resource shortage\n"
                "and a reboot may be required."),
-            XO("Audacity Startup Failure"),
+            XO("ReeeKorder Startup Failure"),
             wxOK | wxICON_ERROR);
 
          return false;
@@ -1997,11 +1997,11 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       // Bail if the server creation failed.
       if (mIPCServ == nullptr)
       {
-         AudacityMessageBox(
-            XO("The Audacity IPC server failed to initialize.\n\n"
+         ReeeKorderMessageBox(
+            XO("The ReeeKorder IPC server failed to initialize.\n\n"
                "This is likely due to a resource shortage\n"
                "and a reboot may be required."),
-            XO("Audacity Startup Failure"),
+            XO("ReeeKorder Startup Failure"),
             wxOK | wxICON_ERROR);
 
          return false;
@@ -2020,7 +2020,7 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
    op.sem_op = 1;
    semop(lockid, &op, 1);
 
-   // If we get here, then Audacity is currently active. So, we connect
+   // If we get here, then ReeeKorder is currently active. So, we connect
    // to it and we forward all filenames listed on the command line to
    // the active process.
 
@@ -2031,16 +2031,16 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
    Destroy_ptr<wxSocketClient> sock { safenew wxSocketClient() };
    sock->SetFlags(wxSOCKET_WAITALL);
 
-   // Attempt to connect to an active Audacity.
+   // Attempt to connect to an active ReeeKorder.
    sock->Connect(addr, true);
    if (!sock->IsConnected())
    {
       // All attempts to become the server or connect to one have failed.  Not
       // sure what we can say about the error, but it's probably not because
-      // Audacity is already running.
-      AudacityMessageBox(
+      // ReeeKorder is already running.
+      ReeeKorderMessageBox(
          XO("An unrecoverable error has occurred during startup"),
-         XO("Audacity Startup Failure"),
+         XO("ReeeKorder Startup Failure"),
          wxOK | wxICON_ERROR);
 
       return false;
@@ -2055,17 +2055,17 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       return false;
    }
 
-   // Display Audacity's version if requested
+   // Display ReeeKorder's version if requested
    if (parser->Found(wxT("v")))
    {
-      wxPrintf("Audacity v%s\n", AUDACITY_VERSION_STRING);
+      wxPrintf("ReeeKorder v%s\n", AUDACITY_VERSION_STRING);
 
       return false;
    }
 
 #if defined(__WXMAC__)
    // On macOS the client gets events from the wxWidgets framework that
-   // go to AudacityApp::MacOpenFile. Forward the file names to the prior
+   // go to ReeeKorderApp::MacOpenFile. Forward the file names to the prior
    // instance via the socket.
    for (const auto &filename: ofqueue)
    {
@@ -2086,7 +2086,7 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
       }
    }
 
-   // Send an empty string to force existing Audacity to front
+   // Send an empty string to force existing ReeeKorder to front
    sock->WriteMsg(wxEmptyString, sizeof(wxChar));
 
    // We've forwarded all of the filenames, so let the caller know
@@ -2094,7 +2094,7 @@ bool AudacityApp::CreateSingleInstanceChecker(const wxString &dir)
    return false;
 }
 
-void AudacityApp::OnServerEvent(wxSocketEvent & /* evt */)
+void ReeeKorderApp::OnServerEvent(wxSocketEvent & /* evt */)
 {
    wxSocketBase *sock;
 
@@ -2112,7 +2112,7 @@ void AudacityApp::OnServerEvent(wxSocketEvent & /* evt */)
    } while (sock);
 }
 
-void AudacityApp::OnSocketEvent(wxSocketEvent & evt)
+void ReeeKorderApp::OnSocketEvent(wxSocketEvent & evt)
 {
    wxSocketBase *sock = evt.GetSocket();
 
@@ -2135,7 +2135,7 @@ void AudacityApp::OnSocketEvent(wxSocketEvent & evt)
 
 #endif
 
-std::unique_ptr<wxCmdLineParser> AudacityApp::ParseCommandLine()
+std::unique_ptr<wxCmdLineParser> ReeeKorderApp::ParseCommandLine()
 {
    auto parser = std::make_unique<wxCmdLineParser>(argc, argv);
    if (!parser)
@@ -2143,7 +2143,7 @@ std::unique_ptr<wxCmdLineParser> AudacityApp::ParseCommandLine()
       return nullptr;
    }
 
-   /*i18n-hint: This controls the number of bytes that Audacity will
+   /*i18n-hint: This controls the number of bytes that ReeeKorder will
     *           use when writing files to the disk */
    parser->AddOption(wxT("b"), wxT("blocksize"), _("set max disk block size in bytes"),
                      wxCMD_LINE_VAL_NUMBER);
@@ -2152,13 +2152,13 @@ std::unique_ptr<wxCmdLineParser> AudacityApp::ParseCommandLine()
    parser->AddSwitch(wxT("h"), wxT("help"), _("this help message"),
                      wxCMD_LINE_OPTION_HELP);
 
-   /*i18n-hint: This runs a set of automatic tests on Audacity itself */
+   /*i18n-hint: This runs a set of automatic tests on ReeeKorder itself */
    parser->AddSwitch(wxT("t"), wxT("test"), _("run self diagnostics"));
 
-   /*i18n-hint: This displays the Audacity version */
-   parser->AddSwitch(wxT("v"), wxT("version"), _("display Audacity version"));
+   /*i18n-hint: This displays the ReeeKorder version */
+   parser->AddSwitch(wxT("v"), wxT("version"), _("display ReeeKorder version"));
 
-   /*i18n-hint: This is a list of one or more files that Audacity
+   /*i18n-hint: This is a list of one or more files that ReeeKorder
     *           should open upon startup */
    parser->AddParam(_("audio or project file name"),
                     wxCMD_LINE_VAL_STRING,
@@ -2171,7 +2171,7 @@ std::unique_ptr<wxCmdLineParser> AudacityApp::ParseCommandLine()
    return{};
 }
 
-void AudacityApp::OnQueryEndSession(wxCloseEvent & event)
+void ReeeKorderApp::OnQueryEndSession(wxCloseEvent & event)
 {
    bool mustVeto = false;
 
@@ -2185,7 +2185,7 @@ void AudacityApp::OnQueryEndSession(wxCloseEvent & event)
       OnEndSession(event);
 }
 
-void AudacityApp::OnEndSession(wxCloseEvent & event)
+void ReeeKorderApp::OnEndSession(wxCloseEvent & event)
 {
    bool force = !event.CanVeto();
 
@@ -2204,7 +2204,7 @@ void AudacityApp::OnEndSession(wxCloseEvent & event)
    }
 }
 
-int AudacityApp::OnExit()
+int ReeeKorderApp::OnExit()
 {
    gIsQuitting = true;
    while(Pending())
@@ -2237,7 +2237,7 @@ int AudacityApp::OnExit()
    DeinitFFT();
 
 #ifdef HAS_NETWORKING
-   audacity::network_manager::NetworkManager::GetInstance().Terminate();
+   reeekorder::network_manager::NetworkManager::GetInstance().Terminate();
 #endif
 
    AudioIO::Deinit();
@@ -2260,7 +2260,7 @@ int AudacityApp::OnExit()
 // and skip the event unless none are open (which should only happen
 // on the Mac, at least currently.)
 
-void AudacityApp::OnMenuAbout(wxCommandEvent & /*event*/)
+void ReeeKorderApp::OnMenuAbout(wxCommandEvent & /*event*/)
 {
    // This function shadows a similar function
    // in Menus.cpp, but should only be used on the Mac platform.
@@ -2278,7 +2278,7 @@ void AudacityApp::OnMenuAbout(wxCommandEvent & /*event*/)
 #endif
 }
 
-void AudacityApp::OnMenuNew(wxCommandEvent & event)
+void ReeeKorderApp::OnMenuNew(wxCommandEvent & event)
 {
    // This function shadows a similar function
    // in Menus.cpp, but should only be used on the Mac platform
@@ -2293,7 +2293,7 @@ void AudacityApp::OnMenuNew(wxCommandEvent & event)
 }
 
 
-void AudacityApp::OnMenuOpen(wxCommandEvent & event)
+void ReeeKorderApp::OnMenuOpen(wxCommandEvent & event)
 {
    // This function shadows a similar function
    // in Menus.cpp, but should only be used on the Mac platform
@@ -2310,7 +2310,7 @@ void AudacityApp::OnMenuOpen(wxCommandEvent & event)
 
 }
 
-void AudacityApp::OnMenuPreferences(wxCommandEvent & event)
+void ReeeKorderApp::OnMenuPreferences(wxCommandEvent & event)
 {
    // This function shadows a similar function
    // in Menus.cpp, but should only be used on the Mac platform
@@ -2327,7 +2327,7 @@ void AudacityApp::OnMenuPreferences(wxCommandEvent & event)
 
 }
 
-void AudacityApp::OnMenuExit(wxCommandEvent & event)
+void ReeeKorderApp::OnMenuExit(wxCommandEvent & event)
 {
    // This function shadows a similar function
    // in Menus.cpp, but should only be used on the Mac platform
@@ -2337,7 +2337,7 @@ void AudacityApp::OnMenuExit(wxCommandEvent & event)
 
    // LL:  Removed "if" to allow closing based on final project count.
    // if(AllProjects{}.empty())
-      QuitAudacity();
+      QuitReeeKorder();
 
    // LL:  Veto quit if projects are still open.  This can happen
    //      if the user selected Cancel in a Save dialog.
@@ -2345,7 +2345,7 @@ void AudacityApp::OnMenuExit(wxCommandEvent & event)
 
 }
 
-//BG: On Windows, associate the aup file type with Audacity
+//BG: On Windows, associate the aup file type with ReeeKorder
 /* We do this in the Windows installer now,
    to avoid issues where user doesn't have admin privileges, but
    in case that didn't work, allow the user to decide at startup.
@@ -2354,7 +2354,7 @@ void AudacityApp::OnMenuExit(wxCommandEvent & event)
    //      if people want to manually change associations.
 */
 #if defined(__WXMSW__) && !defined(__WXUNIVERSAL__) && !defined(__CYGWIN__)
-void AudacityApp::AssociateFileTypes()
+void ReeeKorderApp::AssociateFileTypes()
 {
    // Check pref in case user has already decided against it.
    bool bWantAssociateFiles = true;
@@ -2400,14 +2400,14 @@ void AudacityApp::AssociateFileTypes()
 
       if (!root_key.empty())
       {
-         associateFileTypes = wxT("Audacity.Project"); // Finally set value for the key
+         associateFileTypes = wxT("ReeeKorder.Project"); // Finally set value for the key
       }
 
       return root_key;
    };
 
    // Check for legacy and UP types
-   if (IsDefined(wxT(".aup3")) && IsDefined(wxT(".aup")) && IsDefined(wxT("Audacity.Project")))
+   if (IsDefined(wxT(".aup3")) && IsDefined(wxT(".aup")) && IsDefined(wxT("ReeeKorder.Project")))
    {
       // Already defined, so bail
       return;
@@ -2415,10 +2415,10 @@ void AudacityApp::AssociateFileTypes()
 
    // File types are not currently associated.
    int wantAssoc =
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO(
-"Audacity project (.aup3) files are not currently \nassociated with Audacity. \n\nAssociate them, so they open on double-click?"),
-         XO("Audacity Project Files"),
+"ReeeKorder project (.aup3) files are not currently \nassociated with ReeeKorder. \n\nAssociate them, so they open on double-click?"),
+         XO("ReeeKorder Project Files"),
          wxYES_NO | wxICON_QUESTION);
 
    if (wantAssoc == wxNO)
@@ -2444,28 +2444,28 @@ void AudacityApp::AssociateFileTypes()
    {
       DefineType(wxT(".aup"));
 
-      associateFileTypes = wxT("Audacity.Project"); // Finally set value for .AUP key
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project"));
+      associateFileTypes = wxT("ReeeKorder.Project"); // Finally set value for .AUP key
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project"));
       if (!associateFileTypes.Exists())
       {
          associateFileTypes.Create(true);
-         associateFileTypes = wxT("Audacity Project File");
+         associateFileTypes = wxT("ReeeKorder Project File");
       }
 
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project\\shell"));
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project\\shell"));
       if (!associateFileTypes.Exists())
       {
          associateFileTypes.Create(true);
          associateFileTypes = wxT("");
       }
 
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project\\shell\\open"));
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project\\shell\\open"));
       if (!associateFileTypes.Exists())
       {
          associateFileTypes.Create(true);
       }
 
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project\\shell\\open\\command"));
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project\\shell\\open\\command"));
       wxString tmpRegAudPath;
       if(associateFileTypes.Exists())
       {
@@ -2473,7 +2473,7 @@ void AudacityApp::AssociateFileTypes()
       }
 
       if (!associateFileTypes.Exists() ||
-            (tmpRegAudPath.Find(wxT("audacity.exe")) >= 0))
+            (tmpRegAudPath.Find(wxT("reeekorder.exe")) >= 0))
       {
          associateFileTypes.Create(true);
          associateFileTypes = (wxString)argv[0] + (wxString)wxT(" \"%1\"");
@@ -2483,21 +2483,21 @@ void AudacityApp::AssociateFileTypes()
       // These can be use later to support more startup messages
       // like maybe "Import into existing project" or some such.
       // Leaving here for an example...
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project\\shell\\open\\ddeexec"));
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project\\shell\\open\\ddeexec"));
       if (!associateFileTypes.Exists())
       {
          associateFileTypes.Create(true);
          associateFileTypes = wxT("%1");
       }
 
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project\\shell\\open\\ddeexec\\Application"));
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project\\shell\\open\\ddeexec\\Application"));
       if (!associateFileTypes.Exists())
       {
          associateFileTypes.Create(true);
          associateFileTypes = IPC_APPL;
       }
 
-      associateFileTypes.SetName(root_key + wxT("Audacity.Project\\shell\\open\\ddeexec\\Topic"));
+      associateFileTypes.SetName(root_key + wxT("ReeeKorder.Project\\shell\\open\\ddeexec\\Topic"));
       if (!associateFileTypes.Exists())
       {
          associateFileTypes.Create(true);

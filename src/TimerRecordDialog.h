@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   TimerRecordDialog.h
 
@@ -50,13 +50,13 @@ enum {
 #endif
 };
 
-class AudacityProject;
+class ReeeKorderProject;
 
 class TimerRecordDialog final : public wxDialogWrapper
 {
 public:
    TimerRecordDialog(
-      wxWindow* parent, AudacityProject &project, bool bAlreadySaved);
+      wxWindow* parent, ReeeKorderProject &project, bool bAlreadySaved);
    ~TimerRecordDialog();
 
    void OnTimer(wxTimerEvent& event);
@@ -103,7 +103,7 @@ private:
    ProgressResult PreActionDelay(int iActionIndex, TimerRecordCompletedActions eCompletedActions);
 
 private:
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
    wxDateTime m_DateTime_Start;
    wxDateTime m_DateTime_End;

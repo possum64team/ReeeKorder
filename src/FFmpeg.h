@@ -1,10 +1,10 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 FFmpeg.h
 
-Audacity(R) is copyright (c) 1999-2009 Audacity Team.
+ReeeKorder(R) is copyright (c) 1999-2009 ReeeKorder Team.
 License: GPL v2.  See License.txt.
 
 ******************************************************************//**
@@ -177,7 +177,7 @@ void FFmpegStartup();
 bool LoadFFmpeg(bool showerror);
 
 
-/// If Audacity failed to load libav*, this dialog
+/// If ReeeKorder failed to load libav*, this dialog
 /// shows up and tells user about that. It will pop-up
 /// again and again until it is disabled.
 class FFmpegNotFoundDialog final : public wxDialogWrapper
@@ -251,7 +251,7 @@ public:
 
    wxString GetLibAVFormatPath()
    {
-      wxRegKey reg(wxT("HKEY_LOCAL_MACHINE\\Software\\FFmpeg for Audacity"));
+      wxRegKey reg(wxT("HKEY_LOCAL_MACHINE\\Software\\FFmpeg for ReeeKorder"));
       wxString path;
 
       if (reg.Exists()) {
@@ -1004,7 +1004,7 @@ template<typename T> using AVMallocHolder = std::unique_ptr<
 
 struct streamContext
 {
-   bool                 m_use{};                           // TRUE = this stream will be loaded into Audacity
+   bool                 m_use{};                           // TRUE = this stream will be loaded into ReeeKorder
    AVStream            *m_stream{};                        // an AVStream *
    AVCodecContext      *m_codecCtx{};                      // pointer to m_stream->codec
 

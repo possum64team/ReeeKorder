@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectSelectionManager.cpp
 
@@ -24,27 +24,27 @@ Paul Licameli split from ProjectManager.cpp
 #include "toolbars/SpectralSelectionBar.h"
 #include "toolbars/TimeToolBar.h"
 
-static AudacityProject::AttachedObjects::RegisteredFactory
+static ReeeKorderProject::AttachedObjects::RegisteredFactory
 sProjectSelectionManagerKey {
-   []( AudacityProject &project ) {
+   []( ReeeKorderProject &project ) {
       return std::make_shared< ProjectSelectionManager >( project );
    }
 };
 
 ProjectSelectionManager &ProjectSelectionManager::Get(
-   AudacityProject &project )
+   ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectSelectionManager >(
       sProjectSelectionManagerKey );
 }
 
 const ProjectSelectionManager &ProjectSelectionManager::Get(
-   const AudacityProject &project )
+   const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
-ProjectSelectionManager::ProjectSelectionManager( AudacityProject &project )
+ProjectSelectionManager::ProjectSelectionManager( ReeeKorderProject &project )
    : mProject{ project }
 {
 }

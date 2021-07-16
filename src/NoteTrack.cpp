@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   NoteTrack.cpp
 
@@ -111,7 +111,7 @@ SONFNS(AutoSave)
 
 static ProjectFileIORegistry::Entry registerFactory{
    wxT( "notetrack" ),
-   []( AudacityProject &project ){
+   []( ReeeKorderProject &project ){
       auto &tracks = TrackList::Get( project );
       auto result = tracks.Add( std::make_shared<NoteTrack>());
       TrackView::Get( *result );
@@ -289,7 +289,7 @@ void NoteTrack::DrawLabelControls
                AColor::MIDIChannel(&dc, chanName);
             dc.DrawRectangle(box);
 // two choices: channel is enabled (to see and play) when button is in
-// "up" position (original Audacity style) or in "down" position
+// "up" position (original ReeeKorder style) or in "down" position
 //
 #define CHANNEL_ON_IS_DOWN 1
 #if CHANNEL_ON_IS_DOWN
@@ -685,7 +685,7 @@ QuantizedTimeAndBeat NoteTrack::NearestBeatTime( double time ) const
    return { seq_time + GetOffset(), beat };
 }
 
-Track::Holder NoteTrack::PasteInto( AudacityProject & ) const
+Track::Holder NoteTrack::PasteInto( ReeeKorderProject & ) const
 {
    auto pNewTrack = std::make_shared<NoteTrack>();
    pNewTrack->Paste(0.0, this);

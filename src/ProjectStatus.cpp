@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectStatus.h
 
@@ -14,23 +14,23 @@ Paul Licameli
 
 wxDEFINE_EVENT(EVT_PROJECT_STATUS_UPDATE, wxCommandEvent);
 
-static const AudacityProject::AttachedObjects::RegisteredFactory key{
-  []( AudacityProject &parent ){
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory key{
+  []( ReeeKorderProject &parent ){
      return std::make_shared< ProjectStatus >( parent );
    }
 };
 
-ProjectStatus &ProjectStatus::Get( AudacityProject &project )
+ProjectStatus &ProjectStatus::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectStatus >( key );
 }
 
-const ProjectStatus &ProjectStatus::Get( const AudacityProject &project )
+const ProjectStatus &ProjectStatus::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
-ProjectStatus::ProjectStatus( AudacityProject &project )
+ProjectStatus::ProjectStatus( ReeeKorderProject &project )
    : mProject{ project }
 {
 }

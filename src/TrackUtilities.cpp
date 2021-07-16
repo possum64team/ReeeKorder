@@ -1,6 +1,6 @@
 /**********************************************************************
  
- Audacity: A Digital Audio Editor
+ ReeeKorder: A Digital Audio Editor
  
  TrackUtilities.cpp
  
@@ -19,7 +19,7 @@
 
 namespace TrackUtilities {
 
-void DoRemoveTracks( AudacityProject &project )
+void DoRemoveTracks( ReeeKorderProject &project )
 {
    auto &tracks = TrackList::Get( project );
    auto &trackPanel = TrackPanel::Get( project );
@@ -61,7 +61,7 @@ void DoRemoveTracks( AudacityProject &project )
    trackPanel.UpdateViewIfNoTracks();
 }
 
-void DoTrackMute(AudacityProject &project, Track *t, bool exclusive)
+void DoTrackMute(ReeeKorderProject &project, Track *t, bool exclusive)
 {
    const auto &settings = ProjectSettings::Get( project );
    auto &tracks = TrackList::Get( project );
@@ -109,7 +109,7 @@ void DoTrackMute(AudacityProject &project, Track *t, bool exclusive)
    TrackFocus::Get( project ).UpdateAccessibility();
 }
 
-void DoTrackSolo(AudacityProject &project, Track *t, bool exclusive)
+void DoTrackSolo(ReeeKorderProject &project, Track *t, bool exclusive)
 {
    const auto &settings = ProjectSettings::Get( project );
    auto &tracks = TrackList::Get( project );
@@ -160,7 +160,7 @@ void DoTrackSolo(AudacityProject &project, Track *t, bool exclusive)
    TrackFocus::Get( project ).UpdateAccessibility();
 }
 
-void DoRemoveTrack(AudacityProject &project, Track * toRemove)
+void DoRemoveTrack(ReeeKorderProject &project, Track * toRemove)
 {
    auto &tracks = TrackList::Get( project );
    auto &trackFocus = TrackFocus::Get( project );
@@ -196,7 +196,7 @@ void DoRemoveTrack(AudacityProject &project, Track * toRemove)
 }
 
 void DoMoveTrack
-(AudacityProject &project, Track* target, MoveChoice choice)
+(ReeeKorderProject &project, Track* target, MoveChoice choice)
 {
    auto &tracks = TrackList::Get( project );
 

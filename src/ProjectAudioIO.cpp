@@ -1,10 +1,10 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectAudioIO.cpp
 
-Paul Licameli split from AudacityProject.cpp
+Paul Licameli split from ReeeKorderProject.cpp
 
 **********************************************************************/
 
@@ -14,23 +14,23 @@ Paul Licameli split from AudacityProject.cpp
 #include "Project.h"
 #include "widgets/MeterPanelBase.h"
 
-static const AudacityProject::AttachedObjects::RegisteredFactory sAudioIOKey{
-  []( AudacityProject &parent ){
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory sAudioIOKey{
+  []( ReeeKorderProject &parent ){
      return std::make_shared< ProjectAudioIO >( parent );
    }
 };
 
-ProjectAudioIO &ProjectAudioIO::Get( AudacityProject &project )
+ProjectAudioIO &ProjectAudioIO::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectAudioIO >( sAudioIOKey );
 }
 
-const ProjectAudioIO &ProjectAudioIO::Get( const AudacityProject &project )
+const ProjectAudioIO &ProjectAudioIO::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast<AudacityProject &>(project) );
+   return Get( const_cast<ReeeKorderProject &>(project) );
 }
 
-ProjectAudioIO::ProjectAudioIO( AudacityProject &project )
+ProjectAudioIO::ProjectAudioIO( ReeeKorderProject &project )
 : mProject{ project }
 {
 }

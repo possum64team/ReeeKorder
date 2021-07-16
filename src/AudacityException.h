@@ -3,10 +3,10 @@
 
 /*!********************************************************************
 
- Audacity: A Digital Audio Editor
+ ReeeKorder: A Digital Audio Editor
 
- @file AudacityException.h
- @brief Declare abstract class AudacityException, some often-used subclasses, and @ref GuardedCall
+ @file ReeeKorderException.h
+ @brief Declare abstract class ReeeKorderException, some often-used subclasses, and @ref GuardedCall
 
  Paul Licameli
  **********************************************************************/
@@ -20,7 +20,7 @@
 //! A type of an exception
 enum class ExceptionType
 {
-    Internal, //!< Indicates internal failure from Audacity.
+    Internal, //!< Indicates internal failure from ReeeKorder.
     BadUserAction, //!< Indicates that the user performed an action that is not allowed.
     BadEnvironment, //!< Indicates problems with environment, such as a full disk
 };
@@ -29,35 +29,35 @@ enum class ExceptionType
 /*! Objects of this type can be thrown and caught in any thread, stored, and then used by the main
  thread in later idle time to explain the error condition to the user.
  */
-class AudacityException /* not final */
+class ReeeKorderException /* not final */
 {
 public:
-   AudacityException() {}
-   virtual ~AudacityException() = 0;
+   ReeeKorderException() {}
+   virtual ~ReeeKorderException() = 0;
 
    //! Action to do in the main thread at idle time of the event loop.
    virtual void DelayedHandlerAction() = 0;
 
 protected:
    //! Make this protected to prevent slicing copies
-   AudacityException( const AudacityException& ) = default;
+   ReeeKorderException( const ReeeKorderException& ) = default;
 
    //! Don't allow moves of this class or subclasses
-   // see https://bugzilla.audacityteam.org/show_bug.cgi?id=2442
-   AudacityException( AudacityException&& ) = delete;
+   // see https://bugzilla.reeekorderteam.org/show_bug.cgi?id=2442
+   ReeeKorderException( ReeeKorderException&& ) = delete;
 
    //! Disallow assignment
-   AudacityException &operator = ( const AudacityException & ) = delete;
+   ReeeKorderException &operator = ( const ReeeKorderException & ) = delete;
 };
 
-//! Abstract AudacityException subclass displays a message, specified by further subclass
+//! Abstract ReeeKorderException subclass displays a message, specified by further subclass
 /*! At most one message will be displayed for each pass through the main event idle loop,
  no matter how many exceptions were caught. */
 class AUDACITY_DLL_API MessageBoxException /* not final */
-   : public AudacityException
+   : public ReeeKorderException
 {
    //! Privatize the inherited function
-   using AudacityException::DelayedHandlerAction;
+   using ReeeKorderException::DelayedHandlerAction;
 
    //! Do not allow subclasses to change behavior, except by overriding ErrorMessage().
    void DelayedHandlerAction() final;
@@ -118,7 +118,7 @@ private:
 //! A default template parameter for @ref GuardedCall
 struct DefaultDelayedHandlerAction
 {
-   void operator () (AudacityException *pException) const
+   void operator () (ReeeKorderException *pException) const
    {
       if ( pException )
          pException->DelayedHandlerAction();
@@ -133,7 +133,7 @@ template <typename R> struct SimpleGuard
       R value //!< The value to return from GurdedCall when an exception is handled
    )
       : m_value{ value } {}
-   R operator () ( AudacityException * ) const { return m_value; }
+   R operator () ( ReeeKorderException * ) const { return m_value; }
    const R m_value;
 };
 
@@ -144,7 +144,7 @@ template<> struct SimpleGuard<bool>
       bool value //!< The value to return from @ref GaurdedCall when an exception is handled
    )
       : m_value{ value } {}
-   bool operator () ( AudacityException * ) const { return m_value; }
+   bool operator () ( ReeeKorderException * ) const { return m_value; }
    static SimpleGuard Default()
       { return SimpleGuard{ false }; }
    const bool m_value;
@@ -154,7 +154,7 @@ template<> struct SimpleGuard<bool>
 template<> struct SimpleGuard<void>
 {
    SimpleGuard() {}
-   void operator () ( AudacityException * ) const {}
+   void operator () ( ReeeKorderException * ) const {}
    static SimpleGuard Default() { return {}; }
 };
 
@@ -172,19 +172,19 @@ inline SimpleGuard< void > MakeSimpleGuard() { return {}; }
   If there is any exception, can invoke another given function as handler, which may rethrow that or
   another exception, but usually just returns the value for the GuardedCall.
  
-  If AudacityException is handled, then it queues up a delayed handler action for execution later in
+  If ReeeKorderException is handled, then it queues up a delayed handler action for execution later in
   the event loop at idle time, on the main thread; typically this informs the user of the error.
 
-  The default delayed handler action is simply to invoke a method of the AudacityException, but this
+  The default delayed handler action is simply to invoke a method of the ReeeKorderException, but this
   too can be specified otherwise by a third function.
 
   @tparam R Return type, defaulted to void, or else the only explicit template parameter
   @tparam F1 deduced type of body function; takes no arguments, returns @b R
   @tparam F2 deduced type of handler function, or defaulted to @ref SimpleGuard<R>;
-  takes pointer to AudacityException, which is null when some other type of exception is caught;
+  takes pointer to ReeeKorderException, which is null when some other type of exception is caught;
   return value is converted to @b R
   @tparam F3 deduced type of delayed handler function, if a nondefault argument is given;
-  takes pointer to AudacityException, return value is unused
+  takes pointer to ReeeKorderException, return value is unused
  */
 template <
    typename R = void,
@@ -192,12 +192,12 @@ template <
    typename F1, // function object with signature R()
 
    typename F2 = SimpleGuard< R >, // function object
-      // with signature R( AudacityException * )
+      // with signature R( ReeeKorderException * )
 
    typename F3 =
-      DefaultDelayedHandlerAction // Any( AudacityException * ), ignore return
+      DefaultDelayedHandlerAction // Any( ReeeKorderException * ), ignore return
 >
-//! Execute some code on any thread; catch any AudacityException; enqueue error report on the main thread
+//! Execute some code on any thread; catch any ReeeKorderException; enqueue error report on the main thread
 R GuardedCall(
    const F1 &body, //!< typically a lambda
    const F2 &handler = F2::Default(), //!< default just returns false or void; see also @ref MakeSimpleGuard
@@ -205,7 +205,7 @@ R GuardedCall(
 )
 {
    try { return body(); }
-   catch ( AudacityException &e ) {
+   catch ( ReeeKorderException &e ) {
 
       auto end = finally([&]{
          // At this point, e is the "current" exception, but not "uncaught"
@@ -215,7 +215,7 @@ R GuardedCall(
             auto pException = std::current_exception(); // This points to e
             wxTheApp->CallAfter( [=] { // capture pException by value
                try { std::rethrow_exception(pException); }
-               catch( AudacityException &e )
+               catch( ReeeKorderException &e )
                   { delayedHandler( &e ); }
             } );
          }

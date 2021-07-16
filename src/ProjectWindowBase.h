@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectWindowBase.h
 
@@ -13,7 +13,7 @@ Paul Licameli split from ProjectWindow.h
 
 #include <wx/frame.h> // to inherit
 
-class AudacityProject;
+class ReeeKorderProject;
 
 ///\brief A top-level window associated with a project
 class ProjectWindowBase /* not final */ : public wxFrame
@@ -22,19 +22,19 @@ public:
    explicit ProjectWindowBase(
       wxWindow * parent, wxWindowID id,
       const wxPoint & pos, const wxSize &size,
-      AudacityProject &project );
+      ReeeKorderProject &project );
 
    ~ProjectWindowBase() override;
 
-   AudacityProject &GetProject() { return mProject; }
-   const AudacityProject &GetProject() const { return mProject; }
+   ReeeKorderProject &GetProject() { return mProject; }
+   const ReeeKorderProject &GetProject() const { return mProject; }
 
 protected:
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 };
 
-AUDACITY_DLL_API AudacityProject *FindProjectFromWindow( wxWindow *pWindow );
-const AudacityProject *FindProjectFromWindow( const wxWindow *pWindow );
+AUDACITY_DLL_API ReeeKorderProject *FindProjectFromWindow( wxWindow *pWindow );
+const ReeeKorderProject *FindProjectFromWindow( const wxWindow *pWindow );
 
 #endif
 

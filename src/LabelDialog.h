@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   LabelDialog.h
 
@@ -19,7 +19,7 @@
 
 class wxArrayString;
 class wxGridEvent;
-class AudacityProject;
+class ReeeKorderProject;
 class ChoiceEditor;
 class Grid;
 class NumericEditor;
@@ -37,7 +37,7 @@ class LabelDialog final : public wxDialogWrapper
  public:
 
    LabelDialog(wxWindow *parent,
-               AudacityProject &project,
+               ReeeKorderProject &project,
                TrackList *tracks,
 
                // if NULL edit all tracks, else this one only:
@@ -93,7 +93,7 @@ class LabelDialog final : public wxDialogWrapper
 
  private:
 
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
    Grid *mGrid;
    ChoiceEditor *mChoiceEditor;

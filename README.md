@@ -1,7 +1,7 @@
-[![Audacity](https://forum.audacityteam.org/styles/prosilver/theme/images/Audacity-logo_75px_trans_forum.png)](https://www.audacityteam.org) 
+[![ReeeKorder]()](https://www.possum64team.com) 
 =========================
 
-[**Audacity**](https://www.audacityteam.org) is an easy-to-use, multi-track audio editor and recorder for Windows, Mac OS X, GNU/Linux and other operating systems. Audacity is open source software licensed under GPL, version 2 or later.
+[**ReeeKorder**](https://www.possum64team.com) is an easy-to-use, multi-track audio editor and recorder for Windows, Mac OS X, GNU/Linux and other operating systems. ReeeKorder is open source software licensed under GPL, version 2 or later.
 
 - **Recording** from any real, or virtual audio device that is available to the host system.
 - **Export / Import** a wide range of audio formats, extendible with FFmpeg.
@@ -16,9 +16,9 @@
 
 ## Getting Started
 
-For end users, the latest Windows and macOS release version of Audacity is available from the [Audacity website](https://www.audacityteam.org/download/).
-Help with using Audacity is available from the [Audacity Forum](https://forum.audacityteam.org/).
+For end users, the latest Windows and macOS release version of ReeeKorder is available from the [ReeeKorder website](https://www.possum64team.com/download/).
+Help with using ReeeKorder is available from the [ReeeKorder Forum](https://forum.possum64team.com).
 
 Build instructions are available [here](BUILDING.md).
 
-More information for developers is available from the [Audacity Wiki](https://wiki.audacityteam.org/wiki/For_Developers).
+More information for developers is available from the [ReeeKorder Wiki](https://wiki.possum64team.com).

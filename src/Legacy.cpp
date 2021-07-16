@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Legacy.cpp
 
@@ -9,12 +9,12 @@
 *******************************************************************//*!
 
 \file Legacy.cpp
-\brief Converts old Audacity file types.  Implements
+\brief Converts old ReeeKorder file types.  Implements
 AutoRollbackRenamer.
 
-  These routines convert Audacity project files from the
+  These routines convert ReeeKorder project files from the
   0.98...1.0 format into an XML format that's compatible with
-  Audacity 1.2.0 and newer.
+  ReeeKorder 1.2.0 and newer.
 
 *//****************************************************************//**
 
@@ -40,7 +40,7 @@ On failure the old version is put back in place.
 #include <wx/string.h>
 #include <wx/textfile.h>
 
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "xml/XMLWriter.h"
 
 static bool ConvertLegacyTrack(wxTextFile *f, XMLFileWriter &xmlFile)
@@ -266,7 +266,7 @@ bool ConvertLegacyProjectFile(const wxFileName &filename)
       wxString label;
       wxString value;
 
-      if (f.GetFirstLine() != wxT("AudacityProject"))
+      if (f.GetFirstLine() != wxT("ReeeKorderProject"))
          return false;
       if (f.GetNextLine() != wxT("Version"))
          return false;
@@ -300,11 +300,11 @@ bool ConvertLegacyProjectFile(const wxFileName &filename)
       xmlFile.EndTag(wxT("audacityproject"));
       xmlFile.Commit();
 
-      ::AudacityMessageBox(
+      ::ReeeKorderMessageBox(
          XO(
 "Converted a 1.0 project file to the new format.\nThe old file has been saved as '%s'")
             .Format( xmlFile.GetBackupName() ),
-         XO("Opening Audacity Project"));
+         XO("Opening ReeeKorder Project"));
 
       return true;
    } );

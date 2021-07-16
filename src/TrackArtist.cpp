@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   TrackArtist.cpp
 
@@ -17,7 +17,7 @@
   waveforms at least it needs to cache the samples that are
   currently on-screen.
 
-<b>How Audacity Redisplay Works \n
+<b>How ReeeKorder Redisplay Works \n
  Roger Dannenberg</b> \n
 Oct 2010 \n
 

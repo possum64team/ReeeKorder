@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   AboutDialog.cpp
 
@@ -20,7 +20,7 @@ close it.
 
 \class AboutDialogCreditItem
 \brief AboutDialogCreditItem is a structure used by the AboutDialog to
-hold information about one contributor to Audacity.
+hold information about one contributor to ReeeKorder.
 
 *//********************************************************************/
 
@@ -51,9 +51,9 @@ hold information about one contributor to Audacity.
 
 // DA: Logo for About box.
 #ifdef EXPERIMENTAL_DA
-#include "../images/DarkAudacityLogoWithName.xpm"
+#include "../images/DarkReeeKorderLogoWithName.xpm"
 #else
-#include "../images/AudacityLogoWithName.xpm"
+#include "../images/ReeeKorderLogoWithName.xpm"
 #endif
 
 // Notice this is a "system include".  This is on purpose and only until
@@ -71,7 +71,7 @@ hold information about one contributor to Audacity.
 #endif
 
 #ifdef REV_LONG
-#define REV_IDENT wxString( "[[https://github.com/audacity/audacity/commit/" )+ REV_LONG + "|" + wxString( REV_LONG ).Left(6) + "]] of " +  REV_TIME 
+#define REV_IDENT wxString( "[[https://github.com/reeekorder/reeekorder/commit/" )+ REV_LONG + "|" + wxString( REV_LONG ).Left(6) + "]] of " +  REV_TIME 
 #else
 #define REV_IDENT (XO("No revision identifier was provided").Translation())
 #endif
@@ -82,58 +82,58 @@ hold information about one contributor to Audacity.
 
 // To substitute into many other translatable strings
 static const auto ProgramName =
-   //XO("Audacity");
-   Verbatim("Audacity");
+   //XO("ReeeKorder");
+   Verbatim("ReeeKorder");
 
 void AboutDialog::CreateCreditsList()
 {
    const auto sysAdminFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, system administration");
    const auto coFounderFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, co-founder and developer");
    const auto developerFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, developer");
    const auto developerAndSupprtFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, developer and support");
    const auto documentationAndSupportFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, documentation and support");
    const auto qaDocumentationAndSupportFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, QA tester, documentation and support");
    const auto documentationAndSupportFrenchFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, documentation and support, French");
    const auto qualityAssuranceFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, quality assurance");
    const auto accessibilityAdvisorFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, accessibility advisor");
    const auto graphicArtistFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, graphic artist");
    const auto composerFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, composer");
    const auto testerFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, tester");
    const auto NyquistPluginsFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, Nyquist plug-ins");
    const auto webDeveloperFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, web developer");
    const auto graphicsFormat =
-   /* i18n-hint: For "About Audacity..." credits, substituting a person's proper name */
+   /* i18n-hint: For "About ReeeKorder..." credits, substituting a person's proper name */
       XO("%s, graphics");
 
-   // The Audacity Team: developers and support
+   // The ReeeKorder Team: developers and support
    AddCredit(wxT("Anton Gerasimov"), developerFormat, roleTeamMember);
    AddCredit(wxT("Jouni Helminen"), roleTeamMember);
    AddCredit(wxT("Peter Jonas"), developerFormat, roleTeamMember);
@@ -147,7 +147,7 @@ void AboutDialog::CreateCreditsList()
    // otherwise distinguished contribution, but who are no
    // longer active.
    AddCredit(
-      wxT("[[https://wiki.audacityteam.org/wiki/User:Galeandrews|Gale Andrews]]"),
+      wxT("[[https://wiki.reeekorderteam.org/wiki/User:Galeandrews|Gale Andrews]]"),
       qualityAssuranceFormat, roleEmeritusTeam);
    AddCredit(wxT("Richard Ash"), developerFormat, roleEmeritusTeam);
    AddCredit(wxT("Christian Brochec"),
@@ -316,7 +316,7 @@ AboutDialog::AboutDialog(wxWindow * parent)
    ShuttleGui S( this, eIsCreating );
    S.StartNotebook();
    {
-      PopulateAudacityPage( S );
+      PopulateReeeKorderPage( S );
       PopulateInformationPage( S );
       PopulateLicensePage( S );
    }
@@ -333,7 +333,7 @@ AboutDialog::AboutDialog(wxWindow * parent)
 
 #define ABOUT_DIALOG_WIDTH 506
 
-void AboutDialog::PopulateAudacityPage( ShuttleGui & S )
+void AboutDialog::PopulateReeeKorderPage( ShuttleGui & S )
 {
    CreateCreditsList();
 
@@ -341,8 +341,8 @@ void AboutDialog::PopulateAudacityPage( ShuttleGui & S )
 // DA: Says that it is a customised version.
 #ifdef EXPERIMENTAL_DA
       wxT(
-"Audacity, which this is a customised version of, is a free program written by a worldwide team of [[https://www.audacityteam.org/about/credits|volunteers]]. \
-Audacity is [[https://www.audacityteam.org/download|available]] for Windows, Mac, and GNU/Linux (and other Unix-like systems).")
+"ReeeKorder, which this is a customised version of, is a free program written by a worldwide team of [[https://www.reeekorderteam.org/about/credits|volunteers]]. \
+ReeeKorder is [[https://www.reeekorderteam.org/download|available]] for Windows, Mac, and GNU/Linux (and other Unix-like systems).")
 #else
 /* Do the i18n of a string with markup carefully with hints.
  (Remember languages with cases.) */
@@ -353,12 +353,12 @@ Audacity is [[https://www.audacityteam.org/download|available]] for Windows, Mac
 %s is %s for Windows, Mac, and GNU/Linux (and other Unix-like systems).")
          .Format(
             ProgramName,
-            Verbatim("[[https://www.audacityteam.org/about/credits|%s]]")
+            Verbatim("[[https://www.reeekorderteam.org/about/credits|%s]]")
                /* i18n-hint: substitutes into "a worldwide team of %s" */
                .Format( XO("volunteers") ),
             ProgramName,
-            Verbatim("[[https://www.audacityteam.org/download|%s]]")
-               /* i18n-hint: substitutes into "Audacity is %s" */
+            Verbatim("[[https://www.reeekorderteam.org/download|%s]]")
+               /* i18n-hint: substitutes into "ReeeKorder is %s" */
                .Format( XO("available") ) )
 #endif
    ;
@@ -371,13 +371,13 @@ Audacity is [[https://www.audacityteam.org/download|available]] for Windows, Mac
 For help, view the tips and tricks on our %s or \
 visit our %s.")
       .Format(
-         Verbatim("[[https://forum.audacityteam.org/|%s]]")
+         Verbatim("[[https://forum.reeekorderteam.org/|%s]]")
             /* i18n-hint substitutes into "write to our %s" */
             .Format( XC("forum", "dative") ),
-         Verbatim("[[https://wiki.audacityteam.org/|%s]]")
+         Verbatim("[[https://wiki.reeekorderteam.org/|%s]]")
             /* i18n-hint substitutes into "view the tips and tricks on our %s" */
             .Format( XO("wiki") ),
-         Verbatim("[[https://forum.audacityteam.org/|%s]]")
+         Verbatim("[[https://forum.reeekorderteam.org/|%s]]")
             /* i18n-hint substitutes into "visit our %s" */
             .Format( XC("forum", "accusative") ) );
    auto par2StrTranslated = par2Str.Translation();
@@ -386,7 +386,7 @@ visit our %s.")
       par2StrTranslated.Replace( wxT(", in English,"), wxT("") );
 
    /* i18n-hint: The translation of "translator_credits" will appear
-    *  in the credits in the About Audacity window.  Use this to add
+    *  in the credits in the About ReeeKorder window.  Use this to add
     *  your own name(s) to the credits.
     *
     *  For example:  "English translation by Dominic Mazzoni." */
@@ -406,13 +406,13 @@ visit our %s.")
 #ifdef EXPERIMENTAL_DA
       #undef _
       #define _(s) wxGetTranslation((s))
-      << wxT("<h3>DarkAudacity ")
+      << wxT("<h3>DarkReeeKorder ")
       << wxString(AUDACITY_VERSION_STRING)
       << wxT("</center></h3>")
-      << wxT("Customised version of the Audacity free, open source, cross-platform software " )
+      << wxT("Customised version of the ReeeKorder free, open source, cross-platform software " )
       << wxT("for recording and editing sounds.")
-      << wxT("<p><br>&nbsp; &nbsp; <b>Audacity<sup>&reg;</sup></b> software is copyright &copy; 1999-2021 Audacity Team.<br>")
-      << wxT("&nbsp; &nbsp; The name <b>Audacity</b> is a registered trademark.<br><br>")
+      << wxT("<p><br>&nbsp; &nbsp; <b>ReeeKorder<sup>&reg;</sup></b> software is copyright &copy; 1999-2021 ReeeKorder Team.<br>")
+      << wxT("&nbsp; &nbsp; The name <b>ReeeKorder</b> is a registered trademark.<br><br>")
 
 #else
       << XO("<h3>")
@@ -437,7 +437,7 @@ visit our %s.")
 // DA: Customisation credit
 #ifdef EXPERIMENTAL_DA
       << wxT("<p><b>")
-      << XO("DarkAudacity Customisation")
+      << XO("DarkReeeKorder Customisation")
       << wxT("</b><br>")
       << wxT("James Crook, art, coding &amp; design<br>")
 #endif
@@ -492,14 +492,14 @@ visit our %s.")
       << wxT("<p><br>")
       /* i18n-hint: The program's name substitutes for %s */
       << XO("%s website: ").Format( ProgramName )
-      << wxT("[[https://www.audacityteam.org/|https://www.audacityteam.org/]]")
+      << wxT("[[https://www.reeekorderteam.org/|https://www.reeekorderteam.org/]]")
 
 // DA: Link for DA url too
 #ifdef EXPERIMENTAL_DA
-      << wxT("<br>DarkAudacity website: [[http://www.darkaudacity.com/|https://www.darkaudacity.com/]]")
+      << wxT("<br>DarkReeeKorder website: [[http://www.darkreeekorder.com/|https://www.darkreeekorder.com/]]")
 #else
       << wxT("<p><br>&nbsp; &nbsp; ")
-      /* i18n-hint Audacity's name substitutes for first and third %s,
+      /* i18n-hint ReeeKorder's name substitutes for first and third %s,
        and a "copyright" symbol for the second */
       << XO("%s software is copyright %s 1999-2021 %s Team.")
          .Format(
@@ -509,7 +509,7 @@ visit our %s.")
       << wxT("<br>")
 
       << wxT("&nbsp; &nbsp; ")
-      /* i18n-hint Audacity's name substitutes for %s */
+      /* i18n-hint ReeeKorder's name substitutes for %s */
       << XO("The name %s is a registered trademark.")
          .Format( Verbatim("<b>%s</b>").Format( ProgramName ) )
       << wxT("<br><br>")
@@ -521,8 +521,8 @@ visit our %s.")
    auto pPage = S.StartNotebookPage( ProgramName );
    S.StartVerticalLay(1);
    {
-      //v For now, change to AudacityLogoWithName via old-fashioned way, not Theme.
-      wxBitmap logo(AudacityLogoWithName_xpm); //v
+      //v For now, change to ReeeKorderLogoWithName via old-fashioned way, not Theme.
+      wxBitmap logo(ReeeKorderLogoWithName_xpm); //v
 
       // JKC: Resize to 50% of size.  Later we may use a smaller xpm as
       // our source, but this allows us to tweak the size - if we want to.
@@ -541,8 +541,8 @@ visit our %s.")
       icon =
          safenew wxStaticBitmap(S.GetParent(), -1,
          //*logo, //v
-         //v theTheme.Bitmap(bmpAudacityLogo), wxPoint(93, 10), wxSize(215, 190));
-         //v theTheme.Bitmap(bmpAudacityLogoWithName),
+         //v theTheme.Bitmap(bmpReeeKorderLogo), wxPoint(93, 10), wxSize(215, 190));
+         //v theTheme.Bitmap(bmpReeeKorderLogoWithName),
          RescaledBitmap,
          wxDefaultPosition,
          wxSize((int)(LOGOWITHNAME_WIDTH*fScale), (int)(LOGOWITHNAME_HEIGHT*fScale)));
@@ -593,7 +593,7 @@ void AboutDialog::PopulateInformationPage( ShuttleGui & S )
  
    informationStr
       << wxT("<h3>")
-   /* i18n-hint: Information about when audacity was compiled follows */
+   /* i18n-hint: Information about when reeekorder was compiled follows */
       << XO("The Build")
       << wxT("</h3>\n<table>"); // start build info table
 
@@ -637,7 +637,7 @@ void AboutDialog::PopulateInformationPage( ShuttleGui & S )
 
    // Install prefix
 #ifdef __WXGTK__
-   /* i18n-hint: The directory audacity is installed into (on *nix systems) */
+   /* i18n-hint: The directory reeekorder is installed into (on *nix systems) */
    AddBuildinfoRow(&informationStr, XO("Installation Prefix:"), \
          wxT(INSTALL_PREFIX));
 #endif
@@ -651,7 +651,7 @@ void AboutDialog::PopulateInformationPage( ShuttleGui & S )
 
    informationStr
       << wxT("<h3>")
-      /* i18n-hint: Libraries that are essential to audacity */
+      /* i18n-hint: Libraries that are essential to reeekorder */
       << XO("Core Libraries")
       << wxT("</h3>\n<table>");  // start table of core libraries
 
@@ -849,7 +849,7 @@ void AboutDialog::PopulateLicensePage( ShuttleGui & S )
    S.Prop(0).StartPanel();
    {
       S.AddSpace(0, 8);
-      /* i18n-hint: For "About Audacity...": Title for Privacy Policy section */
+      /* i18n-hint: For "About ReeeKorder...": Title for Privacy Policy section */
       S.AddVariableText(XC("PRIVACY POLICY", "about dialog"), true);
 
       S.AddFixedText(
@@ -862,7 +862,7 @@ void AboutDialog::PopulateLicensePage( ShuttleGui & S )
       privacyPolicy.FormatLink(
          /* i18n-hint: Title of hyperlink to the privacy policy. This is an object of "See". */
          wxT("%s"), XO("our Privacy Policy"),
-         "https://www.audacityteam.org/about/desktop-privacy-notice/");
+         "https://www.reeekorderteam.org/about/desktop-privacy-notice/");
 
       privacyPolicy.Populate(S);
    }

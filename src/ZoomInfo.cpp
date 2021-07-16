@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   ZoomInfo.cpp
 
@@ -96,7 +96,7 @@ void ZoomInfo::SetZoom(double pixelsPerSecond)
    // still quite close together.
    if( zoom > (gMaxZoom * 0.06  ))
    {
-      AudacityProject * project = GetActiveProject();
+      ReeeKorderProject * project = GetActiveProject();
       if( project )
          project->OnSnapToOff();
    }

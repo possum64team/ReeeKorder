@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   @file ModuleSettings.h
 
@@ -17,8 +17,8 @@ enum {
    kModuleDisabled = 0,
    kModuleEnabled = 1,
    kModuleAsk = 2,     // Will ask, each time, when audacity starts.
-   kModuleFailed = 3,  // Audacity thinks this is a bad module.
-   kModuleNew = 4      // Audacity will ask once, and remember the answer.
+   kModuleFailed = 3,  // ReeeKorder thinks this is a bad module.
+   kModuleNew = 4      // ReeeKorder will ask once, and remember the answer.
 };
 
 namespace ModuleSettings {

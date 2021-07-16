@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 AudioIOBase.cpp
 
@@ -309,7 +309,7 @@ void AudioIOBase::HandleDeviceChange()
 #endif   // USE_PORTMIXER
 }
 
-void AudioIOBase::SetCaptureMeter(AudacityProject *project, MeterPanelBase *meter)
+void AudioIOBase::SetCaptureMeter(ReeeKorderProject *project, MeterPanelBase *meter)
 {
    if (( mOwningProject ) && ( mOwningProject != project))
       return;
@@ -323,7 +323,7 @@ void AudioIOBase::SetCaptureMeter(AudacityProject *project, MeterPanelBase *mete
       mInputMeter.Release();
 }
 
-void AudioIOBase::SetPlaybackMeter(AudacityProject *project, MeterPanelBase *meter)
+void AudioIOBase::SetPlaybackMeter(ReeeKorderProject *project, MeterPanelBase *meter)
 {
    if (( mOwningProject ) && ( mOwningProject != project))
       return;

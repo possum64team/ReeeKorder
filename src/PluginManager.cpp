@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   PluginManager.cpp
 
@@ -30,13 +30,13 @@ for shared and private configs - which need to move out.
 
 #include "ModuleInterface.h"
 
-#include "AudacityFileConfig.h"
+#include "ReeeKorderFileConfig.h"
 #include "Internat.h" // for macro XO
 #include "FileNames.h"
 #include "MemoryX.h"
 #include "ModuleManager.h"
 #include "PlatformCompatibility.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -339,7 +339,7 @@ const PluginID &PluginManagerInterface::DefaultRegistrationCallback(
    return empty;
 }
 
-const PluginID &PluginManagerInterface::AudacityCommandRegistrationCallback(
+const PluginID &PluginManagerInterface::ReeeKorderCommandRegistrationCallback(
    ModuleInterface *provider, ComponentInterface *pInterface )
 {
    ComponentInterface * pCInterface = dynamic_cast<ComponentInterface*>(pInterface);
@@ -407,7 +407,7 @@ const PluginID & PluginManager::RegisterPlugin(ModuleInterface *module)
 
 const PluginID & PluginManager::RegisterPlugin(ModuleInterface *provider, ComponentInterface *command)
 {
-   PluginDescriptor & plug = CreatePlugin(GetID(command), command, (PluginType)PluginTypeAudacityCommand);
+   PluginDescriptor & plug = CreatePlugin(GetID(command), command, (PluginType)PluginTypeReeeKorderCommand);
 
    plug.SetProviderID(PluginManager::GetID(provider));
 
@@ -450,7 +450,7 @@ void PluginManager::FindFilesInPathList(const wxString & pattern,
       return;
    }
 
-   // TODO:  We REALLY need to figure out the "Audacity" plug-in path(s)
+   // TODO:  We REALLY need to figure out the "ReeeKorder" plug-in path(s)
 
    FilePaths paths;
 
@@ -460,10 +460,10 @@ void PluginManager::FindFilesInPathList(const wxString & pattern,
       paths.push_back(ff.GetFullPath());
    }
  
-   // Add the "Audacity" plug-ins directory
+   // Add the "ReeeKorder" plug-ins directory
    wxFileName ff = PlatformCompatibility::GetExecutablePath();
 #if defined(__WXMAC__)
-   // Path ends for example in "Audacity.app/Contents/MacOSX"
+   // Path ends for example in "ReeeKorder.app/Contents/MacOSX"
    //ff.RemoveLastDir();
    //ff.RemoveLastDir();
    // just remove the MacOSX part.
@@ -782,7 +782,7 @@ bool PluginManager::DropFile(const wxString &fileName)
             dst.SetFullName( src.GetFullName() );
             if ( dst.Exists() ) {
                // Query whether to overwrite
-               bool overwrite = (wxYES == ::AudacityMessageBox(
+               bool overwrite = (wxYES == ::ReeeKorderMessageBox(
                   XO("Overwrite the plug-in file %s?")
                      .Format( dst.GetFullPath() ),
                   XO("Plug-in already exists"),
@@ -806,7 +806,7 @@ bool PluginManager::DropFile(const wxString &fileName)
             }
 
             if (!copied) {
-               ::AudacityMessageBox(
+               ::ReeeKorderMessageBox(
                   XO("Plug-in file is in use. Failed to overwrite") );
                return true;
             }
@@ -827,7 +827,7 @@ bool PluginManager::DropFile(const wxString &fileName)
                });
             if ( ! nPlugIns ) {
                // Unlikely after the dry run succeeded
-               ::AudacityMessageBox(
+               ::ReeeKorderMessageBox(
                   XO("Failed to register:\n%s").Format( errMsg ) );
                return true;
             }
@@ -844,7 +844,7 @@ bool PluginManager::DropFile(const wxString &fileName)
                )( nIds );
                for (const auto &name : names)
                   message.Join( Verbatim( name ), wxT("\n") );
-               bool enable = (wxYES == ::AudacityMessageBox(
+               bool enable = (wxYES == ::ReeeKorderMessageBox(
                   message,
                   XO("Enable new plug-ins"),
                   wxYES_NO ) );
@@ -865,7 +865,7 @@ bool PluginManager::DropFile(const wxString &fileName)
 void PluginManager::Load()
 {
    // Create/Open the registry
-   auto pRegistry = AudacityFileConfig::Create(
+   auto pRegistry = ReeeKorderFileConfig::Create(
       {}, {}, FileNames::PluginRegistry());
    auto &registry = *pRegistry;
 
@@ -942,7 +942,7 @@ void PluginManager::Load()
 
    // Now the rest
    LoadGroup(&registry, PluginTypeEffect);
-   LoadGroup(&registry, PluginTypeAudacityCommand );
+   LoadGroup(&registry, PluginTypeReeeKorderCommand );
    LoadGroup(&registry, PluginTypeExporter);
    LoadGroup(&registry, PluginTypeImporter);
 
@@ -954,7 +954,7 @@ void PluginManager::LoadGroup(FileConfig *pRegistry, PluginType type)
 {
 #ifdef __WXMAC__
    // Bug 1590: On Mac, we should purge the registry of Nyquist plug-ins
-   // bundled with other versions of Audacity, assuming both versions
+   // bundled with other versions of ReeeKorder, assuming both versions
    // were properly installed in /Applications (or whatever it is called in
    // your locale)
 
@@ -1027,13 +1027,13 @@ void PluginManager::LoadGroup(FileConfig *pRegistry, PluginType type)
       if (!AcceptPath(strVal))
          // Ignore the obsolete path in the config file, during session,
          // but don't remove it from the file.  Maybe you really want to
-         // switch back to the other version of Audacity and lose nothing.
+         // switch back to the other version of ReeeKorder and lose nothing.
          continue;
       plug.SetPath(strVal);
 
       /*
        // PRL: Ignore names  written in configs before 2.3.0!
-       // use Internal string only!  Let the present version of Audacity map
+       // use Internal string only!  Let the present version of ReeeKorder map
        // that to a user-visible string.
       // Get the name and bypass group if not found
       if (!pRegistry->Read(KEY_NAME, &strVal))
@@ -1043,7 +1043,7 @@ void PluginManager::LoadGroup(FileConfig *pRegistry, PluginType type)
       plug.SetName(strVal);
        */
 
-      // Get the symbol...Audacity 2.3.0 or later requires it
+      // Get the symbol...ReeeKorder 2.3.0 or later requires it
       // bypass group if not found
       // Note, KEY_SYMBOL started getting written to config files in 2.1.0.
       // KEY_NAME (now ignored) was written before that, but only for VST
@@ -1210,7 +1210,7 @@ void PluginManager::LoadGroup(FileConfig *pRegistry, PluginType type)
 void PluginManager::Save()
 {
    // Create/Open the registry
-   auto pRegistry = AudacityFileConfig::Create(
+   auto pRegistry = ReeeKorderFileConfig::Create(
       {}, {}, FileNames::PluginRegistry());
    auto &registry = *pRegistry;
 
@@ -1223,7 +1223,7 @@ void PluginManager::Save()
    // Save the individual groups
    SaveGroup(&registry, PluginTypeEffect);
    SaveGroup(&registry, PluginTypeExporter);
-   SaveGroup(&registry, PluginTypeAudacityCommand);
+   SaveGroup(&registry, PluginTypeReeeKorderCommand);
    SaveGroup(&registry, PluginTypeImporter);
    SaveGroup(&registry, PluginTypeStub);
 
@@ -1256,7 +1256,7 @@ void PluginManager::SaveGroup(FileConfig *pRegistry, PluginType type)
       // See comments with the corresponding load-time call to SetSymbol().
       pRegistry->Write(KEY_SYMBOL, plug.GetSymbol().Internal());
 
-      // PRL:  Writing KEY_NAME which is no longer read, but older Audacity
+      // PRL:  Writing KEY_NAME which is no longer read, but older ReeeKorder
       // versions expect to find it.
       pRegistry->Write(KEY_NAME, plug.GetSymbol().Msgid().MSGID());
 
@@ -1553,7 +1553,7 @@ ComponentInterface *PluginManager::GetInstance(const PluginID & ID)
 PluginID PluginManager::GetID(ComponentInterface *command)
 {
    return wxString::Format(wxT("%s_%s_%s_%s_%s"),
-                           GetPluginTypeString(PluginTypeAudacityCommand),
+                           GetPluginTypeString(PluginTypeReeeKorderCommand),
                            wxEmptyString,
                            command->GetVendor().Internal(),
                            command->GetSymbol().Internal(),
@@ -1571,7 +1571,7 @@ PluginID PluginManager::GetID(EffectDefinitionInterface *effect)
 }
 
 // This string persists in configuration files
-// So config compatibility will break if it is changed across Audacity versions
+// So config compatibility will break if it is changed across ReeeKorder versions
 wxString PluginManager::GetPluginTypeString(PluginType type)
 {
    wxString str;
@@ -1588,7 +1588,7 @@ wxString PluginManager::GetPluginTypeString(PluginType type)
    case PluginTypeEffect:
       str = wxT("Effect");
       break;
-   case PluginTypeAudacityCommand:
+   case PluginTypeReeeKorderCommand:
       str = wxT("Generic");
       break;
    case PluginTypeExporter:
@@ -1628,7 +1628,7 @@ FileConfig *PluginManager::GetSettings()
    if (!mSettings)
    {
       mSettings =
-         AudacityFileConfig::Create({}, {}, FileNames::PluginSettings());
+         ReeeKorderFileConfig::Create({}, {}, FileNames::PluginSettings());
 
       // Check for a settings version that we can understand
       if (mSettings->HasEntry(SETVERKEY))
@@ -1850,7 +1850,7 @@ RegistryPath PluginManager::SettingsPath(const PluginID & ID, bool shared)
 {
    // All the strings reported by PluginDescriptor and used in this function
    // persist in the plugin settings configuration file, so they should not
-   // be changed across Audacity versions, or else compatibility of the
+   // be changed across ReeeKorder versions, or else compatibility of the
    // configuration files will break.
 
    if (auto iter = mPlugins.find(ID); iter == mPlugins.end())

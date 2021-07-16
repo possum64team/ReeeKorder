@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Project.cpp
 
@@ -25,30 +25,30 @@ wxDEFINE_EVENT(EVT_PROJECT_ACTIVATION, wxCommandEvent);
 
 size_t AllProjects::size() const
 {
-   return gAudacityProjects.size();
+   return gReeeKorderProjects.size();
 }
 
 auto AllProjects::begin() const -> const_iterator
 {
-   return gAudacityProjects.begin();
+   return gReeeKorderProjects.begin();
 }
 
 auto AllProjects::end() const -> const_iterator
 {
-   return gAudacityProjects.end();
+   return gReeeKorderProjects.end();
 }
 
 auto AllProjects::rbegin() const -> const_reverse_iterator
 {
-   return gAudacityProjects.rbegin();
+   return gReeeKorderProjects.rbegin();
 }
 
 auto AllProjects::rend() const -> const_reverse_iterator
 {
-   return gAudacityProjects.rend();
+   return gReeeKorderProjects.rend();
 }
 
-auto AllProjects::Remove( AudacityProject &project ) -> value_type
+auto AllProjects::Remove( ReeeKorderProject &project ) -> value_type
 {
    std::lock_guard<std::mutex> guard{ Mutex() };
    auto start = begin(), finish = end(), iter = std::find_if(
@@ -58,14 +58,14 @@ auto AllProjects::Remove( AudacityProject &project ) -> value_type
    if (iter == finish)
       return nullptr;
    auto result = *iter;
-   gAudacityProjects.erase( iter );
+   gReeeKorderProjects.erase( iter );
    return result;
 }
 
 void AllProjects::Add( const value_type &pProject )
 {
    std::lock_guard<std::mutex> guard{ Mutex() };
-   gAudacityProjects.push_back( pProject );
+   gReeeKorderProjects.push_back( pProject );
 }
 
 bool AllProjects::sbClosing = false;
@@ -76,7 +76,7 @@ bool AllProjects::Close( bool force )
    while (AllProjects{}.size())
    {
       // Closing the project has global side-effect
-      // of deletion from gAudacityProjects
+      // of deletion from gReeeKorderProjects
       if ( force )
       {
          GetProjectFrame( **AllProjects{}.begin() ).Close(true);
@@ -96,20 +96,20 @@ std::mutex &AllProjects::Mutex()
    return theMutex;
 }
 
-int AudacityProject::mProjectCounter=0;// global counter.
+int ReeeKorderProject::mProjectCounter=0;// global counter.
 
 /* Define Global Variables */
 //This is a pointer to the currently-active project.
-static AudacityProject *gActiveProject;
+static ReeeKorderProject *gActiveProject;
 //This array holds onto all of the projects currently open
-AllProjects::Container AllProjects::gAudacityProjects;
+AllProjects::Container AllProjects::gReeeKorderProjects;
 
-AUDACITY_DLL_API AudacityProject *GetActiveProject()
+AUDACITY_DLL_API ReeeKorderProject *GetActiveProject()
 {
    return gActiveProject;
 }
 
-void SetActiveProject(AudacityProject * project)
+void SetActiveProject(ReeeKorderProject * project)
 {
    if ( gActiveProject != project ) {
       gActiveProject = project;
@@ -119,7 +119,7 @@ void SetActiveProject(AudacityProject * project)
    wxTheApp->SetTopWindow( FindProjectFrame( project ) );
 }
 
-AudacityProject::AudacityProject()
+ReeeKorderProject::ReeeKorderProject()
 {
    mProjectNo = mProjectCounter++; // Bug 322
    AttachedObjects::BuildAll();
@@ -146,36 +146,36 @@ AudacityProject::AudacityProject()
 
 }
 
-AudacityProject::~AudacityProject()
+ReeeKorderProject::~ReeeKorderProject()
 {
 }
 
-void AudacityProject::SetFrame( wxFrame *pFrame )
+void ReeeKorderProject::SetFrame( wxFrame *pFrame )
 {
    mFrame = pFrame;
 }
 
-void AudacityProject::SetPanel( wxWindow *pPanel )
+void ReeeKorderProject::SetPanel( wxWindow *pPanel )
 {
    mPanel = pPanel;
 }
 
-const wxString &AudacityProject::GetProjectName() const
+const wxString &ReeeKorderProject::GetProjectName() const
 {
    return mName;
 }
 
-void AudacityProject::SetProjectName(const wxString &name)
+void ReeeKorderProject::SetProjectName(const wxString &name)
 {
    mName = name;
 }
 
-FilePath AudacityProject::GetInitialImportPath() const
+FilePath ReeeKorderProject::GetInitialImportPath() const
 {
    return mInitialImportPath;
 }
 
-void AudacityProject::SetInitialImportPath(const FilePath &path)
+void ReeeKorderProject::SetInitialImportPath(const FilePath &path)
 {
    if (mInitialImportPath.empty())
    {
@@ -183,7 +183,7 @@ void AudacityProject::SetInitialImportPath(const FilePath &path)
    }
 }
 
-AUDACITY_DLL_API wxFrame &GetProjectFrame( AudacityProject &project )
+AUDACITY_DLL_API wxFrame &GetProjectFrame( ReeeKorderProject &project )
 {
    auto ptr = project.GetFrame();
    if ( !ptr )
@@ -191,7 +191,7 @@ AUDACITY_DLL_API wxFrame &GetProjectFrame( AudacityProject &project )
    return *ptr;
 }
 
-AUDACITY_DLL_API const wxFrame &GetProjectFrame( const AudacityProject &project )
+AUDACITY_DLL_API const wxFrame &GetProjectFrame( const ReeeKorderProject &project )
 {
    auto ptr = project.GetFrame();
    if ( !ptr )
@@ -199,7 +199,7 @@ AUDACITY_DLL_API const wxFrame &GetProjectFrame( const AudacityProject &project 
    return *ptr;
 }
 
-AUDACITY_DLL_API wxWindow &GetProjectPanel( AudacityProject &project )
+AUDACITY_DLL_API wxWindow &GetProjectPanel( ReeeKorderProject &project )
 {
    auto ptr = project.GetPanel();
    if ( !ptr )
@@ -208,7 +208,7 @@ AUDACITY_DLL_API wxWindow &GetProjectPanel( AudacityProject &project )
 }
 
 AUDACITY_DLL_API const wxWindow &GetProjectPanel(
-   const AudacityProject &project )
+   const ReeeKorderProject &project )
 {
    auto ptr = project.GetPanel();
    if ( !ptr )

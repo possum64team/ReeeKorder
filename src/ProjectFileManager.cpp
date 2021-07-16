@@ -1,10 +1,10 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectFileManager.cpp
 
-Paul Licameli split from AudacityProject.cpp
+Paul Licameli split from ReeeKorderProject.cpp
 
 **********************************************************************/
 
@@ -41,27 +41,27 @@ Paul Licameli split from AudacityProject.cpp
 #include "import/Import.h"
 #include "import/ImportMIDI.h"
 #include "toolbars/SelectionBar.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "widgets/ErrorDialog.h"
 #include "widgets/FileHistory.h"
 #include "widgets/Warning.h"
 #include "xml/XMLFileReader.h"
 
-static const AudacityProject::AttachedObjects::RegisteredFactory sFileManagerKey{
-   []( AudacityProject &parent ){
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory sFileManagerKey{
+   []( ReeeKorderProject &parent ){
       auto result = std::make_shared< ProjectFileManager >( parent );
       return result;
    }
 };
 
-ProjectFileManager &ProjectFileManager::Get( AudacityProject &project )
+ProjectFileManager &ProjectFileManager::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectFileManager >( sFileManagerKey );
 }
 
-const ProjectFileManager &ProjectFileManager::Get( const AudacityProject &project )
+const ProjectFileManager &ProjectFileManager::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
 void ProjectFileManager::DiscardAutosave(const FilePath &filename)
@@ -82,7 +82,7 @@ void ProjectFileManager::DiscardAutosave(const FilePath &filename)
    // closes the temporary project properly
 }
 
-ProjectFileManager::ProjectFileManager( AudacityProject &project )
+ProjectFileManager::ProjectFileManager( ReeeKorderProject &project )
 : mProject{ project }
 {
 }
@@ -92,7 +92,7 @@ ProjectFileManager::~ProjectFileManager() = default;
 namespace {
 
 const char *const defaultHelpUrl =
-   "FAQ:Errors_on_opening_or_recovering_an_Audacity_project";
+   "FAQ:Errors_on_opening_or_recovering_an_ReeeKorder_project";
 
 using Pair = std::pair< const char *, const char * >;
 const Pair helpURLTable[] = {
@@ -167,11 +167,11 @@ auto ProjectFileManager::ReadProjectFile(
             resaved = projectFileIO.SaveProject(fileName, nullptr);
          }
 
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             resaved
-               ? XO("This project was not saved properly the last time Audacity ran.\n\n"
+               ? XO("This project was not saved properly the last time ReeeKorder ran.\n\n"
                     "It has been recovered to the last snapshot.")
-               : XO("This project was not saved properly the last time Audacity ran.\n\n"
+               : XO("This project was not saved properly the last time ReeeKorder ran.\n\n"
                     "It has been recovered to the last snapshot, but you must save it\n"
                     "to preserve its contents."),
             XO("Project Recovered"),
@@ -279,7 +279,7 @@ bool ProjectFileManager::DoSave(const FilePath & fileName, const bool fromSaveAs
          if (UndoManager::Get( proj ).UnsavedChanges() &&
                settings.EmptyCanBeDirty())
          {
-            int result = AudacityMessageBox(
+            int result = ReeeKorderMessageBox(
                XO(
    "Your project is now empty.\nIf saved, the project will have no tracks.\n\nTo save any previously open tracks:\nClick 'No', Edit > Undo until all tracks\nare open, then File > Save Project.\n\nSave anyway?"),
                XO("Warning - Empty Project"),
@@ -391,7 +391,7 @@ bool ProjectFileManager::SaveAs(const FilePath &newFileName, bool addToHistory /
    //We should only overwrite it if this project already has the same name, where the user
    //simply chose to use the save as command although the save command would have the effect.
    if( !bOwnsNewName && wxFileExists(newFileName)) {
-      AudacityMessageDialog m(
+      ReeeKorderMessageDialog m(
          nullptr,
          XO("The project was not saved because the file name provided would overwrite another project.\nPlease try again and select an original name."),
          XO("Error Saving Project"),
@@ -433,7 +433,7 @@ bool ProjectFileManager::SaveAs(bool allowOverwrite /* = false */)
    TranslatableString title = XO("%sSave Project \"%s\" As...")
       .Format( Restorer.sProjNumber, Restorer.sProjName );
    TranslatableString message = XO("\
-'Save Project' is for an Audacity project, not an audio file.\n\
+'Save Project' is for an ReeeKorder project, not an audio file.\n\
 For an audio file that will open in other apps, use 'Export'.\n");
 
    if (ShowWarningDialog(&window, wxT("FirstProjectSave"), message, true) != wxID_OK) {
@@ -453,7 +453,7 @@ For an audio file that will open in other apps, use 'Export'.\n");
             filename.GetPath(),
             filename.GetFullName(),
             wxT("aup3"),
-            { FileNames::AudacityProjects },
+            { FileNames::ReeeKorderProjects },
             wxFD_SAVE | wxRESIZE_BORDER,
             &window);
 
@@ -467,7 +467,7 @@ For an audio file that will open in other apps, use 'Export'.\n");
 
       if ((!bPrompt || !allowOverwrite) && filename.FileExists()) {
          // Saving a copy of the project should never overwrite an existing project.
-         AudacityMessageDialog m(
+         ReeeKorderMessageDialog m(
             nullptr,
             XO("The project was not saved because the file name provided would overwrite another project.\nPlease try again and select an original name."),
             XO("Error Saving Project"),
@@ -508,7 +508,7 @@ For an audio file that will open in other apps, use 'Export'.\n");
    will be irreversibly overwritten.").Format( fName, fName );
 
             // For safety, there should NOT be an option to hide this warning.
-            int result = AudacityMessageBox(
+            int result = ReeeKorderMessageBox(
                Message,
                /* i18n-hint: Heading: A warning that a project is about to be overwritten.*/
                XO("Overwrite Project Warning"),
@@ -523,7 +523,7 @@ For an audio file that will open in other apps, use 'Export'.\n");
          }
          else {
             // Overwrite disallowed. The destination project is open in another window.
-            AudacityMessageDialog m(
+            ReeeKorderMessageDialog m(
                nullptr,
                XO("The project was not saved because the selected project is open in another window.\nPlease try again and select an original name."),
                XO("Error Saving Project"),
@@ -593,7 +593,7 @@ bool ProjectFileManager::SaveCopy(const FilePath &fileName /* = wxT("") */)
                                        filename.GetPath(),
                                        filename.GetFullName(),
                                        wxT("aup3"),
-                                       { FileNames::AudacityProjects },
+                                       { FileNames::ReeeKorderProjects },
                                        wxFD_SAVE | wxRESIZE_BORDER,
                                        &window);
 
@@ -620,7 +620,7 @@ bool ProjectFileManager::SaveCopy(const FilePath &fileName /* = wxT("") */)
       if (filename.FileExists())
       {
          // Saving a copy of the project should never overwrite an existing project.
-         AudacityMessageDialog m(nullptr,
+         ReeeKorderMessageDialog m(nullptr,
                                  XO("Saving a copy must not overwrite an existing saved project.\nPlease try again and select an original name."),
                                  XO("Error Saving Copy of Project"),
                                  wxOK | wxICON_ERROR);
@@ -680,7 +680,7 @@ bool ProjectFileManager::SaveCopy(const FilePath &fileName /* = wxT("") */)
    if (!projectFileIO.SaveCopy(fName))
    {
       auto msg = FileException::WriteFailureMessage(fName);
-      AudacityMessageDialog m(
+      ReeeKorderMessageDialog m(
          nullptr, msg, XO("Error Saving Project"), wxOK | wxICON_ERROR);
 
       m.ShowModal();
@@ -854,7 +854,7 @@ bool ProjectFileManager::IsAlreadyOpen(const FilePath &projPathName)
       XO("%s is already open in another window.")
          .Format( newProjPathName.GetName() );
       wxLogError(errMsg.Translation()); //Debug?
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          errMsg,
          XO("Error Opening Project"),
          wxOK | wxCENTRE);
@@ -863,7 +863,7 @@ bool ProjectFileManager::IsAlreadyOpen(const FilePath &projPathName)
    return false;
 }
 
-AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
+ReeeKorderProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
    const FilePath &fileNameArg, bool addtohistory)
 {
    // On Win32, we may be given a short (DOS-compatible) file name on rare
@@ -872,8 +872,8 @@ AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
    auto fileName = PlatformCompatibility::GetLongFileName(fileNameArg);
 
    // Make sure it isn't already open.
-   // Vaughan, 2011-03-25: This was done previously in AudacityProject::OpenFiles()
-   //    and AudacityApp::MRUOpen(), but if you open an aup file by double-clicking it
+   // Vaughan, 2011-03-25: This was done previously in ReeeKorderProject::OpenFiles()
+   //    and ReeeKorderApp::MRUOpen(), but if you open an aup file by double-clicking it
    //    from, e.g., Win Explorer, it would bypass those, get to here with no check,
    //    then open a NEW project from the same data with no warning.
    //    This was reported in http://bugzilla.audacityteam.org/show_bug.cgi?id=137#c17,
@@ -882,13 +882,13 @@ AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
       return nullptr;
 
    // Data loss may occur if users mistakenly try to open ".aup3.bak" files
-   // left over from an unsuccessful save or by previous versions of Audacity.
+   // left over from an unsuccessful save or by previous versions of ReeeKorder.
    // So we always refuse to open such files.
    if (fileName.Lower().EndsWith(wxT(".aup3.bak")))
    {
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO(
-"You are trying to open an automatically created backup file.\nDoing this may result in severe data loss.\n\nPlease open the actual Audacity project file instead."),
+"You are trying to open an automatically created backup file.\nDoing this may result in severe data loss.\n\nPlease open the actual ReeeKorder project file instead."),
          XO("Warning - Backup File Detected"),
          wxOK | wxCENTRE,
          nullptr);
@@ -896,7 +896,7 @@ AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
    }
 
    if (!::wxFileExists(fileName)) {
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO("Could not open file: %s").Format( fileName ),
          XO("Error Opening File"),
          wxOK | wxCENTRE,
@@ -917,7 +917,7 @@ AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
       });
 
       if (!ff.IsOpened()) {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("Could not open file: %s").Format( fileName ),
             XO("Error opening file"),
             wxOK | wxCENTRE,
@@ -928,7 +928,7 @@ AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
       char buf[7];
       auto numRead = ff.Read(buf, 6);
       if (numRead != 6) {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("File may be invalid or corrupted: \n%s").Format( fileName ),
             XO("Error Opening File or Project"),
             wxOK | wxCENTRE,
@@ -984,7 +984,7 @@ AudacityProject *ProjectFileManager::OpenFile( const ProjectChooserFn &chooser,
    return Get(project).OpenProjectFile(fileName, addtohistory);
 }
 
-AudacityProject *ProjectFileManager::OpenProjectFile(
+ReeeKorderProject *ProjectFileManager::OpenProjectFile(
    const FilePath &fileName, bool addtohistory)
 {
    auto &project = mProject;
@@ -1174,7 +1174,7 @@ ProjectFileManager::AddImportedTracks(const FilePath &fileName,
 }
 
 namespace {
-bool ImportProject(AudacityProject &dest, const FilePath &fileName)
+bool ImportProject(ReeeKorderProject &dest, const FilePath &fileName)
 {
    InvisibleTemporaryProject temp;
    auto &project = temp.Project();
@@ -1440,7 +1440,7 @@ void ProjectFileManager::Compact()
 
       if (!isBatch)
       {
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             XO("Compacting actually freed %s of disk space.")
             .Format(Internat::FormatSize((before - after).GetValue())),
             XO("Compact Project"));

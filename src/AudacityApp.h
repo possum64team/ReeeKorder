@@ -1,12 +1,12 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  AudacityApp.h
+  ReeeKorderApp.h
 
   Dominic Mazzoni
 
-  This is the main source file for Audacity which handles
+  This is the main source file for ReeeKorder which handles
   initialization and termination by subclassing wxApp.
 
 **********************************************************************/
@@ -32,12 +32,12 @@ class IPCServ;
 class Importer;
 class CommandHandler;
 class AppCommandEvent;
-class AudacityProject;
+class ReeeKorderProject;
 
-class AudacityApp final : public wxApp {
+class ReeeKorderApp final : public wxApp {
  public:
-   AudacityApp();
-   ~AudacityApp();
+   ReeeKorderApp();
+   ~ReeeKorderApp();
    bool OnInit(void) override;
    bool InitPart2();
    int OnExit(void) override;
@@ -117,6 +117,6 @@ class AudacityApp final : public wxApp {
     DECLARE_EVENT_TABLE()
 };
 
-extern AudacityApp & wxGetApp();
+extern ReeeKorderApp & wxGetApp();
 
 #endif

@@ -1,6 +1,6 @@
 /**********************************************************************
  
- Audacity: A Digital Audio Editor
+ ReeeKorder: A Digital Audio Editor
  
  TrackPanelCell.cpp
  
@@ -35,46 +35,46 @@ TrackPanelCell::~TrackPanelCell()
 }
 
 HitTestPreview TrackPanelCell::DefaultPreview
-(const TrackPanelMouseState &, const AudacityProject *)
+(const TrackPanelMouseState &, const ReeeKorderProject *)
 {
    return {};
 }
 
 unsigned TrackPanelCell::HandleWheelRotation
-(const TrackPanelMouseEvent &, AudacityProject *)
+(const TrackPanelMouseEvent &, ReeeKorderProject *)
 {
    return RefreshCode::Cancelled;
 }
 
 unsigned TrackPanelCell::DoContextMenu
-   (const wxRect &, wxWindow*, wxPoint *, AudacityProject*)
+   (const wxRect &, wxWindow*, wxPoint *, ReeeKorderProject*)
 {
    return RefreshCode::RefreshNone;
 }
 
 unsigned TrackPanelCell::CaptureKey(
-   wxKeyEvent &event, ViewInfo &, wxWindow *, AudacityProject *)
+   wxKeyEvent &event, ViewInfo &, wxWindow *, ReeeKorderProject *)
 {
    event.Skip();
    return RefreshCode::RefreshNone;
 }
 
 unsigned TrackPanelCell::KeyDown(
-   wxKeyEvent &event, ViewInfo &, wxWindow *, AudacityProject *)
+   wxKeyEvent &event, ViewInfo &, wxWindow *, ReeeKorderProject *)
 {
    event.Skip();
    return RefreshCode::RefreshNone;
 }
 
 unsigned TrackPanelCell::KeyUp(
-   wxKeyEvent &event, ViewInfo &, wxWindow *, AudacityProject *)
+   wxKeyEvent &event, ViewInfo &, wxWindow *, ReeeKorderProject *)
 {
    event.Skip();
    return RefreshCode::RefreshNone;
 }
 
 unsigned TrackPanelCell::Char(
-   wxKeyEvent &event, ViewInfo &, wxWindow *, AudacityProject *)
+   wxKeyEvent &event, ViewInfo &, wxWindow *, ReeeKorderProject *)
 {
    event.Skip();
    return RefreshCode::RefreshNone;

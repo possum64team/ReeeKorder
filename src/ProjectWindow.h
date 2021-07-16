@@ -1,10 +1,10 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectWindow.h
 
-Paul Licameli split from AudacityProject.h
+Paul Licameli split from ReeeKorderProject.h
 
 **********************************************************************/
 
@@ -31,15 +31,15 @@ class AUDACITY_DLL_API ProjectWindow final : public ProjectWindowBase
    , public PrefsListener
 {
 public:
-   static ProjectWindow &Get( AudacityProject &project );
-   static const ProjectWindow &Get( const AudacityProject &project );
-   static ProjectWindow *Find( AudacityProject *pProject );
-   static const ProjectWindow *Find( const AudacityProject *pProject );
+   static ProjectWindow &Get( ReeeKorderProject &project );
+   static const ProjectWindow &Get( const ReeeKorderProject &project );
+   static ProjectWindow *Find( ReeeKorderProject *pProject );
+   static const ProjectWindow *Find( const ReeeKorderProject *pProject );
 
    explicit ProjectWindow(
       wxWindow * parent, wxWindowID id,
       const wxPoint & pos, const wxSize &size,
-      AudacityProject &project );
+      ReeeKorderProject &project );
    ~ProjectWindow() override;
 
    // Next available ID for sub-windows
@@ -60,7 +60,7 @@ public:
    class PlaybackScroller final : public wxEvtHandler
    {
    public:
-      explicit PlaybackScroller(AudacityProject *project);
+      explicit PlaybackScroller(ReeeKorderProject *project);
 
       enum class Mode {
          Off,
@@ -80,7 +80,7 @@ public:
    private:
       void OnTimer(wxCommandEvent &event);
 
-      AudacityProject *mProject;
+      ReeeKorderProject *mProject;
       Mode mMode { Mode::Off };
 
       // During timer update, grab the volatile stream time just once, so that

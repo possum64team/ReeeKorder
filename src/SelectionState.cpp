@@ -1,6 +1,6 @@
 /**********************************************************************
 
- Audacity: A Digital Audio Editor
+ ReeeKorder: A Digital Audio Editor
 
  SelectionState.h
 
@@ -13,18 +13,18 @@
 #include "Track.h"
 #include "Project.h"
 
-static const AudacityProject::AttachedObjects::RegisteredFactory key{
-  [](AudacityProject &){ return std::make_shared< SelectionState >(); }
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory key{
+  [](ReeeKorderProject &){ return std::make_shared< SelectionState >(); }
 };
 
-SelectionState &SelectionState::Get( AudacityProject &project )
+SelectionState &SelectionState::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< SelectionState >( key );
 }
 
-const SelectionState &SelectionState::Get( const AudacityProject &project )
+const SelectionState &SelectionState::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
 // Set selection length to the length of a track -- but if sync-lock is turned

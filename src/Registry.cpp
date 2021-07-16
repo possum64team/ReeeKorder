@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 Registry.cpp
 
@@ -14,7 +14,7 @@ Paul Licameli split from Menus.cpp
 
 #include <wx/log.h>
 
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 
 namespace {
 
@@ -174,7 +174,7 @@ using Path = std::vector< Identifier >;
         wxLogDebug( msg.Translation() );
 #ifdef IS_ALPHA
         // user-visible message
-        AudacityMessageBox( msg );
+        ReeeKorderMessageBox( msg );
 #endif
      }
    }

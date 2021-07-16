@@ -1,23 +1,23 @@
 /*!********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  @file AudacityException.cpp
-  @brief Implements AudacityException and related
+  @file ReeeKorderException.cpp
+  @brief Implements ReeeKorderException and related
 
   Paul Licameli
 
 ***********************************************************************/
 
 
-#include "AudacityException.h"
+#include "ReeeKorderException.h"
 
 #include <wx/atomic.h>
 
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "widgets/ErrorDialog.h"
 
-AudacityException::~AudacityException()
+ReeeKorderException::~ReeeKorderException()
 {
 }
 
@@ -80,22 +80,22 @@ void MessageBoxException::DelayedHandlerAction()
          {
             ShowExceptionDialog(
                nullptr,
-               (caption.empty() ? AudacityMessageBoxCaptionStr() : caption),
+               (caption.empty() ? ReeeKorderMessageBoxCaptionStr() : caption),
                ErrorMessage(), ErrorHelpUrl());
          }
          // We show BadEnvironment and BadUserAction in a similar way
          else if (ErrorHelpUrl().IsEmpty())
          {
-            ::AudacityMessageBox(
+            ::ReeeKorderMessageBox(
                ErrorMessage(),
-               (caption.empty() ? AudacityMessageBoxCaptionStr() : caption),
+               (caption.empty() ? ReeeKorderMessageBoxCaptionStr() : caption),
                wxICON_ERROR);
          }
          else
          {
             ShowErrorDialog(
                nullptr,
-               (caption.empty() ? AudacityMessageBoxCaptionStr() : caption),
+               (caption.empty() ? ReeeKorderMessageBoxCaptionStr() : caption),
                ErrorMessage(), ErrorHelpUrl());
          }
       }

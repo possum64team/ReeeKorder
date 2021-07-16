@@ -1,7 +1,7 @@
 /**********************************************************************
 
-   Audacity: A Digital Audio Editor
-   Audacity(R) is copyright (c) 1999-2010 Audacity Team.
+   ReeeKorder: A Digital Audio Editor
+   ReeeKorder(R) is copyright (c) 1999-2010 ReeeKorder Team.
    License: GPL v2.  See License.txt.
 
    ProjectSerializer.cpp
@@ -83,8 +83,8 @@ wxMemoryBuffer ProjectSerializer::mDict;
 TranslatableString ProjectSerializer::FailureMessage( const FilePath &/*filePath*/ )
 {
    return 
-XO("This recovery file was saved by Audacity 2.3.0 or before.\n"
-   "You need to run that version of Audacity to recover the project." );
+XO("This recovery file was saved by ReeeKorder 2.3.0 or before.\n"
+   "You need to run that version of ReeeKorder to recover the project." );
 }
 
 namespace {

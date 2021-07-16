@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 TrackPanelResizeHandle.h
 
@@ -31,20 +31,20 @@ public:
    std::shared_ptr<Track> GetTrack() const { return mpTrack.lock(); }
 
    Result Click
-      (const TrackPanelMouseEvent &event, AudacityProject *pProject) override;
+      (const TrackPanelMouseEvent &event, ReeeKorderProject *pProject) override;
 
    Result Drag
-      (const TrackPanelMouseEvent &event, AudacityProject *pProject) override;
+      (const TrackPanelMouseEvent &event, ReeeKorderProject *pProject) override;
 
    HitTestPreview Preview
-      (const TrackPanelMouseState &state, AudacityProject *pProject)
+      (const TrackPanelMouseState &state, ReeeKorderProject *pProject)
       override;
 
    Result Release
-      (const TrackPanelMouseEvent &event, AudacityProject *pProject,
+      (const TrackPanelMouseEvent &event, ReeeKorderProject *pProject,
        wxWindow *pParent) override;
 
-   Result Cancel(AudacityProject *pProject) override;
+   Result Cancel(ReeeKorderProject *pProject) override;
 
 private:
    enum Mode {

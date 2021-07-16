@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   FreqWindow.cpp
 
@@ -82,7 +82,7 @@ the mouse around.
 #include "WaveTrack.h"
 
 #include "./widgets/HelpSystem.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "widgets/Ruler.h"
 
 #if wxUSE_ACCESSIBILITY
@@ -184,7 +184,7 @@ BEGIN_EVENT_TABLE(FrequencyPlotDialog, wxDialogWrapper)
 END_EVENT_TABLE()
 
 FrequencyPlotDialog::FrequencyPlotDialog(wxWindow * parent, wxWindowID id,
-                           AudacityProject &project,
+                           ReeeKorderProject &project,
                            const TranslatableString & title,
                            const wxPoint & pos)
 :  wxDialogWrapper(parent, id, title, pos, wxDefaultSize,
@@ -607,7 +607,7 @@ void FrequencyPlotDialog::GetAudio()
       }
       else {
          if (track->GetRate() != mRate) {
-            AudacityMessageBox(
+            ReeeKorderMessageBox(
                XO(
 "To plot the spectrum, all selected tracks must be the same sample rate.") );
             mData.reset();
@@ -632,7 +632,7 @@ void FrequencyPlotDialog::GetAudio()
       auto msg = XO(
 "Too much audio was selected. Only the first %.1f seconds of audio will be analyzed.")
          .Format(mDataLen / mRate);
-      AudacityMessageBox( msg );
+      ReeeKorderMessageBox( msg );
    }
 }
 
@@ -1069,7 +1069,7 @@ void FrequencyPlotDialog::OnExport(wxCommandEvent & WXUNUSED(event))
 
    wxFFileOutputStream ffStream{ fName };
    if (!ffStream.IsOk()) {
-      AudacityMessageBox( XO("Couldn't write to file: %s").Format( fName ) );
+      ReeeKorderMessageBox( XO("Couldn't write to file: %s").Format( fName ) );
       return;
    }
 
@@ -1198,8 +1198,8 @@ void FreqPlot::OnMouseEvent(wxMouseEvent & event)
 
 namespace {
 
-AudacityProject::AttachedWindows::RegisteredFactory sFrequencyWindowKey{
-   []( AudacityProject &parent ) -> wxWeakRef< wxWindow > {
+ReeeKorderProject::AttachedWindows::RegisteredFactory sFrequencyWindowKey{
+   []( ReeeKorderProject &parent ) -> wxWeakRef< wxWindow > {
       auto &window = ProjectWindow::Get( parent );
       return safenew FrequencyPlotDialog(
          &window, -1, parent, FrequencyAnalysisTitle,
@@ -1225,9 +1225,9 @@ struct Handler : CommandHandlerObject {
    }
 };
 
-CommandHandlerObject &findCommandHandler(AudacityProject &) {
+CommandHandlerObject &findCommandHandler(ReeeKorderProject &) {
    // Handler is not stateful.  Doesn't need a factory registered with
-   // AudacityProject.
+   // ReeeKorderProject.
    static Handler instance;
    return instance;
 }

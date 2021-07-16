@@ -1,7 +1,7 @@
 /**********************************************************************
 
-   Audacity: A Digital Audio Editor
-   Audacity(R) is copyright (c) 1999-2012 Audacity Team.
+   ReeeKorder: A Digital Audio Editor
+   ReeeKorder(R) is copyright (c) 1999-2012 ReeeKorder Team.
    License: GPL v2.  See License.txt.
 
    Resample.cpp
@@ -30,7 +30,7 @@ class AUDACITY_DLL_API Resample final
  public:
    /// Resamplers may have more than one method, offering a
    /// tradeoff between speed and quality.
-   /// Audacity identifies two methods out of all of the choices:
+   /// ReeeKorder identifies two methods out of all of the choices:
    /// a Fast method intended for real-time audio I/O, and a Best
    /// method intended for mixing and exporting.
    //

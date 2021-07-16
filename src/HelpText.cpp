@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   HelpText.cpp
 
@@ -186,7 +186,7 @@ TranslatableString TitleText( const wxString & Key )
    if(Key ==wxT("save") )
    {
       /* i18n-hint: Title for a topic.*/
-      return XO("Saving an Audacity Project");
+      return XO("Saving an ReeeKorder Project");
    }
    if(Key ==wxT("wma-proprietary") )
    {
@@ -210,9 +210,9 @@ static wxString HelpTextBuiltIn( const wxString & Key )
 {
    // PRL:  Is it necessary to define these outside of conditional compilation so that both get into the .pot file?
    const auto alphamsg = XO(
-"<br><br>The version of Audacity you are using is an <b>Alpha test version</b>.");
+"<br><br>The version of ReeeKorder you are using is an <b>Alpha test version</b>.");
    const auto betamsg = XO(
-"<br><br>The version of Audacity you are using is a <b>Beta test version</b>.");
+"<br><br>The version of ReeeKorder you are using is a <b>Beta test version</b>.");
 
    if (Key == wxT("welcome"))
    {
@@ -221,7 +221,7 @@ static wxString HelpTextBuiltIn( const wxString & Key )
       s
 #if defined(IS_ALPHA) || defined(IS_BETA)
          << wxT("<hr><center><h3>")
-         << XO("Get the Official Released Version of Audacity")
+         << XO("Get the Official Released Version of ReeeKorder")
          << wxT("</h3></center>")
          << VerCheckHtml()
 #ifdef IS_ALPHA
@@ -233,33 +233,33 @@ static wxString HelpTextBuiltIn( const wxString & Key )
          << XO(
 "We strongly recommend that you use our latest stable released version, which has full documentation and support.<br><br>")
          << XO(
-"You can help us get Audacity ready for release by joining our [[https://www.audacityteam.org/community/|community]].<hr><br><br>")
+"You can help us get ReeeKorder ready for release by joining our [[https://www.audacityteam.org/community/|community]].<hr><br><br>")
 #endif
 
 // DA: Support methods text.
 #ifdef EXPERIMENTAL_DA
          // Deliberately not translated.
-         << wxT("<center><h3>DarkAudacity ")
+         << wxT("<center><h3>DarkReeeKorder ")
          << AUDACITY_VERSION_STRING
          << wxT("</h3></center>")
-         << wxT("<br><br>DarkAudacity is based on Audacity:")
+         << wxT("<br><br>DarkReeeKorder is based on ReeeKorder:")
          << wxT("<ul><li>")
          << wxT(" [[http://www.darkaudacity.com|www.darkaudacity.com]] - for differences between them.")
          << wxT("</li><li>")
          << wxT(
-" email to [[mailto:james@audacityteam.org|james@audacityteam.org]] - for help using DarkAudacity.")
+" email to [[mailto:james@audacityteam.org|james@audacityteam.org]] - for help using DarkReeeKorder.")
          << wxT("</li><li>")
          << wxT(
-" [[http://www.darkaudacity.com/video.html|Tutorials]] - for getting started with DarkAudacity.")
+" [[http://www.darkaudacity.com/video.html|Tutorials]] - for getting started with DarkReeeKorder.")
          << wxT("</li></ul>")
-         << wxT("<br><br>Audacity has these support methods:")
+         << wxT("<br><br>ReeeKorder has these support methods:")
          << wxT("<ul><li>")
-         << wxT(" [[https://manual.audacityteam.org/|Manual]] - for comprehensive Audacity documentation")
+         << wxT(" [[https://manual.audacityteam.org/|Manual]] - for comprehensive ReeeKorder documentation")
          << wxT("</li><li>")
-         << wxT(" [[https://forum.audacityteam.org/|Forum]] - for large knowledge base on using Audacity.")
+         << wxT(" [[https://forum.audacityteam.org/|Forum]] - for large knowledge base on using ReeeKorder.")
          << wxT("</li></ul>")
 #else
-         << wxT("<center><h3>Audacity ")
+         << wxT("<center><h3>ReeeKorder ")
          << AUDACITY_VERSION_STRING
          << wxT("</h3><h3>")
          << XO("How to get help")
@@ -297,7 +297,7 @@ static wxString HelpTextBuiltIn( const wxString & Key )
       s
          << wxT("<p>")
          << XO(
-"Audacity can import unprotected files in many other formats (such as M4A and WMA, \
+"ReeeKorder can import unprotected files in many other formats (such as M4A and WMA, \
 compressed WAV files from portable recorders and audio from video files) if you download and install \
 the optional [[https://manual.audacityteam.org/man/faq_opening_and_saving_files.html#foreign| \
 FFmpeg library]] to your computer.")
@@ -403,7 +403,7 @@ const wxString VerCheckHtml()
 // Url with Version check args attached.
 const URLString VerCheckUrl()
 {
-   //The version we intend to use for live Audacity.
+   //The version we intend to use for live ReeeKorder.
 #define VER_CHECK_URL "https://www.audacityteam.org/download/?"
 //For testing of our scriptlet.
 //#define VER_CHECK_URL "http://www.audacityteam.org/slug/?"

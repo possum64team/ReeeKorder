@@ -1,10 +1,10 @@
 
-set( TARGET Audacity )
+set( TARGET ReeeKorder )
 set( TARGET_ROOT ${topdir}/src )
 
 message( STATUS "========== Configuring ${TARGET} ==========" )
 
-# Allow modules to link against the Audacity executable
+# Allow modules to link against the ReeeKorder executable
 set( CMAKE_ENABLE_EXPORTS ON )
 
 add_executable( ${TARGET} )
@@ -85,17 +85,17 @@ list( APPEND SOURCES
       AllThemeResources.cpp
       AllThemeResources.h
       AttachedVirtualFunction.h
-      AudacityApp.cpp
-      AudacityApp.h
-      $<$<BOOL:${wxIS_MAC}>:AudacityApp.mm>
-      AudacityException.cpp
-      AudacityException.h
-      AudacityFileConfig.cpp
-      AudacityFileConfig.h
-      AudacityHeaders.cpp
-      AudacityHeaders.h
-      AudacityLogger.cpp
-      AudacityLogger.h
+      ReeeKorderApp.cpp
+      ReeeKorderApp.h
+      $<$<BOOL:${wxIS_MAC}>:ReeeKorderApp.mm>
+      ReeeKorderException.cpp
+      ReeeKorderException.h
+      ReeeKorderFileConfig.cpp
+      ReeeKorderFileConfig.h
+      ReeeKorderHeaders.cpp
+      ReeeKorderHeaders.h
+      ReeeKorderLogger.cpp
+      ReeeKorderLogger.h
       AudioIO.cpp
       AudioIO.h
       AudioIOBase.cpp
@@ -347,8 +347,8 @@ list( APPEND SOURCES
 
       commands/AppCommandEvent.cpp
       commands/AppCommandEvent.h
-      commands/AudacityCommand.cpp
-      commands/AudacityCommand.h
+      commands/ReeeKorderCommand.cpp
+      commands/ReeeKorderCommand.h
       commands/BatchEvalCommand.cpp
       commands/BatchEvalCommand.h
       commands/Command.cpp
@@ -906,8 +906,8 @@ list( APPEND SOURCES
       widgets/ASlider.h
       widgets/AttachableScrollBar.cpp
       widgets/AttachableScrollBar.h
-      widgets/AudacityMessageBox.cpp
-      widgets/AudacityMessageBox.h
+      widgets/ReeeKorderMessageBox.cpp
+      widgets/ReeeKorderMessageBox.h
       widgets/BackedPanel.cpp
       widgets/BackedPanel.h
       widgets/ErrorDialog.cpp
@@ -1153,7 +1153,7 @@ if( CMAKE_SYSTEM_NAME MATCHES "Windows" )
       TARGET
          ${TARGET}
       COMMAND
-         ${CMAKE_COMMAND} -D SRC="${_EXEDIR}/Audacity.exe"
+         ${CMAKE_COMMAND} -D SRC="${_EXEDIR}/ReeeKorder.exe"
                           -D DST="${_EXEDIR}"
                           -D WXWIN="${_SHARED_PROXY_BASE_PATH}/$<CONFIG>/"
                           -P ${AUDACITY_MODULE_PATH}/CopyLibs.cmake
@@ -1188,13 +1188,13 @@ elseif( CMAKE_SYSTEM_NAME MATCHES "Darwin" )
 
    # Define Mac specific resources
    list( APPEND MAC_RESOURCES
-      ../mac/Resources/Audacity.icns
-      ../mac/Resources/AudacityAIFF.icns
-      ../mac/Resources/AudacityAU.icns
-      ../mac/Resources/AudacityMP3.icns
-      ../mac/Resources/AudacityOGG.icns
-      ../mac/Resources/AudacityProject.icns
-      ../mac/Resources/AudacityWAV.icns
+      ../mac/Resources/ReeeKorder.icns
+      ../mac/Resources/ReeeKorderAIFF.icns
+      ../mac/Resources/ReeeKorderAU.icns
+      ../mac/Resources/ReeeKorderMP3.icns
+      ../mac/Resources/ReeeKorderOGG.icns
+      ../mac/Resources/ReeeKorderProject.icns
+      ../mac/Resources/ReeeKorderWAV.icns
    )
 
    set_target_properties(
@@ -1210,7 +1210,7 @@ elseif( CMAKE_SYSTEM_NAME MATCHES "Darwin" )
    # These sources must be compiled as Objective C++ and excluded
    # from precompiled header usage
    set_source_files_properties(
-      AudacityApp.mm
+      ReeeKorderApp.mm
       KeyboardCapture.cpp
       effects/EffectUI.cpp
       effects/VST/VSTControlOSX.mm
@@ -1238,7 +1238,7 @@ elseif( CMAKE_SYSTEM_NAME MATCHES "Darwin" )
       TARGET
          ${TARGET}
       COMMAND
-         ${CMAKE_COMMAND} -D SRC="${_EXEDIR}/Audacity"
+         ${CMAKE_COMMAND} -D SRC="${_EXEDIR}/ReeeKorder"
                           -D DST="${_PKGLIB}"
                           -D WXWIN="${_SHARED_PROXY_BASE_PATH}/$<CONFIG>"
                           -P ${AUDACITY_MODULE_PATH}/CopyLibs.cmake
@@ -1336,8 +1336,8 @@ source_group(
     PREFIX
         "CMake"
     FILES
-        ${_INTDIR}/CMakeFiles/Audacity.dir/cmake_pch.cxx
-        ${_INTDIR}/CMakeFiles/Audacity.dir/cmake_pch.hxx
+        ${_INTDIR}/CMakeFiles/ReeeKorder.dir/cmake_pch.cxx
+        ${_INTDIR}/CMakeFiles/ReeeKorder.dir/cmake_pch.hxx
 )
 
 # Define AUDACITY_DLL_API
@@ -1360,7 +1360,7 @@ if( CMAKE_VERSION VERSION_GREATER_EQUAL "3.16" AND NOT CCACHE_PROGRAM )
          $<$<PLATFORM_ID:Windows>:${CMAKE_BINARY_DIR}/src/private/configwin.h>
          $<$<PLATFORM_ID:Darwin>:${CMAKE_BINARY_DIR}/src/private/configmac.h>
          $<$<NOT:$<PLATFORM_ID:Windows,Darwin>>:${CMAKE_BINARY_DIR}/src/private/configunix.h>
-         AudacityHeaders.h
+         ReeeKorderHeaders.h
       )
    else()
       message( STATUS "Not using precompiled headers" )
@@ -1402,7 +1402,7 @@ else()
 endif()
 
 # collect dependency information for third party libraries
-list( APPEND GRAPH_EDGES "Audacity [shape=house]" )
+list( APPEND GRAPH_EDGES "ReeeKorder [shape=house]" )
 foreach( LIBRARY ${LIBRARIES} )
    if (NOT LIBRARY MATCHES "PUBLIC|PRIVATE|INTERFACE")
       canonicalize_node_name(LIBRARY "${LIBRARY}")

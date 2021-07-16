@@ -1,13 +1,13 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
-  AudacityLogger.cpp
+  ReeeKorderLogger.cpp
 
 ******************************************************************//**
 
-\class AudacityLogger
-\brief AudacityLogger is a thread-safe logger class
+\class ReeeKorderLogger
+\brief ReeeKorderLogger is a thread-safe logger class
 
 Provides thread-safe logging based on the wxWidgets log facility.
 
@@ -15,7 +15,7 @@ Provides thread-safe logging based on the wxWidgets log facility.
 
 
 
-#include "AudacityLogger.h"
+#include "ReeeKorderLogger.h"
 
 
 
@@ -33,20 +33,20 @@ Provides thread-safe logging based on the wxWidgets log facility.
 #include <wx/textctrl.h>
 #include <wx/tokenzr.h>
 
-#include "../images/AudacityLogoAlpha.xpm"
-#include "widgets/AudacityMessageBox.h"
+#include "../images/ReeeKorderLogoAlpha.xpm"
+#include "widgets/ReeeKorderMessageBox.h"
 
 //
-// AudacityLogger class
+// ReeeKorderLogger class
 //
 // Two reasons for this class instead of the wxLogWindow class (or any WX GUI logging class)
 //
 // 1)  If wxLogWindow is used and initialized before the Mac's "root" window, then
-//     Audacity may crash when terminating.  It's not fully understood why this occurs
+//     ReeeKorder may crash when terminating.  It's not fully understood why this occurs
 //     but it probably has to do with the order of deletion.  However, deferring the
 //     creation of the log window until it is actually shown circumvents the problem.
-// 2)  By providing an Audacity specific logging class, it can be made thread-safe and,
-//     as such, can be used by the ever growing threading within Audacity.
+// 2)  By providing an ReeeKorder specific logging class, it can be made thread-safe and,
+//     as such, can be used by the ever growing threading within ReeeKorder.
 //
 enum
 {
@@ -55,7 +55,7 @@ enum
    LoggerID_Close
 };
 
-AudacityLogger *AudacityLogger::Get()
+ReeeKorderLogger *ReeeKorderLogger::Get()
 {
    static std::once_flag flag;
    std::call_once( flag, []{
@@ -63,15 +63,15 @@ AudacityLogger *AudacityLogger::Get()
       // safenew.  See:
       // http://docs.wxwidgets.org/3.0/classwx_log.html#a2525bf54fa3f31dc50e6e3cd8651e71d
       std::unique_ptr < wxLog > // DELETE any previous logger
-         { wxLog::SetActiveTarget(safenew AudacityLogger) };
+         { wxLog::SetActiveTarget(safenew ReeeKorderLogger) };
    } );
 
    // Use dynamic_cast so that we get a NULL ptr in case our logger
    // is no longer the target.
-   return dynamic_cast<AudacityLogger *>(wxLog::GetActiveTarget());
+   return dynamic_cast<ReeeKorderLogger *>(wxLog::GetActiveTarget());
 }
 
-AudacityLogger::AudacityLogger()
+ReeeKorderLogger::ReeeKorderLogger()
 :  wxEvtHandler(),
    wxLog()
 {
@@ -79,9 +79,9 @@ AudacityLogger::AudacityLogger()
    mUpdated = false;
 }
 
-AudacityLogger::~AudacityLogger()  = default;
+ReeeKorderLogger::~ReeeKorderLogger()  = default;
 
-void AudacityLogger::Flush()
+void ReeeKorderLogger::Flush()
 {
    if (mUpdated && mFrame && mFrame->IsShown()) {
       mUpdated = false;
@@ -89,7 +89,7 @@ void AudacityLogger::Flush()
    }
 }
 
-void AudacityLogger::DoLogText(const wxString & str)
+void ReeeKorderLogger::DoLogText(const wxString & str)
 {
    if (!wxIsMainThread()) {
       wxMutexGuiEnter();
@@ -100,7 +100,7 @@ void AudacityLogger::DoLogText(const wxString & str)
 
       TimeStamp(&stamp);
 
-      mBuffer << stamp << _TS("Audacity ") << AUDACITY_VERSION_STRING << wxT("\n");
+      mBuffer << stamp << _TS("ReeeKorder ") << AUDACITY_VERSION_STRING << wxT("\n");
    }
 
    mBuffer << str << wxT("\n");
@@ -114,7 +114,7 @@ void AudacityLogger::DoLogText(const wxString & str)
    }
 }
 
-bool AudacityLogger::SaveLog(const wxString &fileName) const
+bool ReeeKorderLogger::SaveLog(const wxString &fileName) const
 {
    wxFFile file(fileName, wxT("w"));
 
@@ -127,7 +127,7 @@ bool AudacityLogger::SaveLog(const wxString &fileName) const
    return false;
 }
 
-bool AudacityLogger::ClearLog()
+bool ReeeKorderLogger::ClearLog()
 {
    mBuffer = wxEmptyString;
    DoLogText(wxT("Log Cleared."));
@@ -135,7 +135,7 @@ bool AudacityLogger::ClearLog()
    return true;
 }
 
-void AudacityLogger::Show(bool show)
+void ReeeKorderLogger::Show(bool show)
 {
    // Hide the frame if created, otherwise do nothing
    if (!show) {
@@ -159,7 +159,7 @@ void AudacityLogger::Show(bool show)
 
    // This is the first use, so create the frame
    Destroy_ptr<wxFrame> frame
-      { safenew wxFrame(NULL, wxID_ANY, _("Audacity Log")) };
+      { safenew wxFrame(NULL, wxID_ANY, _("ReeeKorder Log")) };
    frame->SetName(frame->GetTitle());
    frame->SetBackgroundColour(wxSystemSettings::GetColour(wxSYS_COLOUR_3DFACE));
 
@@ -167,12 +167,12 @@ void AudacityLogger::Show(bool show)
    {
 #if !defined(__WXMAC__) && !defined(__WXX11__)
 #if defined(__WXMSW__)
-      wxIcon ic{wxICON(AudacityLogo)};
+      wxIcon ic{wxICON(ReeeKorderLogo)};
 #elif defined(__WXGTK__)
-      wxIcon ic{wxICON(AudacityLogoAlpha)};
+      wxIcon ic{wxICON(ReeeKorderLogoAlpha)};
 #else
       wxIcon ic{};
-      ic.CopyFromBitmap(theTheme.Bitmap(bmpAudacityLogo48x48));
+      ic.CopyFromBitmap(theTheme.Bitmap(bmpReeeKorderLogo48x48));
 #endif
       frame->SetIcon(ic);
 #endif
@@ -211,26 +211,26 @@ void AudacityLogger::Show(bool show)
 
    // Hook into the frame events
    frame->Bind(wxEVT_CLOSE_WINDOW,
-                  wxCloseEventHandler(AudacityLogger::OnCloseWindow),
+                  wxCloseEventHandler(ReeeKorderLogger::OnCloseWindow),
                   this);
 
    frame->Bind(   wxEVT_COMMAND_MENU_SELECTED,
-                  &AudacityLogger::OnSave,
+                  &ReeeKorderLogger::OnSave,
                   this, LoggerID_Save);
    frame->Bind(   wxEVT_COMMAND_MENU_SELECTED,
-                  &AudacityLogger::OnClear,
+                  &ReeeKorderLogger::OnClear,
                   this, LoggerID_Clear);
    frame->Bind(   wxEVT_COMMAND_MENU_SELECTED,
-                  &AudacityLogger::OnClose,
+                  &ReeeKorderLogger::OnClose,
                   this, LoggerID_Close);
    frame->Bind(   wxEVT_COMMAND_BUTTON_CLICKED,
-                  &AudacityLogger::OnSave,
+                  &ReeeKorderLogger::OnSave,
                   this, LoggerID_Save);
    frame->Bind(   wxEVT_COMMAND_BUTTON_CLICKED,
-                  &AudacityLogger::OnClear,
+                  &ReeeKorderLogger::OnClear,
                   this, LoggerID_Clear);
    frame->Bind(   wxEVT_COMMAND_BUTTON_CLICKED,
-                  &AudacityLogger::OnClose,
+                  &ReeeKorderLogger::OnClose,
                   this, LoggerID_Close);
 
    mFrame = std::move( frame );
@@ -240,7 +240,7 @@ void AudacityLogger::Show(bool show)
    Flush();
 }
 
-wxString AudacityLogger::GetLog(int count)
+wxString ReeeKorderLogger::GetLog(int count)
 {
    if (count == 0)
    {
@@ -258,7 +258,7 @@ wxString AudacityLogger::GetLog(int count)
    return buffer;
 }
 
-void AudacityLogger::OnCloseWindow(wxCloseEvent & WXUNUSED(e))
+void ReeeKorderLogger::OnCloseWindow(wxCloseEvent & WXUNUSED(e))
 {
 #if defined(__WXMAC__)
    // On the Mac, destroy the window rather than hiding it since the
@@ -270,18 +270,18 @@ void AudacityLogger::OnCloseWindow(wxCloseEvent & WXUNUSED(e))
 #endif
 }
 
-void AudacityLogger::OnClose(wxCommandEvent & WXUNUSED(e))
+void ReeeKorderLogger::OnClose(wxCommandEvent & WXUNUSED(e))
 {
    wxCloseEvent dummy;
    OnCloseWindow(dummy);
 }
 
-void AudacityLogger::OnClear(wxCommandEvent & WXUNUSED(e))
+void ReeeKorderLogger::OnClear(wxCommandEvent & WXUNUSED(e))
 {
    ClearLog();
 }
 
-void AudacityLogger::OnSave(wxCommandEvent & WXUNUSED(e))
+void ReeeKorderLogger::OnSave(wxCommandEvent & WXUNUSED(e))
 {
    wxString fName = _("log.txt");
 
@@ -299,7 +299,7 @@ void AudacityLogger::OnSave(wxCommandEvent & WXUNUSED(e))
    }
 
    if (!mText->SaveFile(fName)) {
-      AudacityMessageBox(
+      ReeeKorderMessageBox(
          XO("Couldn't save log to file: %s").Format( fName ),
          XO("Warning"),
          wxICON_EXCLAMATION,
@@ -308,7 +308,7 @@ void AudacityLogger::OnSave(wxCommandEvent & WXUNUSED(e))
    }
 }
 
-void AudacityLogger::UpdatePrefs()
+void ReeeKorderLogger::UpdatePrefs()
 {
    if (mFrame) {
       bool shown = mFrame->IsShown();

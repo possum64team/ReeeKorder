@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   ModuleManager.h
 
@@ -78,7 +78,7 @@ public:
    static ModuleManager & Get();
    
    // This string persists in configuration files
-   // So config compatibility will break if it is changed across Audacity versions
+   // So config compatibility will break if it is changed across ReeeKorder versions
    static wxString GetPluginTypeString();
 
    static PluginID GetID(ModuleInterface *module);

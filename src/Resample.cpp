@@ -1,7 +1,7 @@
 /**********************************************************************
 
-   Audacity: A Digital Audio Editor
-   Audacity(R) is copyright (c) 1999-2012 Audacity Team.
+   ReeeKorder: A Digital Audio Editor
+   ReeeKorder(R) is copyright (c) 1999-2012 ReeeKorder Team.
    License: GPL v2.  See License.txt.
 
    Resample.cpp
@@ -16,7 +16,7 @@
 
       libsoxr, written by Rob Sykes. LGPL.
 
-   Since Audacity always does resampling on mono streams that are
+   Since ReeeKorder always does resampling on mono streams that are
    contiguous in memory, this class doesn't support multiple channels
    or some of the other optional features of some of these resamplers.
 

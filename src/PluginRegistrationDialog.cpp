@@ -1,6 +1,6 @@
 /*!*********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   @file PluginRegistrationDialog.cpp
 
@@ -13,7 +13,7 @@
 #include "ModuleManager.h"
 #include "PluginManager.h"
 #include "ShuttleGui.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 #include "widgets/ProgressDialog.h"
 
 #include <wx/setup.h> // for wxUSE_* macros
@@ -942,7 +942,7 @@ void PluginRegistrationDialog::OnOK(wxCommandEvent & WXUNUSED(evt))
                }
             }
             if (!errMsgs.empty())
-               AudacityMessageBox(
+               ReeeKorderMessageBox(
                   XO("Effect or Command at %s failed to register:\n%s")
                      .Format( path, errMsgs ) );
          }

@@ -1,10 +1,10 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectSettings.cpp
 
-Paul Licameli split from AudacityProject.cpp
+Paul Licameli split from ReeeKorderProject.cpp
 
 **********************************************************************/
 
@@ -21,7 +21,7 @@ Paul Licameli split from AudacityProject.cpp
 wxDEFINE_EVENT(EVT_PROJECT_SETTINGS_CHANGE, wxCommandEvent);
 
 namespace {
-   void Notify( AudacityProject &project, ProjectSettings::EventCode code )
+   void Notify( ReeeKorderProject &project, ProjectSettings::EventCode code )
    {
       wxCommandEvent e{ EVT_PROJECT_SETTINGS_CHANGE };
       e.SetInt( static_cast<int>( code ) );
@@ -29,26 +29,26 @@ namespace {
    }
 }
 
-static const AudacityProject::AttachedObjects::RegisteredFactory
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory
 sProjectSettingsKey{
-  []( AudacityProject &project ){
+  []( ReeeKorderProject &project ){
      auto result = std::make_shared< ProjectSettings >( project );
      return result;
    }
 };
 
-ProjectSettings &ProjectSettings::Get( AudacityProject &project )
+ProjectSettings &ProjectSettings::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectSettings >(
       sProjectSettingsKey );
 }
 
-const ProjectSettings &ProjectSettings::Get( const AudacityProject &project )
+const ProjectSettings &ProjectSettings::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
-ProjectSettings::ProjectSettings(AudacityProject &project)
+ProjectSettings::ProjectSettings(ReeeKorderProject &project)
    : mProject{ project }
    , mSelectionFormat{ NumericTextCtrl::LookupFormat(
       NumericConverter::TIME,
@@ -73,7 +73,7 @@ ProjectSettings::ProjectSettings(AudacityProject &project)
    mRate = intRate;
    if ( !wasDefined ) {
       // The default given above can vary with host/devices. So unless there is
-      // an entry for the default sample rate in audacity.cfg, Audacity can open
+      // an entry for the default sample rate in audacity.cfg, ReeeKorder can open
       // with a rate which is different from the rate with which it closed.
       // See bug 1879.
       QualitySettings::DefaultSampleRate.Write( mRate );

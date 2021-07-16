@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 UIHandle.cpp
 
@@ -17,7 +17,7 @@ UIHandle::~UIHandle()
 {
 }
 
-void UIHandle::Enter(bool, AudacityProject *)
+void UIHandle::Enter(bool, ReeeKorderProject *)
 {
 }
 
@@ -36,7 +36,7 @@ bool UIHandle::HasEscape() const
    return false;
 }
 
-bool UIHandle::Escape(AudacityProject *)
+bool UIHandle::Escape(ReeeKorderProject *)
 {
    return false;
 }
@@ -46,6 +46,6 @@ bool UIHandle::StopsOnKeystroke()
    return false;
 }
 
-void UIHandle::OnProjectChange(AudacityProject *)
+void UIHandle::OnProjectChange(ReeeKorderProject *)
 {
 }

@@ -1,11 +1,11 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Profiler.cpp
 
   Created by Michael Chinen (mchinen) on 8/12/08
-  Audacity(R) is copyright (c) 1999-2008 Audacity Team.
+  ReeeKorder(R) is copyright (c) 1999-2008 ReeeKorder Team.
   License: GPL v2.  See License.txt.
 
 ******************************************************************//**
@@ -33,11 +33,11 @@ Profiler::~Profiler()
    if(mTasks.size())
    {
       //print everything out.  append to a log.
-      FILE* log = fopen("AudacityProfilerLog.txt", "a");
+      FILE* log = fopen("ReeeKorderProfilerLog.txt", "a");
       time_t now;
 
       time(&now);
-      wxFprintf(log,"Audacity Profiler Run, Ended at ");
+      wxFprintf(log,"ReeeKorder Profiler Run, Ended at ");
       wxFprintf(log,"%s",ctime(&now));
       wxFprintf(log,"****************************************\n");
       //print out the tasks

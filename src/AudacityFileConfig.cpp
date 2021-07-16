@@ -1,15 +1,15 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
-AudacityFileConfig.cpp
+ReeeKorderFileConfig.cpp
 
 Paul Licameli split from Prefs.cpp
 
 **********************************************************************/
 
 
-#include "AudacityFileConfig.h"
+#include "ReeeKorderFileConfig.h"
 
 #include "widgets/HelpSystem.h"
 #include "widgets/wxPanelWrapper.h"
@@ -20,7 +20,7 @@ Paul Licameli split from Prefs.cpp
 #include <wx/bmpbuttn.h>
 #include <wx/sizer.h>
 
-AudacityFileConfig::AudacityFileConfig(
+ReeeKorderFileConfig::ReeeKorderFileConfig(
    const wxString& appName,
    const wxString& vendorName,
    const wxString& localFilename,
@@ -31,9 +31,9 @@ AudacityFileConfig::AudacityFileConfig(
 : FileConfig{ appName, vendorName, localFilename, globalFilename, style, conv }
 {}
 
-AudacityFileConfig::~AudacityFileConfig() = default;
+ReeeKorderFileConfig::~ReeeKorderFileConfig() = default;
 
-std::unique_ptr<AudacityFileConfig> AudacityFileConfig::Create(
+std::unique_ptr<ReeeKorderFileConfig> ReeeKorderFileConfig::Create(
    const wxString& appName,
    const wxString& vendorName,
    const wxString& localFilename,
@@ -43,16 +43,16 @@ std::unique_ptr<AudacityFileConfig> AudacityFileConfig::Create(
 )
 {
    // Private ctor means make_unique can't compile, so this verbosity:
-   auto result = std::unique_ptr<AudacityFileConfig>{
-      safenew AudacityFileConfig{
+   auto result = std::unique_ptr<ReeeKorderFileConfig>{
+      safenew ReeeKorderFileConfig{
          appName, vendorName, localFilename, globalFilename, style, conv } };
    result->Init();
    return result;
 }
 
-void AudacityFileConfig::Warn()
+void ReeeKorderFileConfig::Warn()
 {
-   wxDialogWrapper dlg(nullptr, wxID_ANY, XO("Audacity Configuration Error"));
+   wxDialogWrapper dlg(nullptr, wxID_ANY, XO("ReeeKorder Configuration Error"));
 
    ShuttleGui S(&dlg, eIsCreating);
 
@@ -72,7 +72,7 @@ void AudacityFileConfig::Warn()
                "the disk is full or you do not have write permissions to the file. "
                "More information can be obtained by clicking the help button below.\n\n"
                "You can attempt to correct the issue and then click \"Retry\" to continue.\n\n"
-               "If you choose to \"Quit Audacity\", your project may be left in an unsaved "
+               "If you choose to \"Quit ReeeKorder\", your project may be left in an unsaved "
                "state which will be recovered the next time you open it.")
             .Format(GetFilePath()),
             false,
@@ -89,7 +89,7 @@ void AudacityFileConfig::Warn()
          b->SetToolTip( XO("Help").Translation() );
          b->SetLabel(XO("Help").Translation());       // for screen readers
 
-         b = S.Id(wxID_CANCEL).AddButton(XXO("&Quit Audacity"));
+         b = S.Id(wxID_CANCEL).AddButton(XXO("&Quit ReeeKorder"));
          b = S.Id(wxID_OK).AddButton(XXO("&Retry"));
          dlg.SetAffirmativeId(wxID_OK);
 
@@ -120,7 +120,7 @@ void AudacityFileConfig::Warn()
          OpenInDefaultBrowser("https://" +
                               HelpSystem::HelpHostname +
                               HelpSystem::HelpServerHomeDir +
-                              "Error:_Audacity_settings_file_unwritable");
+                              "Error:_ReeeKorder_settings_file_unwritable");
       break;
 
       case wxID_CANCEL:

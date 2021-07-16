@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectAudioManager.cpp
 
@@ -38,29 +38,29 @@ Paul Licameli split from ProjectManager.cpp
 #include "widgets/ErrorDialog.h"
 #include "widgets/MeterPanelBase.h"
 #include "widgets/Warning.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 
 
-static AudacityProject::AttachedObjects::RegisteredFactory
+static ReeeKorderProject::AttachedObjects::RegisteredFactory
 sProjectAudioManagerKey {
-   []( AudacityProject &project ) {
+   []( ReeeKorderProject &project ) {
       return std::make_shared< ProjectAudioManager >( project );
    }
 };
 
-ProjectAudioManager &ProjectAudioManager::Get( AudacityProject &project )
+ProjectAudioManager &ProjectAudioManager::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ProjectAudioManager >(
       sProjectAudioManagerKey );
 }
 
 const ProjectAudioManager &ProjectAudioManager::Get(
-   const AudacityProject &project )
+   const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
-ProjectAudioManager::ProjectAudioManager( AudacityProject &project )
+ProjectAudioManager::ProjectAudioManager( ReeeKorderProject &project )
    : mProject{ project }
 {
    static ProjectStatus::RegisteredStatusWidthFunction
@@ -82,7 +82,7 @@ static TranslatableString FormatRate( int rate )
 }
 
 auto ProjectAudioManager::StatusWidthFunction(
-   const AudacityProject &project, StatusBarField field )
+   const ReeeKorderProject &project, StatusBarField field )
    -> ProjectStatus::StatusWidthResult
 {
    if ( field == rateStatusBarField ) {
@@ -140,7 +140,7 @@ int ProjectAudioManager::PlayPlayRegion(const SelectedRegion &selectedRegion,
    if (cutpreview && t0==t1)
       return -1; /* msmeyer: makes no sense */
 
-   AudacityProject *p = &mProject;
+   ReeeKorderProject *p = &mProject;
 
    auto &tracks = TrackList::Get( *p );
 
@@ -286,7 +286,7 @@ void ProjectAudioManager::PlayCurrentRegion(bool looped /* = false */,
    if ( !canStop )
       return;
 
-   AudacityProject *p = &mProject;
+   ReeeKorderProject *p = &mProject;
 
    {
 
@@ -308,7 +308,7 @@ void ProjectAudioManager::PlayCurrentRegion(bool looped /* = false */,
 
 void ProjectAudioManager::Stop(bool stopStream /* = true*/)
 {
-   AudacityProject *project = &mProject;
+   ReeeKorderProject *project = &mProject;
    auto &projectAudioManager = *this;
    bool canStop = projectAudioManager.CanStopAudioStream();
 
@@ -386,7 +386,7 @@ void ProjectAudioManager::Pause()
 }
 
 WaveTrackArray ProjectAudioManager::ChooseExistingRecordingTracks(
-   AudacityProject &proj, bool selectedOnly, double targetRate)
+   ReeeKorderProject &proj, bool selectedOnly, double targetRate)
 {
    auto p = &proj;
    size_t recordingChannels = std::max(0, AudioIORecordChannels.Read());
@@ -468,7 +468,7 @@ void ProjectAudioManager::OnRecord(bool altAppearance)
    const bool appendRecord = (altAppearance == bPreferNewTrack);
 
    // Code from CommandHandler start...
-   AudacityProject *p = &mProject;
+   ReeeKorderProject *p = &mProject;
 
    if (p) {
       const auto &selectedRegion = ViewInfo::Get( *p ).selectedRegion;
@@ -489,7 +489,7 @@ void ProjectAudioManager::OnRecord(bool altAppearance)
       const bool allSameRate{ selectedTracks.allSameRate };
 
       if (!allSameRate) {
-         AudacityMessageBox(XO("The tracks selected "
+         ReeeKorderMessageBox(XO("The tracks selected "
             "for recording must all have the same sampling rate"),
             XO("Mismatched Sampling Rates"),
             wxICON_ERROR | wxCENTRE);
@@ -509,9 +509,9 @@ void ProjectAudioManager::OnRecord(bool altAppearance)
          }
          else {
             if (numberOfSelected > 0 && rateOfSelected != options.rate) {
-               AudacityMessageBox(XO(
+               ReeeKorderMessageBox(XO(
                   "Too few tracks are selected for recording at this sample rate.\n"
-                  "(Audacity requires two channels at the same sample rate for\n"
+                  "(ReeeKorder requires two channels at the same sample rate for\n"
                   "each stereo track)"),
                   XO("Too Few Compatible Tracks Selected"),
                   wxICON_ERROR | wxCENTRE);
@@ -571,7 +571,7 @@ bool ProjectAudioManager::UseDuplex()
    return duplex;
 }
 
-bool ProjectAudioManager::DoRecord(AudacityProject &project,
+bool ProjectAudioManager::DoRecord(ReeeKorderProject &project,
    const TransportTracks &tracks,
    double t0, double t1,
    bool altAppearance,
@@ -811,7 +811,7 @@ void ProjectAudioManager::SetupCutPreviewTracks(double WXUNUSED(playStart), doub
 
 {
    ClearCutPreviewTracks();
-   AudacityProject *p = &mProject;
+   ReeeKorderProject *p = &mProject;
    {
       auto trackRange = TrackList::Get( *p ).Selected< const PlayableTrack >();
       if( !trackRange.empty() ) {
@@ -919,7 +919,7 @@ void ProjectAudioManager::OnAudioIOStopRecording()
                ShowWarningDialog(&window, wxT("DropoutDetected"), XO("\
 Recorded audio was lost at the labeled locations. Possible causes:\n\
 \n\
-Other applications are competing with Audacity for processor time\n\
+Other applications are competing with ReeeKorder for processor time\n\
 \n\
 You are saving directly to a slow external storage device\n\
 "
@@ -991,7 +991,7 @@ bool ProjectAudioManager::CanStopAudioStream() const
 
 const ReservedCommandFlag&
    CanStopAudioStreamFlag(){ static ReservedCommandFlag flag{
-      [](const AudacityProject &project){
+      [](const ReeeKorderProject &project){
          auto &projectAudioManager = ProjectAudioManager::Get( project );
          bool canStop = projectAudioManager.CanStopAudioStream();
          return canStop;
@@ -999,7 +999,7 @@ const ReservedCommandFlag&
    }; return flag; }
 
 AudioIOStartStreamOptions
-DefaultPlayOptions( AudacityProject &project )
+DefaultPlayOptions( ReeeKorderProject &project )
 {
    auto &projectAudioIO = ProjectAudioIO::Get( project );
    AudioIOStartStreamOptions options { &project,
@@ -1013,7 +1013,7 @@ DefaultPlayOptions( AudacityProject &project )
 }
 
 AudioIOStartStreamOptions
-DefaultSpeedPlayOptions( AudacityProject &project )
+DefaultSpeedPlayOptions( ReeeKorderProject &project )
 {
    auto &projectAudioIO = ProjectAudioIO::Get( project );
    auto gAudioIO = AudioIO::Get();
@@ -1141,9 +1141,9 @@ void ProjectAudioManager::DoPlayStopSelect()
 static RegisteredMenuItemEnabler stopIfPaused{{
    []{ return PausedFlag(); },
    []{ return AudioIONotBusyFlag(); },
-   []( const AudacityProject &project ){
+   []( const ReeeKorderProject &project ){
       return MenuManager::Get( project ).mStopIfWasPaused; },
-   []( AudacityProject &project, CommandFlag ){
+   []( ReeeKorderProject &project, CommandFlag ){
       if ( MenuManager::Get( project ).mStopIfWasPaused )
          ProjectAudioManager::Get( project ).StopIfPaused();
    }
@@ -1152,7 +1152,7 @@ static RegisteredMenuItemEnabler stopIfPaused{{
 // GetSelectedProperties collects information about 
 // currently selected audio tracks
 PropertiesOfSelected
-GetPropertiesOfSelected(const AudacityProject &proj)
+GetPropertiesOfSelected(const ReeeKorderProject &proj)
 {
    double rateOfSelection{ RATE_NOT_SELECTED };
 

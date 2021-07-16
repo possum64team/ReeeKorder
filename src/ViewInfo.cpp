@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ViewInfo.cpp
 
@@ -147,20 +147,20 @@ void NotifyingSelectedRegion::Notify( bool delayed )
       ProcessEvent( evt );
 }
 
-static const AudacityProject::AttachedObjects::RegisteredFactory key{
-   []( AudacityProject &project ) {
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory key{
+   []( ReeeKorderProject &project ) {
       return std::make_unique<ViewInfo>(0.0, 1.0, ZoomInfo::GetDefaultZoom());
    }
 };
 
-ViewInfo &ViewInfo::Get( AudacityProject &project )
+ViewInfo &ViewInfo::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< ViewInfo >( key );
 }
 
-const ViewInfo &ViewInfo::Get( const AudacityProject &project )
+const ViewInfo &ViewInfo::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
 ViewInfo::ViewInfo(double start, double screenDuration, double pixelsPerSecond)

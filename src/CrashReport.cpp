@@ -1,6 +1,6 @@
 /**********************************************************************
  
- Audacity: A Digital Audio Editor
+ ReeeKorder: A Digital Audio Editor
  
  CrashReport.cpp
  
@@ -20,7 +20,7 @@
 #endif
 
 #include "wxFileNameWrapper.h"
-#include "AudacityLogger.h"
+#include "ReeeKorderLogger.h"
 #include "AudioIOBase.h"
 #include "FileNames.h"
 #include "Internat.h"
@@ -44,7 +44,7 @@ void Generate(wxDebugReport::Context ctx)
 
    {
       // Provides a progress dialog with indeterminate mode
-      wxGenericProgressDialog pd(XO("Audacity Support Data").Translation(),
+      wxGenericProgressDialog pd(XO("ReeeKorder Support Data").Translation(),
                                  XO("This may take several seconds").Translation(),
                                  300000,     // range
                                  nullptr,    // parent
@@ -54,7 +54,7 @@ void Generate(wxDebugReport::Context ctx)
       auto thread = std::thread([&]
       {
          wxFileNameWrapper fn{ FileNames::DataDir(), wxT("audacity.cfg") };
-         rpt.AddFile(fn.GetFullPath(), _TS("Audacity Configuration"));
+         rpt.AddFile(fn.GetFullPath(), _TS("ReeeKorder Configuration"));
          rpt.AddFile(FileNames::PluginRegistry(), wxT("Plugin Registry"));
          rpt.AddFile(FileNames::PluginSettings(), wxT("Plugin Settings"));
    
@@ -74,10 +74,10 @@ void Generate(wxDebugReport::Context ctx)
             rpt.AddText(wxT("project.txt"), projectFileIO.GenerateDoc(), wxT("Active project doc"));
          }
    
-         auto logger = AudacityLogger::Get();
+         auto logger = ReeeKorderLogger::Get();
          if (logger)
          {
-            rpt.AddText(wxT("log.txt"), logger->GetLog(), _TS("Audacity Log"));
+            rpt.AddText(wxT("log.txt"), logger->GetLog(), _TS("ReeeKorder Log"));
          }
    
          done = true;
@@ -100,9 +100,9 @@ void Generate(wxDebugReport::Context ctx)
    
    if (ok && rpt.Process())
    {
-      AudacityTextEntryDialog dlg(nullptr,
+      ReeeKorderTextEntryDialog dlg(nullptr,
          XO("Report generated to:"),
-         XO("Audacity Support Data"),
+         XO("ReeeKorder Support Data"),
          rpt.GetCompressedFileName(),
          wxOK | wxCENTER);
       dlg.SetName(dlg.GetTitle());

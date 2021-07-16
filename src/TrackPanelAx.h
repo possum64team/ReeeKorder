@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   TrackPanelAx.h
 
@@ -29,7 +29,7 @@
 
 class wxRect;
 
-class AudacityProject;
+class ReeeKorderProject;
 class Track;
 class TrackList;
 
@@ -43,7 +43,7 @@ class TrackPanelAx final
 #endif
 {
 public:
-   TrackPanelAx(AudacityProject &project);
+   TrackPanelAx(ReeeKorderProject &project);
    virtual ~ TrackPanelAx();
 
    using RectangleFinder = std::function< wxRect( Track& ) >;
@@ -140,7 +140,7 @@ private:
    int TrackNum( const std::shared_ptr<Track> &track );
    std::shared_ptr<Track> FindTrack( int num );
 
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
 #if !wxUSE_ACCESSIBILITY
    wxWindow *mWindow{};
@@ -160,10 +160,10 @@ class AUDACITY_DLL_API TrackFocus final
    : public ClientData::Base
 {
 public:
-   static TrackFocus &Get( AudacityProject &project );
-   static const TrackFocus &Get( const AudacityProject &project );
+   static TrackFocus &Get( ReeeKorderProject &project );
+   static const TrackFocus &Get( const ReeeKorderProject &project );
 
-   explicit TrackFocus( AudacityProject &project );
+   explicit TrackFocus( ReeeKorderProject &project );
    ~TrackFocus() override;
 
    TrackFocus( const TrackFocus & ) PROHIBITED;
@@ -192,7 +192,7 @@ public:
 
 private:
 
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
 #if wxUSE_ACCESSIBILITY
    TrackPanelAx *mAx{};

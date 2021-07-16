@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectSelectionManager.cpp
 
@@ -16,7 +16,7 @@ Paul Licameli split from ProjectManager.cpp
 #include "toolbars/SpectralSelectionBarListener.h" // to inherit
 #include "ComponentInterfaceSymbol.h"
 
-class AudacityProject;
+class ReeeKorderProject;
 
 class AUDACITY_DLL_API ProjectSelectionManager final
    : public ClientData::Base
@@ -25,10 +25,10 @@ class AUDACITY_DLL_API ProjectSelectionManager final
    , public TimeToolBarListener
 {
 public:
-   static ProjectSelectionManager &Get( AudacityProject &project );
-   static const ProjectSelectionManager &Get( const AudacityProject &project );
+   static ProjectSelectionManager &Get( ReeeKorderProject &project );
+   static const ProjectSelectionManager &Get( const ReeeKorderProject &project );
 
-   explicit ProjectSelectionManager( AudacityProject &project );
+   explicit ProjectSelectionManager( ReeeKorderProject &project );
    ProjectSelectionManager( const ProjectSelectionManager & ) PROHIBITED;
    ProjectSelectionManager &operator=(
       const ProjectSelectionManager & ) PROHIBITED;
@@ -59,7 +59,7 @@ public:
 private:
    bool SnapSelection();
 
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 };
 
 #endif

@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   UndoManager.cpp
 
@@ -49,22 +49,22 @@ wxDEFINE_EVENT(EVT_UNDO_PURGE, wxCommandEvent);
 
 using SampleBlockID = long long;
 
-static const AudacityProject::AttachedObjects::RegisteredFactory key{
-   [](AudacityProject &project)
+static const ReeeKorderProject::AttachedObjects::RegisteredFactory key{
+   [](ReeeKorderProject &project)
       { return std::make_unique<UndoManager>( project ); }
 };
 
-UndoManager &UndoManager::Get( AudacityProject &project )
+UndoManager &UndoManager::Get( ReeeKorderProject &project )
 {
    return project.AttachedObjects::Get< UndoManager >( key );
 }
 
-const UndoManager &UndoManager::Get( const AudacityProject &project )
+const UndoManager &UndoManager::Get( const ReeeKorderProject &project )
 {
-   return Get( const_cast< AudacityProject & >( project ) );
+   return Get( const_cast< ReeeKorderProject & >( project ) );
 }
 
-UndoManager::UndoManager( AudacityProject &project )
+UndoManager::UndoManager( ReeeKorderProject &project )
    : mProject{ project }
 {
    current = -1;

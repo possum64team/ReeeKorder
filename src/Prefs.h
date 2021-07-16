@@ -1,17 +1,17 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Prefs.h
 
   Dominic Mazzoni
   Markus Meyer
 
-  Audacity uses wxWidgets' wxFileConfig class to handle preferences.
-  In Audacity versions prior to 1.3.1, it used wxConfig, which would
+  ReeeKorder uses wxWidgets' wxFileConfig class to handle preferences.
+  In ReeeKorder versions prior to 1.3.1, it used wxConfig, which would
   store the prefs in a platform-dependent way (e.g. in the registry
   on Windows). Now it always stores the settings in a configuration file
-  in the Audacity Data Directory.
+  in the ReeeKorder Data Directory.
 
   Every time we read a preference, we need to specify the default
   value for that preference, to be used if the preference hasn't

@@ -1,11 +1,11 @@
 /**********************************************************************
  
- Audacity: A Digital Audio Editor
+ ReeeKorder: A Digital Audio Editor
  
  CrashReport.h
  
  Paul Licameli
- split from AudacityApp.h
+ split from ReeeKorderApp.h
  
  **********************************************************************/
 

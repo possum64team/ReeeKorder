@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Tags.h
 
@@ -22,7 +22,7 @@
   useful for streaming.
 
   Use of this functionality requires that libid3tag be compiled in
-  with Audacity.
+  with ReeeKorder.
 
 **********************************************************************/
 
@@ -49,7 +49,7 @@ class wxGridCellStringRenderer;
 class wxGridEvent;
 class wxTextCtrl;
 
-class AudacityProject;
+class ReeeKorderProject;
 class Grid;
 class ShuttleGui;
 class TagsEditorDialog;
@@ -75,11 +75,11 @@ class AUDACITY_DLL_API Tags final
 
  public:
 
-   static Tags &Get( AudacityProject &project );
-   static const Tags &Get( const AudacityProject &project );
+   static Tags &Get( ReeeKorderProject &project );
+   static const Tags &Get( const ReeeKorderProject &project );
    // Returns reference to *tags
    static Tags &Set(
-      AudacityProject &project, const std::shared_ptr<Tags> &tags );
+      ReeeKorderProject &project, const std::shared_ptr<Tags> &tags );
 
    Tags();  // constructor
    Tags( const Tags& ) = default;

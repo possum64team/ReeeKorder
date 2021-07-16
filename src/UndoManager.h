@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   UndoManager.h
 
@@ -54,7 +54,7 @@
 #include "ClientData.h"
 #include "SelectedRegion.h"
 
-// Events emitted by AudacityProject for the use of listeners
+// Events emitted by ReeeKorderProject for the use of listeners
 
 // Project state did not change, but a new state was copied into Undo history
 // and any redo states were lost
@@ -77,7 +77,7 @@ wxDECLARE_EXPORTED_EVENT(AUDACITY_DLL_API, EVT_UNDO_RESET, wxCommandEvent);
 // Undo or redo states discarded
 wxDECLARE_EXPORTED_EVENT(AUDACITY_DLL_API, EVT_UNDO_PURGE, wxCommandEvent);
 
-class AudacityProject;
+class ReeeKorderProject;
 class Tags;
 class Track;
 class TrackList;
@@ -136,11 +136,11 @@ class AUDACITY_DLL_API UndoManager final
    : public ClientData::Base
 {
  public:
-   static UndoManager &Get( AudacityProject &project );
-   static const UndoManager &Get( const AudacityProject &project );
+   static UndoManager &Get( ReeeKorderProject &project );
+   static const UndoManager &Get( const ReeeKorderProject &project );
  
    explicit
-   UndoManager( AudacityProject &project );
+   UndoManager( ReeeKorderProject &project );
    ~UndoManager();
 
    UndoManager( const UndoManager& ) = delete;
@@ -211,7 +211,7 @@ class AUDACITY_DLL_API UndoManager final
 
    void RemoveStateAt(int n);
 
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
  
    int current;
    int saved;

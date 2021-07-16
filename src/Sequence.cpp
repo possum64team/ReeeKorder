@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Sequence.cpp
 
@@ -42,7 +42,7 @@
 
 #include "SampleBlock.h"
 #include "InconsistencyException.h"
-#include "widgets/AudacityMessageBox.h"
+#include "widgets/ReeeKorderMessageBox.h"
 
 size_t Sequence::sMaxDiskBlockSize = 1048576;
 
@@ -123,7 +123,7 @@ namespace {
          if (!buffer.ptr() || (pSecondBuffer && !pSecondBuffer->ptr())) {
             // malloc failed
             // Perhaps required is a really crazy value,
-            // and perhaps we should throw an AudacityException, but that is
+            // and perhaps we should throw an ReeeKorderException, but that is
             // a second-order concern
             THROW_INCONSISTENCY_EXCEPTION;
          }
@@ -977,7 +977,7 @@ void Sequence::WriteXML(XMLWriter &xmlFile) const
          auto sMsg =
             XO("Sequence has block file exceeding maximum %s samples per block.\nTruncating to this maximum length.")
                .Format( Internat::ToString(((wxLongLong)mMaxSamples).ToDouble(), 0) );
-         AudacityMessageBox(
+         ReeeKorderMessageBox(
             sMsg,
             XO("Warning - Truncating Overlong Block File"),
             wxICON_EXCLAMATION | wxOK);

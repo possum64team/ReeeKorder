@@ -1,11 +1,11 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Profiler.h
 
   Created by Michael Chinen (mchinen) on 8/12/08
-  Audacity(R) is copyright (c) 1999-2008 Audacity Team.
+  ReeeKorder(R) is copyright (c) 1999-2008 ReeeKorder Team.
   License: GPL v2.  See License.txt.
 
 ******************************************************************//**

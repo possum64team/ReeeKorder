@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 SampleBlock.h
 
@@ -15,7 +15,7 @@ SampleBlock.h
 #include <memory>
 #include <unordered_set>
 
-class AudacityProject;
+class ReeeKorderProject;
 class ProjectFileIO;
 class XMLWriter;
 
@@ -24,7 +24,7 @@ using SampleBlockPtr = std::shared_ptr<SampleBlock>;
 class SampleBlockFactory;
 using SampleBlockFactoryPtr = std::shared_ptr<SampleBlockFactory>;
 using SampleBlockFactoryFactory =
-   std::function< SampleBlockFactoryPtr( AudacityProject& ) >;
+   std::function< SampleBlockFactoryPtr( ReeeKorderProject& ) >;
 
 using SampleBlockID = long long;
 
@@ -112,7 +112,7 @@ public:
       SampleBlockFactoryFactory newFactory );
 
    // Invoke the installed factory (throw an exception if none was installed)
-   static SampleBlockFactoryPtr New( AudacityProject &project );
+   static SampleBlockFactoryPtr New( ReeeKorderProject &project );
 
    virtual ~SampleBlockFactory();
 

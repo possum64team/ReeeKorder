@@ -1,6 +1,6 @@
 /**********************************************************************
 
-Audacity: A Digital Audio Editor
+ReeeKorder: A Digital Audio Editor
 
 ProjectWindowBase.cpp
 
@@ -14,8 +14,8 @@ Paul Licameli split from ProjectWindow.cpp
 
 ProjectWindowBase::ProjectWindowBase(wxWindow * parent, wxWindowID id,
                                  const wxPoint & pos,
-                                 const wxSize & size, AudacityProject &project)
-   : wxFrame(parent, id, _TS("Audacity"), pos, size)
+                                 const wxSize & size, ReeeKorderProject &project)
+   : wxFrame(parent, id, _TS("ReeeKorder"), pos, size)
    , mProject{ project }
 {
    project.SetFrame( this );
@@ -36,13 +36,13 @@ ProjectWindowBase *FindProjectWindow( wxWindow *pWindow )
 
 }
 
-AudacityProject *FindProjectFromWindow( wxWindow *pWindow )
+ReeeKorderProject *FindProjectFromWindow( wxWindow *pWindow )
 {
    auto pProjectWindow = FindProjectWindow( pWindow );
    return pProjectWindow ? &pProjectWindow->GetProject() : nullptr;
 }
 
-const AudacityProject *FindProjectFromWindow( const wxWindow *pWindow )
+const ReeeKorderProject *FindProjectFromWindow( const wxWindow *pWindow )
 {
    return FindProjectFromWindow( const_cast< wxWindow* >( pWindow ) );
 }

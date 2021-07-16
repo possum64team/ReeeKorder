@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   PlatformCompatibility.h
 
@@ -35,7 +35,7 @@ public:
 
    //
    // Get filename and path of executable (e.g. "/usr/bin/audacity" on
-   // Linux or "C:\Program Files\Audacity\Audacity.exe" on Windows)
+   // Linux or "C:\Program Files\ReeeKorder\ReeeKorder.exe" on Windows)
    // This string is unchanging
    //
    static const FilePath &GetExecutablePath();

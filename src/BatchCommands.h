@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   MacroCommands.h
 
@@ -22,7 +22,7 @@ class wxArrayString;
 class Effect;
 class CommandContext;
 class CommandManager;
-class AudacityProject;
+class ReeeKorderProject;
 class wxArrayStringEx;
 
 class MacroCommandsCatalog {
@@ -34,7 +34,7 @@ public:
    };
    using Entries = std::vector<Entry>;
 
-   MacroCommandsCatalog( const AudacityProject *project );
+   MacroCommandsCatalog( const ReeeKorderProject *project );
 
    // binary search
    Entries::const_iterator ByFriendlyName( const TranslatableString &friendlyName ) const;
@@ -55,11 +55,11 @@ private:
 // Stores information for one macro
 class MacroCommands final {
  public:
-   static bool DoAudacityCommand(
+   static bool DoReeeKorderCommand(
       const PluginID & ID, const CommandContext & context, unsigned flags );
 
    // constructors and destructors
-   MacroCommands( AudacityProject &project );
+   MacroCommands( ReeeKorderProject &project );
  public:
    bool ApplyMacro( const MacroCommandsCatalog &catalog,
       const wxString & filename = {});
@@ -115,7 +115,7 @@ class MacroCommands final {
    wxString Join(const wxString & command, const wxString & param);
 
 private:
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
    CommandIDs mCommandMacro;
    wxArrayString mParamsMacro;

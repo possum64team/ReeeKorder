@@ -1,6 +1,6 @@
 /**********************************************************************
 
-  Audacity: A Digital Audio Editor
+  ReeeKorder: A Digital Audio Editor
 
   Menus.h
 
@@ -19,7 +19,7 @@
 
 class wxArrayString;
 class wxCommandEvent;
-class AudacityProject;
+class ReeeKorderProject;
 class CommandContext;
 class CommandManager;
 class Track;
@@ -39,8 +39,8 @@ class AUDACITY_DLL_API MenuCreator
 public:
    MenuCreator();
    ~MenuCreator();
-   void CreateMenusAndCommands(AudacityProject &project);
-   void RebuildMenuBar(AudacityProject &project);
+   void CreateMenusAndCommands(ReeeKorderProject &project);
+   void RebuildMenuBar(ReeeKorderProject &project);
 
    static void RebuildAllMenuBars();
 
@@ -77,19 +77,19 @@ class AUDACITY_DLL_API MenuManager final
 {
 public:
 
-   static MenuManager &Get( AudacityProject &project );
-   static const MenuManager &Get( const AudacityProject &project );
+   static MenuManager &Get( ReeeKorderProject &project );
+   static const MenuManager &Get( const ReeeKorderProject &project );
 
    explicit
-   MenuManager( AudacityProject &project );
+   MenuManager( ReeeKorderProject &project );
    MenuManager( const MenuManager & ) PROHIBITED;
    MenuManager &operator=( const MenuManager & ) PROHIBITED;
    ~MenuManager();
 
    static void Visit( ToolbarMenuVisitor &visitor );
 
-   static void ModifyUndoMenuItems(AudacityProject &project);
-   static void ModifyToolbarMenus(AudacityProject &project);
+   static void ModifyUndoMenuItems(ReeeKorderProject &project);
+   static void ModifyToolbarMenus(ReeeKorderProject &project);
    // Calls ModifyToolbarMenus() on all projects
    static void ModifyAllProjectToolbarMenus();
 
@@ -115,7 +115,7 @@ private:
 
    void OnUndoRedo( wxCommandEvent &evt );
 
-   AudacityProject &mProject;
+   ReeeKorderProject &mProject;
 
 public:
    // 0 is grey out, 1 is Autoselect, 2 is Give warnings.
